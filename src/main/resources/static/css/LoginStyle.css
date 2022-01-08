@@ -50,7 +50,7 @@ body{
 .box input[type = "submit"]{
     border:0;
     background: none;
-    display: block;
+    display: inline-block;
     margin: 20px auto;
     text-align: center;
     border: 2px solid #2ecc71;
@@ -65,6 +65,28 @@ body{
     background: #2ecc71;
 }
 
+#dugme {
+    text-decoration: none;
+    background: none;
+    display: inline-block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+#dugme:hover {
+    background: #2ecc71;
+}
+#dugme a {
+    text-decoration: none;
+    color: white;
+}
+
 .greska h5{
     color: white;
     /*font-family: Helvetica, sans-serif;*/
@@ -72,15 +94,4 @@ body{
     font-style: italic;
 }
 
-a {
-    color:white;
-    text-decoration: none;
-    font-family: cursive;
-    font-size: 20px;
-}
 
-a:hover {
-    color: red;
-    font-size: 25px;
-    transition: 1s;
-}

@@ -13,9 +13,15 @@
     <input type="text" value="" name="korisnickoIme" required placeholder="Korisnicko ime"/>
     <input type="password" value="" name="lozinka" required placeholder="Lozinka"/>
     <input type="submit" value="Prijavi se" />
+    <button id="dugme" type="button" onclick="registracija()">Registracija</button>
     <div class="greska">
         <h5 th:text="${greska}"></h5>
     </div>
 </form>
+<script>
+    function registracija() {
+        window.location.href = '/Teretana/registracija.html';
+    }
+</script>
 </body>
 </html>

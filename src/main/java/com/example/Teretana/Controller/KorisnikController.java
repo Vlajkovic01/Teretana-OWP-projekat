@@ -5,7 +5,6 @@ import com.example.Teretana.Model.Uloga;
 import com.example.Teretana.Service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,5 +79,18 @@ public class KorisnikController implements ServletContextAware {
         }
 
         return null;
+    }
+
+    @GetMapping(value="/registracija")
+    public String create(HttpSession session, HttpServletResponse response){
+        return "registracija"; // stranica za dodavanje knjige
+    }
+
+    @PostMapping(value = "/registracija")
+    public void registracija(@RequestParam(required = true) String email, @RequestParam(required = true) String sifra,
+                             @RequestParam(required = true) String ime, @RequestParam(required = true) String prezime,
+                             HttpSession session, HttpServletResponse response) throws IOException {
+
+        response.sendRedirect(bURL + "korisnici");
     }
 }
