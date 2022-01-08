@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}" href="/Teretana/">
+    <link rel="stylesheet" type="text/css" href="css/LoginStyle.css">
+    <title>Max Teretana</title>
+</head>
+<body>
+<h1 id="naslov">Max Teretana</h1>
+<form class="box" method="post" action="korisnici/login">
+    <h1>Login</h1>
+    <input type="text" value="" name="korisnickoIme" required placeholder="Korisnicko ime"/>
+    <input type="password" value="" name="lozinka" required placeholder="Lozinka"/>
+    <input type="submit" value="Prijavi se" />
+    <div class="greska">
+        <h5 th:text="${greska}"></h5>
+    </div>
+</form>
+</body>
+</html>
