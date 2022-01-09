@@ -31,6 +31,11 @@ public class DatabaseKorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
+    public Korisnik findOneByEmail(String email) {
+        return korisnikDAO.findOneByEmail(email);
+    }
+
+    @Override
     public List<Korisnik> findAll() {
         return korisnikDAO.findAll();
     }

@@ -17,6 +17,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping(value = "/korisnici")
@@ -66,9 +67,9 @@ public class KorisnikController implements ServletContextAware {
             }
 
             if (korisnik.getUloga().equals(Uloga.CLAN)) {
-                response.sendRedirect(bURL + "treninzi");
+                response.sendRedirect(bURL + "nijeImplementiranoClan");
             } else {
-                response.sendRedirect(bURL + "korisnici1");
+                response.sendRedirect(bURL + "nijeImplementiranoAdmin");
             }
 
         } catch (Exception ex) {
@@ -83,14 +84,48 @@ public class KorisnikController implements ServletContextAware {
 
     @GetMapping(value="/registracija")
     public String create(HttpSession session, HttpServletResponse response){
-        return "registracija"; // stranica za dodavanje knjige
+        return "registracija"; // stranica za registraciju korisnika
     }
 
-    @PostMapping(value = "/registracija")
-    public void registracija(@RequestParam(required = true) String email, @RequestParam(required = true) String sifra,
-                             @RequestParam(required = true) String ime, @RequestParam(required = true) String prezime,
+    @PostMapping(value="/registracija")
+    public ModelAndView registracija(@RequestParam String korisnickoIme, @RequestParam String lozinka, @RequestParam String email,
+                             @RequestParam String ime, @RequestParam String prezime, @RequestParam String datumRodjenja,
+                             @RequestParam String adresa, @RequestParam String telefon,
                              HttpSession session, HttpServletResponse response) throws IOException {
 
-        response.sendRedirect(bURL + "korisnici");
+        Korisnik kIme = korisnikService.findOne(korisnickoIme);
+        Korisnik kEmail = korisnikService.findOneByEmail(email);
+
+        String poruka = " Ispravi gresku: ";
+        boolean postojiGreska = false;
+
+        if (kIme != null) {
+            poruka += "-Korisnik sa tim korisnickim imenom vec postoji.\n";
+            postojiGreska = true;
+        }
+
+        if (kEmail != null) {
+            poruka += "-Korisnik sa tim emailom vec postoji.\n";
+            postojiGreska = true;
+        }
+
+        if (postojiGreska) {
+            ModelAndView registracija = new ModelAndView("registracija");
+            registracija.addObject("greska", poruka);
+            registracija.addObject("korisnickoIme", korisnickoIme);
+            registracija.addObject("lozinka", lozinka);
+            registracija.addObject("email", email);
+            registracija.addObject("ime", ime);
+            registracija.addObject("prezime", prezime);
+            registracija.addObject("datumRodjenja", datumRodjenja);
+            registracija.addObject("adresa", adresa);
+            registracija.addObject("telefon", telefon);
+
+            return  registracija;
+        }
+
+        LocalDate datum = LocalDate.parse(datumRodjenja);
+
+        return new ModelAndView("index");
     }
 }

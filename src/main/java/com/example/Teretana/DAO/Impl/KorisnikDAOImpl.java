@@ -65,7 +65,11 @@ public class KorisnikDAOImpl implements KorisnikDAO {
         KorisnikRowCallBackHandler rowCallBackHandler = new KorisnikRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler, id);
 
-        return rowCallBackHandler.getKorisnici().get(0);
+        try {
+            return rowCallBackHandler.getKorisnici().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
@@ -76,7 +80,11 @@ public class KorisnikDAOImpl implements KorisnikDAO {
         KorisnikRowCallBackHandler rowCallBackHandler = new KorisnikRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler, korisnickoIme);
 
-        return rowCallBackHandler.getKorisnici().get(0);
+        try {
+            return rowCallBackHandler.getKorisnici().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
@@ -86,6 +94,21 @@ public class KorisnikDAOImpl implements KorisnikDAO {
 
         KorisnikRowCallBackHandler rowCallBackHandler = new KorisnikRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler, korisnickoIme, lozinka);
+
+        try {
+            return rowCallBackHandler.getKorisnici().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Korisnik findOneByEmail(String email) {
+        String sql =
+                "select * from korisnici where email = ?";
+
+        KorisnikRowCallBackHandler rowCallBackHandler = new KorisnikRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallBackHandler, email);
 
         try {
             return rowCallBackHandler.getKorisnici().get(0);

@@ -9,6 +9,7 @@ public interface KorisnikDAO {
     Korisnik findOne(Long id);
     Korisnik findOne(String korisnickoIme);
     Korisnik findOne(String korisnickoIme, String lozinka);
+    Korisnik findOneByEmail(String email);
     List<Korisnik> findAll();
     int save(Korisnik korisnik);
     int update(Korisnik korisnik);

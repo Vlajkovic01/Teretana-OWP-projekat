@@ -9,6 +9,7 @@ public interface KorisnikService {
     Korisnik findOne(Long id);
     Korisnik findOne(String korisnickoIme);
     Korisnik findOne(String korisnickoIme, String lozinka);
+    Korisnik findOneByEmail(String email);
     List<Korisnik> findAll();
     Korisnik save(Korisnik korisnik);
     Korisnik update(Korisnik korisnik);
