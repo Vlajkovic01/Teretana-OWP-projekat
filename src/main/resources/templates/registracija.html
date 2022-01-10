@@ -10,14 +10,14 @@
     <form method="post" action="korisnici/registracija">
         <table class="content-table">
             <caption id="registracija">Registracija</caption>
-            <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnickoIme}" value="" name="korisnickoIme" required/></td></tr>
-            <tr><th>Lozinka:</th><td><input type="password" th:value="${lozinka}" value="" name="lozinka" required/></td></tr>
-            <tr><th>Email:</th><td><input type="email" th:value="${email}" value="" name="email" required/></td></tr>
-            <tr><th>Ime:</th><td><input type="text" th:value="${ime}" value="" name="ime" required/></td></tr>
-            <tr><th>Prezime:</th><td><input type="text" th:value="${prezime}" value="" name="prezime" required/></td></tr>
+            <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnickoIme}" value="" name="korisnickoIme" maxlength="20" required/></td></tr>
+            <tr><th>Lozinka:</th><td><input type="password" th:value="${lozinka}" value="" name="lozinka" maxlength="20" required/></td></tr>
+            <tr><th>Email:</th><td><input type="email" th:value="${email}" value="" name="email" maxlength="35" required/></td></tr>
+            <tr><th>Ime:</th><td><input type="text" th:value="${ime}" value="" name="ime" maxlength="20" required/></td></tr>
+            <tr><th>Prezime:</th><td><input type="text" th:value="${prezime}" value="" name="prezime" maxlength="20" required/></td></tr>
             <tr><th>Datum rodjenja:</th><td><input type="date" th:value="${datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
-            <tr><th>Adresa:</th><td><input type="text" th:value="${adresa}" value="" name="adresa" required/></td></tr>
-            <tr><th>Telefon:</th><td><input type="text" th:value="${telefon}" value="" name="telefon" required/></td></tr>
+            <tr><th>Adresa:</th><td><input type="text" th:value="${adresa}" value="" name="adresa" maxlength="35" required/></td></tr>
+            <tr><th>Telefon:</th><td><input type="text" th:value="${telefon}" value="" name="telefon" maxlength="20" required/></td></tr>
             <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
             <tr><td colspan="2"><input id="dugme" type="submit" value="Registruj se" /></tr>
         </table>

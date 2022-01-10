@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping(value = "/korisnici")
@@ -123,9 +124,14 @@ public class KorisnikController implements ServletContextAware {
 
             return  registracija;
         }
-
         LocalDate datum = LocalDate.parse(datumRodjenja);
+        Korisnik noviKorisnik = new Korisnik(korisnickoIme, lozinka, email, ime, prezime, datum, adresa, telefon, LocalDateTime.now(), Uloga.CLAN, false);
 
-        return new ModelAndView("index");
+        korisnikService.save(noviKorisnik);
+
+        ModelAndView login = new ModelAndView("index");
+        login.addObject("greska","Uspesno ste se registrovali. Prijavite se!");
+
+        return login;
     }
 }
