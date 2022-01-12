@@ -89,28 +89,14 @@ public class KorisnikController implements ServletContextAware {
     }
 
     @PostMapping(value="/registracija")
-    public ModelAndView registracija(@RequestParam String korisnickoIme, @RequestParam String lozinka, @RequestParam String email,
+    public ModelAndView registracija(@RequestParam(required = true) String korisnickoIme, @RequestParam String lozinka, @RequestParam String email,
                              @RequestParam String ime, @RequestParam String prezime, @RequestParam String datumRodjenja,
                              @RequestParam String adresa, @RequestParam String telefon,
                              HttpSession session, HttpServletResponse response) throws IOException {
 
-        Korisnik kIme = korisnikService.findOne(korisnickoIme);
-        Korisnik kEmail = korisnikService.findOneByEmail(email);
+        String poruka = korisnikService.validacija(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon);
 
-        String poruka = " Ispravi gresku: ";
-        boolean postojiGreska = false;
-
-        if (kIme != null) {
-            poruka += "-Korisnik sa tim korisnickim imenom vec postoji.\n";
-            postojiGreska = true;
-        }
-
-        if (kEmail != null) {
-            poruka += "-Korisnik sa tim emailom vec postoji.\n";
-            postojiGreska = true;
-        }
-
-        if (postojiGreska) {
+        if (poruka != null) {
             ModelAndView registracija = new ModelAndView("registracija");
             registracija.addObject("greska", poruka);
             registracija.addObject("korisnickoIme", korisnickoIme);
@@ -124,6 +110,7 @@ public class KorisnikController implements ServletContextAware {
 
             return  registracija;
         }
+
         LocalDate datum = LocalDate.parse(datumRodjenja);
         Korisnik noviKorisnik = new Korisnik(korisnickoIme, lozinka, email, ime, prezime, datum, adresa, telefon, LocalDateTime.now(), Uloga.CLAN, false);
 
