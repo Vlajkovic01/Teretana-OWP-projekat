@@ -62,7 +62,7 @@ public class DatabaseKorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
-    public String validacija(String korIme, String lozinka, String email, String ime, String prezime, String datumRodjenja, String adresa, String telefon) {
+    public String validacija(String korIme, String lozinka, String lozinkaPotvrda, String email, String ime, String prezime, String datumRodjenja, String adresa, String telefon) {
         String poruka = " Ispravi gresku: ";
         boolean postojiGreska = false;
 
@@ -87,6 +87,11 @@ public class DatabaseKorisnikServiceImpl implements KorisnikService {
 
         if (lozinka.length() > 20 || lozinka.length() < 3) {
             poruka += "-Lozinka ne moze biti duza od 20 i manja od 3 karaktera.\n";
+            postojiGreska = true;
+        }
+
+        if (!lozinka.equals(lozinkaPotvrda)) {
+            poruka += "-Lozinke se ne poklapaju pokusaj ponovo.";
             postojiGreska = true;
         }
 

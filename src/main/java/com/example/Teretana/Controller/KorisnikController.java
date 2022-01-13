@@ -89,12 +89,12 @@ public class KorisnikController implements ServletContextAware {
     }
 
     @PostMapping(value="/registracija")
-    public ModelAndView registracija(@RequestParam(required = true) String korisnickoIme, @RequestParam String lozinka, @RequestParam String email,
+    public ModelAndView registracija(@RequestParam(required = true) String korisnickoIme, @RequestParam String lozinka, @RequestParam String lozinkaPotvrda, @RequestParam String email,
                              @RequestParam String ime, @RequestParam String prezime, @RequestParam String datumRodjenja,
                              @RequestParam String adresa, @RequestParam String telefon,
                              HttpSession session, HttpServletResponse response) throws IOException {
 
-        String poruka = korisnikService.validacija(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon);
+        String poruka = korisnikService.validacija(korisnickoIme, lozinka, lozinkaPotvrda, email, ime, prezime, datumRodjenja, adresa, telefon);
 
         if (poruka != null) {
             ModelAndView registracija = new ModelAndView("registracija");

@@ -12,6 +12,7 @@
             <caption id="registracija">Registracija</caption>
             <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
             <tr><th>Lozinka:</th><td><input type="password" th:value="${lozinka}" value="" name="lozinka" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th>Potvrdi lozinku:</th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20" required/></td></tr>
             <tr><th>Email:</th><td><input type="email" th:value="${email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
             <tr><th>Ime:</th><td><input type="text" th:value="${ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
             <tr><th>Prezime:</th><td><input type="text" th:value="${prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
