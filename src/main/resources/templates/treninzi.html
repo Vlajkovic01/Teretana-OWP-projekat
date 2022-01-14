@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Pregled treninga</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <table class="content-table">
+        <caption id="registracija">Treninzi</caption>
+        <tr>
+            <th>Naziv</th>
+            <th>Treneri</th>
+            <th>Opis</th>
+            <th>Slika</th>
+            <th>Tip</th>
+            <th>Cena</th>
+            <th>Vrsta</th>
+            <th>Nivo</th>
+            <th>Trajanje</th>
+            <th>Ocena</th>
+        </tr>
+        <tr th:each="trening, status: ${treninzi}">
+            <td><a id="nazivTreninga" th:href="|treninzi/details?id=${trening.id}|" th:text="${trening.naziv}"></a></td>
+            <td th:text="${trening.treneri}"></td>
+            <td th:text="${trening.kratakOpis}"></td>
+            <td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td>
+            <td th:text="${trening.tipTreninga}"></td>
+            <td th:text="${trening.cena}"></td>
+            <td th:text="${trening.vrstaTreninga}"></td>
+            <td th:text="${trening.nivoTreninga}"></td>
+            <td th:text="${trening.trajanje}"></td>
+            <td th:text="${trening.ocena}"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -68,9 +68,9 @@ public class KorisnikController implements ServletContextAware {
             }
 
             if (korisnik.getUloga().equals(Uloga.CLAN)) {
-                response.sendRedirect(bURL + "nijeImplementiranoClan");
+                response.sendRedirect(bURL + "treninzi");
             } else {
-                response.sendRedirect(bURL + "nijeImplementiranoAdmin");
+                response.sendRedirect(bURL + "treninzi");
             }
 
         } catch (Exception ex) {

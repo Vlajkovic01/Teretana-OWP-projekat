@@ -47,10 +47,6 @@ public class TipTreninga {
 
     @Override
     public String toString() {
-        return "TipTreninga{" +
-                "id=" + id +
-                ", ime='" + ime + '\'' +
-                ", opis='" + opis + '\'' +
-                '}';
+        return "Ime='" + ime + ", Opis='" + opis;
     }
 }

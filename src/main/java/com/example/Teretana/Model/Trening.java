@@ -1,5 +1,6 @@
 package com.example.Teretana.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trening {
@@ -9,7 +10,7 @@ public class Trening {
     private String treneri;
     private String kratakOpis;
     private String urlSlika;
-    private List<TipTreninga> tipTreninga;
+    private List<TipTreninga> tipTreninga = new ArrayList<>();
     private int cena;
     private VrstaTreninga vrstaTreninga;
     private NivoTreninga nivoTreninga;
@@ -40,6 +41,19 @@ public class Trening {
         this.kratakOpis = kratakOpis;
         this.urlSlika = urlSlika;
         this.tipTreninga = tipTreninga;
+        this.cena = cena;
+        this.vrstaTreninga = vrstaTreninga;
+        this.nivoTreninga = nivoTreninga;
+        this.trajanje = trajanje;
+        this.ocena = ocena;
+    }
+
+    public Trening(Long id, String naziv, String treneri, String kratakOpis, String urlSlika, int cena, VrstaTreninga vrstaTreninga, NivoTreninga nivoTreninga, int trajanje, double ocena) {
+        this.id = id;
+        this.naziv = naziv;
+        this.treneri = treneri;
+        this.kratakOpis = kratakOpis;
+        this.urlSlika = urlSlika;
         this.cena = cena;
         this.vrstaTreninga = vrstaTreninga;
         this.nivoTreninga = nivoTreninga;
