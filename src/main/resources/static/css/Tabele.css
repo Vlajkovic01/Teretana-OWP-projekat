@@ -5,6 +5,7 @@ body {
 }
 
 .content-table {
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
@@ -94,6 +95,15 @@ body {
     margin-right: auto;
     width: 60px;
     height: 60px;
+}
+
+#tipSelect {
+    width:100%;
+    max-width:100%;
+}
+
+#sortiranje {
+    font-weight: normal;
 }
 
 li {

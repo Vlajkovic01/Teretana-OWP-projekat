@@ -7,8 +7,60 @@
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
+    <form method="get">
+        <table class="content-table">
+            <caption id="registracija">Treninzi</caption>
+            <tr>
+                <th colspan="10">Pretraga i sortiranje</th>
+            </tr>
+            <tr>
+                <th>Naziv</th>
+                <th>Treneri</th>
+                <th>Tip</th>
+                <th>Cena</th>
+                <th>Vrsta</th>
+                <th>Nivo</th>
+                <th>Ocena</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th><input type="search" value="" name="naziv"></th>
+                <th><input type="search" value="" name="treneri"></th>
+                <th>
+                    <select id="tipSelect" name="tip">
+                        <option value="0">Odaberi</option>
+                        <option th:each="tip : ${tipovi}" th:value="${tip.id}" th:text="${tip.ime} + ' - ' + ${tip.opis}"></option>
+                    </select>
+                </th>
+                <th>
+                    Od:<input type="number" min="0" value="0" name="cenaOd"/><br/>
+                    Do:<input type="number" min="0" value="10000" name="cenaDo"/>
+                </th>
+                <th>
+                    <select name="vrsta">
+                        <option value="0">Odaberi</option>
+                        <option th:each="vrsta : ${T(com.example.Teretana.Model.VrstaTreninga).values()}" th:value="${vrsta}" th:text="${vrsta}"></option>
+                    </select>
+                </th>
+                <th>
+                    <select name="nivo">
+                        <option value="0">Odaberi</option>
+                        <option th:each="nivo : ${T(com.example.Teretana.Model.NivoTreninga).values()}" th:value="${nivo}" th:text="${nivo}"></option>
+                    </select>
+                </th>
+                <th id="sortiranje">
+                    Rastuce:<input type="checkbox" name="rastuce"/><br/>
+                    Opadajuce:<input type="checkbox" name="opadajuce"/>
+                </th>
+                <th></th>
+                <th></th>
+                <th><input id="pretrazi" type="submit" value="Pretraži"/></th>
+            </tr>
+        </table>
+    </form>
     <table class="content-table">
-        <caption id="registracija">Treninzi</caption>
         <tr>
             <th>Naziv</th>
             <th>Treneri</th>

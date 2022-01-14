@@ -92,6 +92,11 @@ public class TreningDAOImpl implements TreningDAO {
     }
 
     @Override
+    public List<Trening> find(String naziv, String treneri, TipTreninga tipTreninga, int cenaOd, int cenaDo, VrstaTreninga vrstaTreninga, NivoTreninga nivoTreninga, boolean rastuce, boolean opadajuce) {
+        return null;
+    }
+
+    @Override
     public int save(Trening trening) {
         return 0;
     }
