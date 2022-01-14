@@ -25,6 +25,11 @@ public class DatabaseTreningServiceImpl implements TreningService {
     }
 
     @Override
+    public List<Trening> find(String naziv, String treneri, Long tipTreningaId, Integer cenaOd, Integer cenaDo, String vrstaTreninga, String nivoTreninga, String sortiranje) {
+        return treningDAO.find(naziv, treneri, tipTreningaId, cenaOd, cenaDo, vrstaTreninga, nivoTreninga, sortiranje);
+    }
+
+    @Override
     public Trening save(Trening trening) {
         treningDAO.save(trening);
         return trening;

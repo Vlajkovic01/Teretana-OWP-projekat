@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TipTreningaDAO {
     List<TipTreninga> ucitajTipoveTreninga();
+    TipTreninga findOne(Long id);
 }

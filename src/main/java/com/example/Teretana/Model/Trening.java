@@ -106,7 +106,8 @@ public class Trening {
     }
 
     public void setTipTreninga(List<TipTreninga> tipTreninga) {
-        this.tipTreninga = tipTreninga;
+        this.tipTreninga.clear();
+        this.tipTreninga.addAll(tipTreninga);
     }
 
     public int getCena() {

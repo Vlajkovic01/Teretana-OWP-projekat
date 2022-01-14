@@ -1,10 +1,7 @@
 package com.example.Teretana.DAO.Impl;
 
 import com.example.Teretana.DAO.TipTreningaDAO;
-import com.example.Teretana.Model.NivoTreninga;
-import com.example.Teretana.Model.TipTreninga;
-import com.example.Teretana.Model.Trening;
-import com.example.Teretana.Model.VrstaTreninga;
+import com.example.Teretana.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -58,5 +55,20 @@ public class TipTreningaDAOImpl implements TipTreningaDAO {
         jdbcTemplate.query(sql, rowCallBackHandler);
 
         return rowCallBackHandler.getTipovi();
+    }
+
+    @Override
+    public TipTreninga findOne(Long id) {
+        String sql =
+                "select * from tipoviTreninga where id = ?";
+
+        TipTreningaRowCallBackHandler rowCallBackHandler = new TipTreningaRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallBackHandler, id);
+
+        try {
+            return rowCallBackHandler.getTipovi().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
