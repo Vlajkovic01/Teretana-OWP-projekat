@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TipTreningaService {
 
-    List<TipTreninga> ucitajTipoveTreninga();
+    List<TipTreninga> findAll();
+    TipTreninga findOne(Long id);
 }

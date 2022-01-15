@@ -66,19 +66,17 @@ public class TreningDAOImpl implements TreningDAO {
 
     @Override
     public Trening findOne(Long id) {
-        String sql = "select t.id, t.naziv, t.treneri, t.kratakOpis, t.urlSlika, t.cena, t.vrstaTreninga, t.nivoTreninga, t.trajanje, t.ocena, ttr.id, ttr.ime, ttr.opis " +
-                "from treninzi t left join treninziTipovi tp on tp.treningId = t.id left join tipoviTreninga ttr on tp.tipId = ttr.id " +
+        String sql = "select t.id, t.naziv, t.treneri, t.kratakOpis, t.urlSlika, t.cena, t.vrstaTreninga, " +
+                "t.nivoTreninga, t.trajanje, t.ocena, ttr.id, ttr.ime, ttr.opis " +
+                "from treninzi t left join treninziTipovi tp on tp.treningId = t.id " +
+                "left join tipoviTreninga ttr on tp.tipId = ttr.id " +
                 "where t.id = ? " +
                 "order by t.id";
 
         TreningTipRowCallBackHandler rowCallBackHandler = new TreningTipRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler, id);
 
-        try {
-            return rowCallBackHandler.getTreninzi().get(0);
-        } catch (Exception ex) {
-            return null;
-        }
+        return rowCallBackHandler.getTreninzi().get(0);
     }
 
     @Override

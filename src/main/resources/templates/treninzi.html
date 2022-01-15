@@ -74,7 +74,7 @@
             <th>Ocena</th>
         </tr>
         <tr th:each="trening, status: ${treninzi}">
-            <td><a id="nazivTreninga" th:href="|treninzi/details?id=${trening.id}|" th:text="${trening.naziv}"></a></td>
+            <td><a class="nazivTreninga" th:href="|treninzi/details?id=${trening.id}|" th:text="${trening.naziv}"></a></td>
             <td th:text="${trening.treneri}"></td>
             <td th:text="${trening.kratakOpis}"></td>
             <td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td>

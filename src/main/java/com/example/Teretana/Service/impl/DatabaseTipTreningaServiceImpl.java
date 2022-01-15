@@ -15,7 +15,13 @@ public class DatabaseTipTreningaServiceImpl implements TipTreningaService {
     private TipTreningaDAO tipTreningaDAO;
 
     @Override
-    public List<TipTreninga> ucitajTipoveTreninga() {
-        return tipTreningaDAO.ucitajTipoveTreninga();
+    public List<TipTreninga> findAll() {
+        return tipTreningaDAO.findAll();
     }
+
+    @Override
+    public TipTreninga findOne(Long id) {
+        return tipTreningaDAO.findOne(id);
+    }
+
 }

@@ -46,10 +46,9 @@ public class TipTreningaDAOImpl implements TipTreningaDAO {
 
     }
 
-
     @Override
-    public List<TipTreninga> ucitajTipoveTreninga() {
-        String sql = "select * from tipoviTreninga";
+    public List<TipTreninga> findAll() {
+        String sql = "select id, ime, opis from tipoviTreninga";
 
         TipTreningaRowCallBackHandler rowCallBackHandler = new TipTreningaRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler);

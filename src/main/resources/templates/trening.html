@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Trening</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <form method="post" action="treninzi/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
+        <input type="hidden" name="id" th:value="${trening.id}"/>
+        <table class="content-table">
+            <caption>Trening</caption>
+            <tr><th>Naziv:</th><td><input type="text" th:value="${trening.naziv}" name="naziv"/></td></tr>
+            <tr><th>Treneri:</th><td><input type="text" th:value="${trening.treneri}" name="treneri"/></td></tr>
+            <tr>
+                <th>Tip:</th>
+                <td>
+                    <th:block th:each="itTip: ${tipovi}">
+                        <input type="checkbox" name="tipId" th:value="${itTip.id}" th:checked="${#lists.contains(trening.tipTreninga, itTip)}"/><span th:text="${itTip.ime}"></span><br>
+                    </th:block>
+                </td>
+            </tr>
+            <tr><th>Kratak opis:</th><td><input type="text" th:value="${trening.kratakOpis}" name="kratakOpis"/></td></tr>
+            <tr><th>Slika:</th><td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td></tr>
+            <tr><th>Cena:</th><td><input type="number" th:value="${trening.cena}" name="cena"/></td></tr>
+            <tr>
+                <th>Vrsta:</th>
+                <td>
+                    <select name="vrsta">
+                        <option th:each="vrsta : ${T(com.example.Teretana.Model.VrstaTreninga).values()}" th:value="${vrsta}" th:text="${vrsta}" th:selected="${#strings.equals(trening.vrstaTreninga, vrsta)}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Nivo:</th>
+                <td>
+                    <select name="nivo">
+                        <option th:each="nivo : ${T(com.example.Teretana.Model.NivoTreninga).values()}" th:value="${nivo}" th:text="${nivo}" th:selected="${#strings.equals(trening.nivoTreninga, nivo)}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr><th>Trajanje:</th><td><input type="number" th:value="${trening.trajanje}" name="trajanje"/></td></tr>
+            <tr><th>Ocena:</th><td><input type="number"  th:value="${trening.ocena}" name="cena"/></td></tr>
+            <tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
+        </table>
+    </form>
+    <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+        <caption>Trening</caption>
+        <tr><th>Naziv:</th><td th:text="${trening.naziv}"></td></tr>
+        <tr><th>Treneri:</th><td th:text="${trening.treneri}"></td></tr>
+        <tr>
+            <th>Tip:</th>
+            <td th:text="${trening.tipTreninga}"></td>
+        </tr>
+        <tr><th>Kratak opis:</th><td th:text="${trening.kratakOpis}"></td></tr>
+        <tr><th>Slika:</th><td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td></tr>
+        <tr><th>Cena:</th><td th:text="${trening.cena}"></td></tr>
+        <tr>
+            <th>Vrsta:</th>
+            <td th:text="${trening.vrstaTreninga}"></td>
+        </tr>
+        <tr>
+            <th>Nivo:</th>
+            <td th:text="${trening.nivoTreninga}"></td>
+        </tr>
+        <tr><th>Trajanje:</th><td th:text="${trening.trajanje}"></td></tr>
+        <tr><th>Ocena:</th><td th:text="${trening.ocena}"></td></tr>
+    </table>
+</body>
+</html>

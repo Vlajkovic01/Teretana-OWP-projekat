@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/korisnici")
 public class KorisnikController implements ServletContextAware {
 
-    public static final String KORISNIK_KEY = "korisnik";
+    public static final String KORISNIK_KEY = "prijavljenKorisnik";
 
     @Autowired
     private KorisnikService korisnikService;
@@ -67,11 +67,9 @@ public class KorisnikController implements ServletContextAware {
                 throw new Exception(greska);
             }
 
-            if (korisnik.getUloga().equals(Uloga.CLAN)) {
-                response.sendRedirect(bURL + "treninzi");
-            } else {
-                response.sendRedirect(bURL + "treninzi");
-            }
+            session.setAttribute(KorisnikController.KORISNIK_KEY, korisnik);
+
+            response.sendRedirect(bURL + "treninzi");
 
         } catch (Exception ex) {
 

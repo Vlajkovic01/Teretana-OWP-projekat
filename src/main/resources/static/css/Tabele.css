@@ -80,11 +80,11 @@ body {
 /*    font-size: 20px;*/
 /*}*/
 
-#nazivTreninga {
+.nazivTreninga {
     color: black;
     text-decoration: none;
 }
-#nazivTreninga:hover {
+.nazivTreninga:hover {
     color: red;
     transition: 0.25s;
 }

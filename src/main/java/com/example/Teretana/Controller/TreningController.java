@@ -9,11 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -64,10 +69,25 @@ public class TreningController implements ServletContextAware {
 
         List<Trening> treninzi = treningService.find(naziv, treneri, tipId, cenaOd, cenaDo,
                 vrsta, nivo, rastuce);
-        List<TipTreninga> tipovi = tipTreningaService.ucitajTipoveTreninga();
+        List<TipTreninga> tipovi = tipTreningaService.findAll();
 
         ModelAndView rezultat = new ModelAndView("treninzi");
         rezultat.addObject("treninzi", treninzi);
+        rezultat.addObject("tipovi", tipovi);
+
+        return rezultat;
+    }
+
+    @GetMapping(value="/details")
+    @ResponseBody
+    public ModelAndView details(@RequestParam Long id,
+                                HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        Trening trening = treningService.findOne(id);
+        List<TipTreninga> tipovi = tipTreningaService.findAll();
+
+        ModelAndView rezultat = new ModelAndView("trening");
+        rezultat.addObject("trening", trening);
         rezultat.addObject("tipovi", tipovi);
 
         return rezultat;
