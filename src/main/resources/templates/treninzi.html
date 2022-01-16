@@ -95,6 +95,8 @@
             <td th:text="${trening.ocena}"></td>
         </tr>
     </table>
-
+    <ul th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
+        <li><a class="a-link" href="treninzi/create">Dodavanje treninga</a></li>
+    </ul>
 </body>
 </html>

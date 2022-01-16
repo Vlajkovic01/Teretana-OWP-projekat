@@ -73,13 +73,6 @@ body {
     background: #2ecc71;
 }
 
-/*a {*/
-/*    color: white;*/
-/*    text-decoration: none;*/
-/*    font-family: cursive;*/
-/*    font-size: 20px;*/
-/*}*/
-
 .nazivTreninga {
     color: black;
     text-decoration: none;
@@ -108,5 +101,17 @@ body {
 
 li {
     list-style: none;
+}
+
+.a-link {
+    color: white;
+    text-decoration: none;
+    font-family: cursive;
+    font-size: 20px;
+}
+
+.a-link:hover {
+    color: red;
+    transition: 0.25s;
 }
 

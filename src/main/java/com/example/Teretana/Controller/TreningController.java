@@ -117,7 +117,7 @@ public class TreningController implements ServletContextAware {
             response.sendRedirect(bURL + "treninzi");
         }
 
-        String poruka = treningService.validacija(naziv, treneri, kratakOpis, cena, trajanje, ocena);
+        String poruka = treningService.validacija(naziv, treneri, kratakOpis, cena, vrsta, nivo, trajanje, ocena);
 
         if (poruka != null) {
             List<TipTreninga> tipovi = tipTreningaService.findAll();
@@ -132,10 +132,11 @@ public class TreningController implements ServletContextAware {
         //TODO ispraviti
         if (!slikaFile.isEmpty()) {
             byte[] bytes = slikaFile.getBytes();
-            Path path = Paths.get("/images/" + slikaFile.getOriginalFilename());
+            Path path = Paths.get("images/" + slikaFile.getOriginalFilename());
             Files.write(path, bytes);
+            String slikaUrl = "images/" + slikaFile.getOriginalFilename();
 
-            trening.setUrlSlika(path.toString());
+            trening.setUrlSlika(slikaUrl);
         }
 
         trening.setNaziv(naziv);
@@ -152,6 +153,70 @@ public class TreningController implements ServletContextAware {
 
         response.sendRedirect(bURL + "treninzi");
         return null;
+    }
 
+    @GetMapping(value="/create")
+    public ModelAndView create(HttpSession session, HttpServletResponse response) throws IOException {
+        // autentikacija, autorizacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
+            response.sendRedirect(bURL + "treninzi");
+            return null;
+        }
+
+        List<TipTreninga> tipovi = tipTreningaService.findAll();
+
+        ModelAndView rezultat = new ModelAndView("dodavanjeTreninga");
+        rezultat.addObject("tipovi", tipovi);
+
+        return rezultat;
+    }
+
+    @PostMapping(value="/create")
+    public ModelAndView edit(@RequestParam String naziv, @RequestParam String treneri,
+                             @RequestParam(name="tipId", required=false) Long[] tipIds,
+                             @RequestParam String kratakOpis, @RequestParam(name="slikaFile") MultipartFile slikaFile,
+                             @RequestParam Integer cena, @RequestParam String vrsta, @RequestParam String nivo,
+                             @RequestParam Integer trajanje, @RequestParam Double ocena,
+                             HttpSession session, HttpServletResponse response) throws IOException {
+
+//      autentikacija, autorizacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
+            response.sendRedirect(bURL + "treninzi");
+        }
+
+        String poruka = treningService.validacija(naziv, treneri, kratakOpis, cena, vrsta, nivo, trajanje, ocena);
+        if (tipIds == null) {
+            poruka += "-Izaberi tip.\n";
+        }
+
+        if (slikaFile.isEmpty()) {
+            poruka += "-Dodaj sliku.\n";
+        }
+
+        if (poruka != null) {
+            List<TipTreninga> tipovi = tipTreningaService.findAll();
+
+            ModelAndView rezultat = new ModelAndView("dodavanjeTreninga");
+            rezultat.addObject("greska", poruka);
+            rezultat.addObject("tipovi", tipovi);
+
+            return rezultat;
+        }
+
+
+        byte[] bytes = slikaFile.getBytes();
+        Path path = Paths.get("images/" + slikaFile.getOriginalFilename());
+        Files.write(path, bytes);
+        String slikaUrl = "images/" + slikaFile.getOriginalFilename();
+
+
+        Trening noviTrening = new Trening(naziv, treneri,kratakOpis, slikaUrl, cena, VrstaTreninga.valueOf(vrsta), NivoTreninga.valueOf(nivo), trajanje, ocena);
+        noviTrening.setTipTreninga(tipTreningaService.find(tipIds));
+        treningService.save(noviTrening);
+
+        response.sendRedirect(bURL + "treninzi");
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-drop schema if exists teretatana;
+drop schema if exists teretana;
 create schema teretana default character set utf8;
 use teretana;
 
@@ -59,9 +59,9 @@ insert into tipoviTreninga(ime, opis) values ('Fitness', 'Mrsavljenje, rast misi
 insert into tipoviTreninga(ime, opis) values ('Kardio', 'Povecavanje kondicije');
 
 insert into treninzi(naziv, treneri, kratakOpis, urlSlika, cena, vrstaTreninga, nivoTreninga, trajanje, ocena) 
-	values('Polimetrija', 'Mika, Pera', 'Trenazni proces', '../images/polimetrija.jpg', 500, 'POJEDINACNI', 'SREDNJI', 60, 4.2);
+	values('Polimetrija', 'Mika, Pera', 'Trenazni proces', 'images/polimetrija.jpg', 500, 'POJEDINACNI', 'SREDNJI', 60, 4.2);
 insert into treninzi(naziv, treneri, kratakOpis, urlSlika, cena, vrstaTreninga, nivoTreninga, trajanje, ocena) 
-	values('Kruzni', 'Mika', 'Trcanje', '../images/kruzni.jpg', 350, 'POJEDINACNI', 'AMATERSKI', 60, 4.0);
+	values('Kruzni', 'Mika', 'Trcanje', 'images/kruzni.jpg', 350, 'POJEDINACNI', 'AMATERSKI', 60, 4.0);
     
 insert into treninziTipovi(treningId, tipId) values (1, 2);
 insert into treninziTipovi(treningId, tipId) values (1, 3);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Dodavanje Treninga</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" action="treninzi/create">
+        <table class="content-table">
+          <caption>Dodavanje treninga</caption>
+          <tr><th>Naziv:</th><td><input type="text" value="" name="naziv"/></td></tr>
+          <tr><th>Treneri:</th><td><input type="text" value="" name="treneri"/></td></tr>
+          <tr>
+            <th>Tip:</th>
+            <td>
+              <th:block th:each="itTip: ${tipovi}">
+                <input type="checkbox" name="tipId" th:value="${itTip.id}"/><span th:text="${itTip.ime}"></span><br>
+              </th:block>
+            </td>
+          </tr>
+          <tr><th>Kratak opis:</th><td><input type="text" value="" name="kratakOpis"/></td></tr>
+          <tr><th>Upload sliku:</th><td><input type="file" name="slikaFile"></td></tr>
+          <tr><th>Cena:</th><td><input type="number" value="0" name="cena"/></td></tr>
+          <tr>
+            <th>Vrsta:</th>
+            <td>
+              <select name="vrsta">
+                <option value="0">Odaberi</option>
+                <option th:each="vrsta : ${T(com.example.Teretana.Model.VrstaTreninga).values()}" th:value="${vrsta}" th:text="${vrsta}" th:selected="${#strings.equals(vrsta, param.vrsta)}"></option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Nivo:</th>
+            <td>
+              <select name="nivo">
+                <option value="0">Odaberi</option>
+                <option th:each="nivo : ${T(com.example.Teretana.Model.NivoTreninga).values()}" th:value="${nivo}" th:text="${nivo}" th:selected="${#strings.equals(nivo, param.nivo)}"></option>
+              </select>
+            </td>
+          </tr>
+          <tr><th>Trajanje:</th><td><input type="number" value="0" name="trajanje"/></td></tr>
+          <tr><th>Ocena:</th><td><input type="number" value="0" name="ocena"/></td></tr>
+          <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
+          <tr><th></th><td><input type="submit" value="Dodaj"/></td></tr>
+        </table>
+    </form>
+    <ul>
+      <li><a class="a-link" href="treninzi">Povratak</a></li>
+    </ul>
+</body>
+</html>

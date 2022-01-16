@@ -34,6 +34,18 @@ public class Trening {
         this.ocena = ocena;
     }
 
+    public Trening(String naziv, String treneri, String kratakOpis, String urlSlika, int cena, VrstaTreninga vrstaTreninga, NivoTreninga nivoTreninga, int trajanje, double ocena) {
+        this.naziv = naziv;
+        this.treneri = treneri;
+        this.kratakOpis = kratakOpis;
+        this.urlSlika = urlSlika;
+        this.cena = cena;
+        this.vrstaTreninga = vrstaTreninga;
+        this.nivoTreninga = nivoTreninga;
+        this.trajanje = trajanje;
+        this.ocena = ocena;
+    }
+
     public Trening(Long id, String naziv, String treneri, String kratakOpis, String urlSlika, List<TipTreninga> tipTreninga, int cena, VrstaTreninga vrstaTreninga, NivoTreninga nivoTreninga, int trajanje, double ocena) {
         this.id = id;
         this.naziv = naziv;
