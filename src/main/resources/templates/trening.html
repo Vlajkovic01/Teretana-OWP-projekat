@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
-    <form method="post" action="treninzi/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
+    <form method="post" enctype="multipart/form-data" action="treninzi/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
         <input type="hidden" name="id" th:value="${trening.id}"/>
         <table class="content-table">
             <caption>Trening</caption>
@@ -23,6 +23,7 @@
             </tr>
             <tr><th>Kratak opis:</th><td><input type="text" th:value="${trening.kratakOpis}" name="kratakOpis"/></td></tr>
             <tr><th>Slika:</th><td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td></tr>
+            <tr><th>Upload sliku:</th><td><input type="file" name="slikaFile"></td></tr>
             <tr><th>Cena:</th><td><input type="number" th:value="${trening.cena}" name="cena"/></td></tr>
             <tr>
                 <th>Vrsta:</th>
@@ -41,7 +42,8 @@
                 </td>
             </tr>
             <tr><th>Trajanje:</th><td><input type="number" th:value="${trening.trajanje}" name="trajanje"/></td></tr>
-            <tr><th>Ocena:</th><td><input type="number"  th:value="${trening.ocena}" name="cena"/></td></tr>
+            <tr><th>Ocena:</th><td><input type="number"  th:value="${trening.ocena}" name="ocena"/></td></tr>
+            <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
             <tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
         </table>
     </form>

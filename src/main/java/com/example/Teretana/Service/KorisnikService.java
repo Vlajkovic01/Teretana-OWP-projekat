@@ -11,7 +11,8 @@ public interface KorisnikService {
     Korisnik findOne(String korisnickoIme, String lozinka);
     Korisnik findOneByEmail(String email);
     List<Korisnik> findAll();
-    String validacija(String korIme, String lozinka, String lozinkaPotvrda, String email, String ime, String prezime, String datumRodjenja, String adresa, String telefon);
+    String validacija(String korIme, String lozinka, String lozinkaPotvrda,
+                      String email, String ime, String prezime, String datumRodjenja, String adresa, String telefon);
     Korisnik save(Korisnik korisnik);
     Korisnik update(Korisnik korisnik);
     Korisnik delete(Long id);

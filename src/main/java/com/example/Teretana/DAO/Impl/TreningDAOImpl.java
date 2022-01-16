@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,7 +77,30 @@ public class TreningDAOImpl implements TreningDAO {
         TreningTipRowCallBackHandler rowCallBackHandler = new TreningTipRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallBackHandler, id);
 
-        return rowCallBackHandler.getTreninzi().get(0);
+        try {
+            return rowCallBackHandler.getTreninzi().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Trening findOne(String naziv) {
+        String sql = "select t.id, t.naziv, t.treneri, t.kratakOpis, t.urlSlika, t.cena, t.vrstaTreninga, " +
+                "t.nivoTreninga, t.trajanje, t.ocena, ttr.id, ttr.ime, ttr.opis " +
+                "from treninzi t left join treninziTipovi tp on tp.treningId = t.id " +
+                "left join tipoviTreninga ttr on tp.tipId = ttr.id " +
+                "where t.naziv = ? " +
+                "order by t.id";
+
+        TreningTipRowCallBackHandler rowCallBackHandler = new TreningTipRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallBackHandler, naziv);
+
+        try {
+            return rowCallBackHandler.getTreninzi().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
@@ -92,7 +116,8 @@ public class TreningDAOImpl implements TreningDAO {
     }
 
     @Override
-    public List<Trening> find(String naziv, String treneri, Long tipTreningaId, Integer cenaOd, Integer cenaDo, String vrstaTreninga, String nivoTreninga, String sortiranje) {
+    public List<Trening> find(String naziv, String treneri, Long tipTreningaId, Integer cenaOd,
+                              Integer cenaDo, String vrstaTreninga, String nivoTreninga, String tipSortiranja, String rastuce) {
 
         ArrayList<Object> listaArgumenata = new ArrayList<Object>();
 
@@ -159,15 +184,42 @@ public class TreningDAOImpl implements TreningDAO {
             sql = sql + whereSql.toString();
         }
 
-        if(sortiranje != null) {
-            if (sortiranje.equals("1")) {
-                sql = sql + " order by t.ocena asc";
+        if(tipSortiranja != null) {
+            if (tipSortiranja.equals("1")) {
+                sql = sql + " order by t.naziv";
             }
-            else {
-                sql = sql + " order by t.ocena desc";
+            else if(tipSortiranja.equals("2")){
+                sql = sql + " order by t.cena";
             }
-
+            else if(tipSortiranja.equals("3")){
+                sql = sql + " order by t.treneri";
+            }
+            else if(tipSortiranja.equals("4")){
+                sql = sql + " order by t.vrstaTreninga";
+            }
+            else if(tipSortiranja.equals("5")){
+                sql = sql + " order by t.nivoTreninga";
+            }
+            else if(tipSortiranja.equals("6")){
+                sql = sql + " order by t.ocena";
+            }
         }
+
+        if (rastuce != null && tipSortiranja != null) {
+            if (rastuce.equals("1")) {
+                sql = sql + " asc";
+            } else {
+                sql = sql + " desc";
+            }
+        }
+        else if (rastuce != null) {
+            if (rastuce.equals("1")) {
+                sql = sql + " order by t.naziv asc";
+            } else {
+                sql = sql + " order by t.naziv desc";
+            }
+        }
+
         System.out.println(sql);
         System.out.println(listaArgumenata);
 
@@ -199,9 +251,26 @@ public class TreningDAOImpl implements TreningDAO {
         return 0;
     }
 
+    @Transactional
     @Override
     public int update(Trening trening) {
-        return 0;
+        String sql = "delete from treninziTipovi where treningId = ?";
+        jdbcTemplate.update(sql, trening.getId());
+
+        boolean uspeh = true;
+        sql = "insert into treninziTipovi (treningId, tipId) values (?, ?)";
+        for (TipTreninga itTip : trening.getTipTreninga()) {
+            uspeh = uspeh && jdbcTemplate.update(sql, trening.getId(), itTip.getId()) == 1;
+        }
+
+        sql = "update treninzi set naziv = ?, treneri = ?, kratakOpis = ?, urlSlika = ?, cena = ?, " +
+                "vrstaTreninga = ?, nivoTreninga = ?, trajanje = ?, ocena = ? " +
+                "where id = ?";
+        uspeh = uspeh && jdbcTemplate.update(sql, trening.getNaziv(), trening.getTreneri(), trening.getKratakOpis(),
+                trening.getUrlSlika(), trening.getCena(), trening.getVrstaTreninga().toString(), trening.getNivoTreninga().toString(),
+                trening.getTrajanje(), trening.getOcena(), trening.getId()) == 1;
+
+        return uspeh?1:0;
     }
 
     @Override

@@ -20,7 +20,7 @@
                 <th>Cena</th>
                 <th>Vrsta</th>
                 <th>Nivo</th>
-                <th>Ocena</th>
+                <th>Sortiranje</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -51,6 +51,15 @@
                     </select>
                 </th>
                 <th id="sortiranje">
+                    <select name="tipSortiranja">
+                        <option value="0">Odaberi</option>
+                        <option value="1">Naziv</option>
+                        <option value="2">Cena</option>
+                        <option value="3">Treneri</option>
+                        <option value="4">Vrsta</option>
+                        <option value="5">Nivo</option>
+                        <option value="6">Ocena</option>
+                    </select><br>
                     Rastuce:<input type="radio" value="1" name="rastuce"/><br/>
                     Opadajuce:<input type="radio" value="0" name="rastuce"/>
                 </th>
@@ -63,26 +72,26 @@
     <table class="content-table">
         <tr>
             <th>Naziv</th>
-            <th>Treneri</th>
-            <th>Opis</th>
+<!--            <th>Treneri</th>-->
+<!--            <th>Opis</th>-->
             <th>Slika</th>
-            <th>Tip</th>
+<!--            <th>Tip</th>-->
             <th>Cena</th>
-            <th>Vrsta</th>
-            <th>Nivo</th>
-            <th>Trajanje</th>
+<!--            <th>Vrsta</th>-->
+<!--            <th>Nivo</th>-->
+<!--            <th>Trajanje</th>-->
             <th>Ocena</th>
         </tr>
         <tr th:each="trening, status: ${treninzi}">
             <td><a class="nazivTreninga" th:href="|treninzi/details?id=${trening.id}|" th:text="${trening.naziv}"></a></td>
-            <td th:text="${trening.treneri}"></td>
-            <td th:text="${trening.kratakOpis}"></td>
+<!--            <td th:text="${trening.treneri}"></td>-->
+<!--            <td th:text="${trening.kratakOpis}"></td>-->
             <td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td>
-            <td th:text="${trening.tipTreninga}"></td>
+<!--            <td th:text="${trening.tipTreninga}"></td>-->
             <td th:text="${trening.cena}"></td>
-            <td th:text="${trening.vrstaTreninga}"></td>
-            <td th:text="${trening.nivoTreninga}"></td>
-            <td th:text="${trening.trajanje}"></td>
+<!--            <td th:text="${trening.vrstaTreninga}"></td>-->
+<!--            <td th:text="${trening.nivoTreninga}"></td>-->
+<!--            <td th:text="${trening.trajanje}"></td>-->
             <td th:text="${trening.ocena}"></td>
         </tr>
     </table>
