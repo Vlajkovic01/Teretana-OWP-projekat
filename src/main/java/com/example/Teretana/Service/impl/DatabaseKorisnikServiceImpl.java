@@ -66,38 +66,46 @@ public class DatabaseKorisnikServiceImpl implements KorisnikService {
         String poruka = " Ispravi gresku: ";
         boolean postojiGreska = false;
 
-        Korisnik kIme = findOne(korIme);
-        Korisnik kEmail = findOneByEmail(email);
         LocalDate datum = LocalDate.parse(datumRodjenja);
 
-        if (kIme != null) {
-            poruka += "-Korisnik sa tim korisnickim imenom vec postoji.\n";
-            postojiGreska = true;
+        if (korIme != null) {
+            Korisnik kIme = findOne(korIme);
+
+            if (kIme != null) {
+                poruka += "-Korisnik sa tim korisnickim imenom vec postoji.\n";
+                postojiGreska = true;
+            }
+
+            if (korIme.length() > 20 || korIme.length() < 3 ) {
+                poruka += "-Korisnicko ime ne moze biti duze od 20 i manje od 3 karaktera.\n";
+                postojiGreska = true;
+            }
         }
 
-        if (kEmail != null) {
-            poruka += "-Korisnik sa tim emailom vec postoji.\n";
-            postojiGreska = true;
+        if (email != null) {
+            Korisnik kEmail = findOneByEmail(email);
+
+            if (kEmail != null) {
+                poruka += "-Korisnik sa tim emailom vec postoji.\n";
+                postojiGreska = true;
+            }
+
+            if (email.length() > 35 || email.length() < 13) {
+                poruka += "-Email ne moze biti duzi od 35 i manji od 13 karaktera.\n";
+                postojiGreska = true;
+            }
         }
 
-        if (korIme.length() > 20 || korIme.length() < 3 ) {
-            poruka += "-Korisnicko ime ne moze biti duze od 20 i manje od 3 karaktera.\n";
-            postojiGreska = true;
-        }
+        if (lozinka != null) {
+            if (lozinka.length() > 20 || lozinka.length() < 3) {
+                poruka += "-Lozinka ne moze biti duza od 20 i manja od 3 karaktera.\n";
+                postojiGreska = true;
+            }
 
-        if (lozinka.length() > 20 || lozinka.length() < 3) {
-            poruka += "-Lozinka ne moze biti duza od 20 i manja od 3 karaktera.\n";
-            postojiGreska = true;
-        }
-
-        if (!lozinka.equals(lozinkaPotvrda)) {
-            poruka += "-Lozinke se ne poklapaju pokusaj ponovo.";
-            postojiGreska = true;
-        }
-
-        if (email.length() > 35 || email.length() < 13) {
-            poruka += "-Email ne moze biti duzi od 35 i manji od 13 karaktera.\n";
-            postojiGreska = true;
+            if (!lozinka.equals(lozinkaPotvrda)) {
+                poruka += "-Lozinke se ne poklapaju pokusaj ponovo.";
+                postojiGreska = true;
+            }
         }
 
         if (ime.length() > 20 || ime.length() < 3) {

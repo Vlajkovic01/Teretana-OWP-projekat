@@ -129,7 +129,7 @@ public class TreningController implements ServletContextAware {
 
             return rezultat;
         }
-        //TODO ispraviti
+
         if (!slikaFile.isEmpty()) {
             byte[] bytes = slikaFile.getBytes();
             Path path = Paths.get("images/" + slikaFile.getOriginalFilename());

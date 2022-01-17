@@ -128,3 +128,16 @@ li {
     transition: 0.25s;
 }
 
+#mojProfil {
+    position: absolute;
+    color: white;
+    text-decoration: none;
+    font-family: cursive;
+    right: 10px;
+}
+
+#mojProfil:hover {
+    color: red;
+    transition: 0.25s;
+}
+

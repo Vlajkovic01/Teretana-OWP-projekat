@@ -167,7 +167,7 @@ public class KorisnikDAOImpl implements KorisnikDAO {
                 "telefon = ?, datumIVremeRegistracije = ?, uloga = ?, blokiran = ? WHERE id = ?";
         boolean uspeh = jdbcTemplate.update(sql, korisnik.getKorisnickoIme(), korisnik.getLozinka(), korisnik.getEmail(), korisnik.getIme(),
                 korisnik.getPrezime(), korisnik.getDatumRodjenja(), korisnik.getAdresa(), korisnik.getTelefon(),
-                korisnik.getDatumIVremeRegistracije(), korisnik.getUloga(), korisnik.isBlokiran(), korisnik.getId()) == 1;
+                korisnik.getDatumIVremeRegistracije(), korisnik.getUloga().toString(), korisnik.isBlokiran(), korisnik.getId()) == 1;
 
         return uspeh?1:0;
     }

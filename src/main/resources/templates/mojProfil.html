@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Moj profil</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <form method="post" action="korisnici/mojProfilEdit">
+        <table class="content-table">
+            <caption id="registracija">Moji podaci</caption>
+            <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${prijavljenKorisnik.korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th>Nova lozinka:</th><td><input type="password" value="" name="novaLozinka" minlength="3" maxlength="20"/></td></tr>
+            <tr><th>Potvrdi lozinku:</th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20"/></td></tr>
+            <tr><th>Email:</th><td><input type="email" th:value="${prijavljenKorisnik.email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
+            <tr><th>Ime:</th><td><input type="text" th:value="${prijavljenKorisnik.ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th>Prezime:</th><td><input type="text" th:value="${prijavljenKorisnik.prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th>Datum rodjenja:</th><td><input type="date" th:value="${prijavljenKorisnik.datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
+            <tr><th>Adresa:</th><td><input type="text" th:value="${prijavljenKorisnik.adresa}" value="" name="adresa" minlength="3" maxlength="35" required/></td></tr>
+            <tr><th>Telefon:</th><td><input type="text" th:value="${prijavljenKorisnik.telefon}" value="" name="telefon" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th>Uloga:</th><td th:text="${prijavljenKorisnik.uloga}"></td></tr>
+            <tr><th>Datum registracije:</th><td th:text="${prijavljenKorisnik.datumIVremeRegistracije}"></td></tr>
+            <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
+            <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
+        </table>
+    </form>
+    <ul>
+        <li><a class="a-link" href="treninzi">Povratak</a></li>
+    </ul>
+</body>
+</html>

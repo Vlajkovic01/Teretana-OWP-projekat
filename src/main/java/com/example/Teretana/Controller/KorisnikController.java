@@ -127,4 +127,75 @@ public class KorisnikController implements ServletContextAware {
 
         return login;
     }
+
+    @GetMapping(value="/mojProfil")
+    public ModelAndView mojProfil(HttpSession session, HttpServletResponse response){
+
+        Korisnik prijavljenKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
+        ModelAndView mojProfil = new ModelAndView("mojProfil");
+        mojProfil.addObject("prijavljenKorisnik", prijavljenKorisnik);
+
+        return mojProfil;
+    }
+
+    @PostMapping(value="/mojProfilEdit")
+    public ModelAndView mojProfilEdit(@RequestParam String korisnickoIme, @RequestParam String novaLozinka, @RequestParam String lozinkaPotvrda, @RequestParam String email,
+                                      @RequestParam String ime, @RequestParam String prezime, @RequestParam String datumRodjenja,
+                                      @RequestParam String adresa, @RequestParam String telefon,
+                                      HttpSession session, HttpServletResponse response) throws IOException {
+
+        Korisnik prijavljenKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
+        if (novaLozinka.equals("") && lozinkaPotvrda.equals("")) {
+            novaLozinka = null;
+        }
+
+        if (prijavljenKorisnik.getEmail().equals(email)) {
+            email = null;
+        }
+
+        if (prijavljenKorisnik.getKorisnickoIme().equals(korisnickoIme)) {
+            korisnickoIme = null;
+        }
+
+        String poruka = korisnikService.validacija(korisnickoIme, novaLozinka, lozinkaPotvrda,email, ime, prezime, datumRodjenja, adresa, telefon);
+
+        if (poruka != null) {
+            ModelAndView mojProfil = new ModelAndView("mojProfil");
+            mojProfil.addObject("prijavljenKorisnik", prijavljenKorisnik);
+            mojProfil.addObject("greska", poruka);
+            mojProfil.addObject("email", email);
+            mojProfil.addObject("ime", ime);
+            mojProfil.addObject("prezime", prezime);
+            mojProfil.addObject("datumRodjenja", datumRodjenja);
+            mojProfil.addObject("adresa", adresa);
+            mojProfil.addObject("telefon", telefon);
+
+            return  mojProfil;
+        }
+
+        if (novaLozinka != null) {
+            prijavljenKorisnik.setLozinka(novaLozinka);
+        }
+
+        if (email != null) {
+            prijavljenKorisnik.setEmail(email);
+        }
+
+        if (korisnickoIme != null) {
+            prijavljenKorisnik.setKorisnickoIme(korisnickoIme);
+        }
+
+        prijavljenKorisnik.setIme(ime);
+        prijavljenKorisnik.setPrezime(prezime);
+        prijavljenKorisnik.setDatumRodjenja(LocalDate.parse(datumRodjenja));
+        prijavljenKorisnik.setAdresa(adresa);
+        prijavljenKorisnik.setTelefon(telefon);
+
+        korisnikService.update(prijavljenKorisnik);
+
+        response.sendRedirect(bURL + "treninzi");
+        return null;
+    }
 }
