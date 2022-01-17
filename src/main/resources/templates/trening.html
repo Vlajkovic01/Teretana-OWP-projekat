@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
+    <ul>
+        <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
+    </ul>
     <form method="post" enctype="multipart/form-data" action="treninzi/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
         <input type="hidden" name="id" th:value="${trening.id}"/>
         <table class="content-table">

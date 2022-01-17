@@ -81,6 +81,14 @@ public class KorisnikController implements ServletContextAware {
         return null;
     }
 
+    @GetMapping(value="/logout")
+    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
+        // odjava
+        session.invalidate();
+
+        response.sendRedirect(bURL);
+    }
+
     @GetMapping(value="/registracija")
     public String create(HttpSession session, HttpServletResponse response){
         return "registracija"; // stranica za registraciju korisnika

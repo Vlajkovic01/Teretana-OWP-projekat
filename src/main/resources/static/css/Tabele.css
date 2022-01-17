@@ -115,3 +115,16 @@ li {
     transition: 0.25s;
 }
 
+#odjava {
+    position: absolute;
+    color: white;
+    text-decoration: none;
+    font-family: cursive;
+    left: 10px;
+}
+
+#odjava:hover {
+    color: red;
+    transition: 0.25s;
+}
+

@@ -128,7 +128,6 @@ public class DatabaseTreningServiceImpl implements TreningService {
     public Resource loadImage(String filename) {
         try {
             Path file = Paths.get("images/" + filename);
-            System.out.println(file.getFileName());
 
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
