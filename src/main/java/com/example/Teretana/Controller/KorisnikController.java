@@ -1,6 +1,8 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.Korisnik;
+import com.example.Teretana.Model.TipTreninga;
+import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Model.Uloga;
 import com.example.Teretana.Service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/korisnici")
@@ -41,6 +44,40 @@ public class KorisnikController implements ServletContextAware {
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    @GetMapping
+    public ModelAndView index(@RequestParam(required=false) String korisnickoIme,
+                              @RequestParam(required=false) String uloga,
+                              @RequestParam(required=false) String tipSortiranja,
+                              @RequestParam(required = false) String rastuce,
+                              HttpSession session, HttpServletResponse response) throws IOException {
+        // autentikacija, autorzacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
+            response.sendRedirect(bURL);
+            return null;
+        }
+
+        if (korisnickoIme != null && korisnickoIme.trim().equals("")) {
+            korisnickoIme = null;
+        }
+
+        if (uloga != null && uloga.trim().equals("0")) {
+            uloga = null;
+        }
+
+        if (tipSortiranja != null && tipSortiranja.trim().equals("0")) {
+            tipSortiranja = null;
+        }
+
+
+        List<Korisnik> korisnici = korisnikService.find(korisnickoIme, uloga, tipSortiranja, rastuce);
+
+        ModelAndView rezultat = new ModelAndView("korisnici");
+        rezultat.addObject("korisnici", korisnici);
+
+        return rezultat;
     }
 
     @GetMapping(value = "/login")

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,30 @@ public class KorisnikDAOImpl implements KorisnikDAO {
         public List<Korisnik> getKorisnici() {
             return new ArrayList<>(korisnici.values());
         }
+    }
+
+    private class KorisnikRowMapper implements RowMapper<Korisnik> {
+
+        @Override
+        public Korisnik mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+            int index = 1;
+            Long id = resultSet.getLong(index++);
+            String korisnickoIme = resultSet.getString(index++);
+            String lozinka = resultSet.getString(index++);
+            String email = resultSet.getString(index++);
+            String ime = resultSet.getString(index++);
+            String prezime = resultSet.getString(index++);
+            LocalDate datumRodjenja = resultSet.getTimestamp(index++).toLocalDateTime().toLocalDate();
+            String adresa = resultSet.getString(index++);
+            String telefon = resultSet.getString(index++);
+            LocalDateTime datumIVremeRegistracije = resultSet.getTimestamp(index++).toLocalDateTime();
+            Uloga uloga = Uloga.valueOf(resultSet.getString(index++));
+            boolean blokiran = resultSet.getBoolean(index++);
+
+            Korisnik korisnik = new Korisnik(id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran);
+            return korisnik;
+        }
+
     }
 
     @Override
@@ -177,5 +202,67 @@ public class KorisnikDAOImpl implements KorisnikDAO {
     public int delete(Long id) {
         String sql = "DELETE FROM korisnici WHERE id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public List<Korisnik> find(String korisnickoIme, String uloga, String tipSortiranja, String rastuce) {
+        ArrayList<Object> listaArgumenata = new ArrayList<Object>();
+
+        String sql = "select id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, " +
+                "datumIVremeRegistracije, uloga, blokiran " +
+                "from korisnici ";
+
+        StringBuffer whereSql = new StringBuffer(" where ");
+        boolean imaArgumenata = false;
+
+        if(korisnickoIme!=null) {
+            korisnickoIme = "%" + korisnickoIme + "%";
+            if(imaArgumenata)
+                whereSql.append(" and ");
+            whereSql.append("korisnickoIme like ?");
+            imaArgumenata = true;
+            listaArgumenata.add(korisnickoIme);
+        }
+
+        if(uloga!=null) {
+            uloga = "%" + uloga + "%";
+            if(imaArgumenata)
+                whereSql.append(" and ");
+            whereSql.append("uloga like ?");
+            imaArgumenata = true;
+            listaArgumenata.add(uloga);
+        }
+
+        if (imaArgumenata) {
+            sql = sql + whereSql.toString();
+        }
+
+        if(tipSortiranja != null) {
+            if (tipSortiranja.equals("1")) {
+                sql = sql + " order by korisnickoIme";
+            }
+            else if(tipSortiranja.equals("2")){
+                sql = sql + " order by uloga";
+            }
+        }
+
+        if (rastuce != null && tipSortiranja != null) {
+            if (rastuce.equals("1")) {
+                sql = sql + " asc";
+            } else {
+                sql = sql + " desc";
+            }
+        }
+        else if (rastuce != null) {
+            if (rastuce.equals("1")) {
+                sql = sql + " order by korisnickoIme asc";
+            } else {
+                sql = sql + " order by korisnickoIme desc";
+            }
+        }
+
+        System.out.println(sql);
+
+        return jdbcTemplate.query(sql, listaArgumenata.toArray(), new KorisnikRowMapper());
     }
 }

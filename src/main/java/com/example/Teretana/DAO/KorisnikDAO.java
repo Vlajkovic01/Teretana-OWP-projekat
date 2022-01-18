@@ -15,4 +15,5 @@ public interface KorisnikDAO {
     int update(Korisnik korisnik);
     int delete(Long id);
 
+    List<Korisnik> find(String korisnickoIme, String uloga, String tipSortiranja, String rastuce);
 }

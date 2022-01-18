@@ -16,4 +16,6 @@ public interface KorisnikService {
     Korisnik save(Korisnik korisnik);
     Korisnik update(Korisnik korisnik);
     Korisnik delete(Long id);
+
+    List<Korisnik> find(String korisnickoIme, String uloga, String tipSortiranja, String rastuce);
 }

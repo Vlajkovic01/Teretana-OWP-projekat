@@ -148,6 +148,31 @@ public class Korisnik {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime*result + ((korisnickoIme == null) ? 0 : korisnickoIme.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Korisnik other = (Korisnik) obj;
+        if (korisnickoIme == null) {
+            if (other.korisnickoIme != null)
+                return false;
+        } else if (!korisnickoIme.equals(other.korisnickoIme))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Korisnik{" +
                 "id=" + id +

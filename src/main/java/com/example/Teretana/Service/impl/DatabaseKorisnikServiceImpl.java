@@ -62,6 +62,11 @@ public class DatabaseKorisnikServiceImpl implements KorisnikService {
     }
 
     @Override
+    public List<Korisnik> find(String korisnickoIme, String uloga, String tipSortiranja, String rastuce) {
+        return korisnikDAO.find(korisnickoIme, uloga, tipSortiranja, rastuce);
+    }
+
+    @Override
     public String validacija(String korIme, String lozinka, String lozinkaPotvrda, String email, String ime, String prezime, String datumRodjenja, String adresa, String telefon) {
         String poruka = " Ispravi gresku: ";
         boolean postojiGreska = false;
