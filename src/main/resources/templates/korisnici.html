@@ -56,7 +56,7 @@
             <th>Uloga</th>
         </tr>
         <tr th:each="korisnik, status: ${korisnici}">
-            <td><a class="nazivTreninga" th:href="|korisnici/details?id=${korisnik.id}|" th:text="${korisnik.korisnickoIme}"></a></td>
+            <td><a class="nazivTreninga" th:href="|korisnici/details?korisnickoIme=${korisnik.korisnickoIme}|" th:text="${korisnik.korisnickoIme}"></a></td>
             <td th:text="${korisnik.datumIVremeRegistracije}"></td>
             <td th:text="${korisnik.uloga}"></td>
         </tr>

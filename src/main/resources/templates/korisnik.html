@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Korisnik</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <ul th:if="${session.prijavljenKorisnik != null}">
+        <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
+        <li><a id="mojProfil" href="korisnici/mojProfil">Moj profil</a></li>
+    </ul>
+    <ul th:if="${session.prijavljenKorisnik == null}">
+        <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
+    </ul>
+    <form method="post" action="korisnici/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
+        <input type="hidden" name="korisnickoIme" th:value="${korisnik.korisnickoIme}"/>
+        <table class="content-table">
+            <caption id="registracija">Korisnik</caption>
+            <tr><th>Korisnicko ime:</th><td th:text="${korisnik.korisnickoIme}"></td></tr>
+            <tr><th>Email:</th><td th:text="${korisnik.email}"></td></tr>
+            <tr><th>Ime:</th><td th:text="${korisnik.ime}"></td></tr>
+            <tr><th>Prezime:</th><td th:text="${korisnik.prezime}"></td></tr>
+            <tr><th>Datum rodjenja:</th><td th:text="${korisnik.datumRodjenja}"></td></tr>
+            <tr><th>Adresa:</th><td th:text="${korisnik.adresa}"></td></tr>
+            <tr><th>Telefon:</th><td th:text="${korisnik.telefon}"></td></tr>
+            <tr>
+                <th>Uloga:</th>
+                <td>
+                    <select name="uloga">
+                        <option th:each="uloga : ${T(com.example.Teretana.Model.Uloga).values()}" th:value="${uloga}" th:text="${uloga}" th:selected="${#strings.equals(korisnik.uloga, uloga)}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr><th>Datum registracije:</th><td th:text="${korisnik.datumIVremeRegistracije}"></td></tr>
+            <tr th:if="${korisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+                <th>Blokiran:</th>
+                <td>
+                    <input type="checkbox" name="blokiran" th:checked="${korisnik.blokiran}">
+                </td>
+            </tr>
+            <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
+        </table>
+    </form>
+    <ul>
+        <li><a class="a-link" href="korisnici">Povratak</a></li>
+    </ul>
+</body>
+</html>

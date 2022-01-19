@@ -80,6 +80,30 @@ public class KorisnikController implements ServletContextAware {
         return rezultat;
     }
 
+    @GetMapping(value="/details")
+    public ModelAndView details(@RequestParam String korisnickoIme,
+                                HttpSession session, HttpServletResponse response) throws IOException {
+        // autentikacija, autorzacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
+            response.sendRedirect(bURL);
+            return null;
+        }
+
+        // validacija
+        Korisnik korisnik = korisnikService.findOne(korisnickoIme);
+        if (korisnik == null) {
+            response.sendRedirect(bURL + "korisnici");
+            return null;
+        }
+
+        // prosleđivanje
+        ModelAndView rezultat = new ModelAndView("korisnik");
+        rezultat.addObject("korisnik", korisnik);
+
+        return rezultat;
+    }
+
     @GetMapping(value = "/login")
     public void getLogin(@RequestParam(required = false) String korisnickoIme, @RequestParam(required = false) String lozinka,
                          HttpSession session, HttpServletResponse response) throws IOException {
@@ -234,5 +258,24 @@ public class KorisnikController implements ServletContextAware {
 
         response.sendRedirect(bURL + "treninzi");
         return null;
+    }
+
+    @PostMapping(value="/edit")
+    public void edit(@RequestParam String korisnickoIme, @RequestParam(required = false) boolean blokiran,
+                             @RequestParam String uloga,
+                             HttpServletResponse response) throws IOException {
+
+        Korisnik korisnik = korisnikService.findOne(korisnickoIme);
+
+        if (blokiran && uloga.equals("ADMINISTRATOR")) {
+            blokiran = false;
+        }
+
+        korisnik.setBlokiran(blokiran);
+        korisnik.setUloga(Uloga.valueOf(uloga));
+
+        korisnikService.update(korisnik);
+
+        response.sendRedirect(bURL + "korisnici");
     }
 }
