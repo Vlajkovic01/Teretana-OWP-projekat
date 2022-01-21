@@ -201,6 +201,12 @@ public class TreningController implements ServletContextAware {
             ModelAndView rezultat = new ModelAndView("dodavanjeTreninga");
             rezultat.addObject("greska", poruka);
             rezultat.addObject("tipovi", tipovi);
+            rezultat.addObject("naziv", naziv);
+            rezultat.addObject("treneri", treneri);
+            rezultat.addObject("kratakOpis", kratakOpis);
+            rezultat.addObject("cena", cena);
+            rezultat.addObject("trajanje", trajanje);
+            rezultat.addObject("ocena", ocena);
 
             return rezultat;
         }

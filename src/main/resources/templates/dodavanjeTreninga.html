@@ -14,8 +14,8 @@
     <form method="post" enctype="multipart/form-data" action="treninzi/create">
         <table class="content-table">
           <caption>Dodavanje treninga</caption>
-          <tr><th>Naziv:</th><td><input type="text" value="" name="naziv"/></td></tr>
-          <tr><th>Treneri:</th><td><input type="text" value="" name="treneri"/></td></tr>
+          <tr><th>Naziv:</th><td><input type="text" th:value="${naziv}" value="" name="naziv"/></td></tr>
+          <tr><th>Treneri:</th><td><input type="text" th:value="${treneri}" value="" name="treneri"/></td></tr>
           <tr>
             <th>Tip:</th>
             <td>
@@ -24,9 +24,9 @@
               </th:block>
             </td>
           </tr>
-          <tr><th>Kratak opis:</th><td><input type="text" value="" name="kratakOpis"/></td></tr>
+          <tr><th>Kratak opis:</th><td><input type="text" th:value="${kratakOpis}" value="" name="kratakOpis"/></td></tr>
           <tr><th>Upload sliku:</th><td><input type="file" name="slikaFile"></td></tr>
-          <tr><th>Cena:</th><td><input type="number" value="0" name="cena"/></td></tr>
+          <tr><th>Cena:</th><td><input type="number" th:value="${cena}" value="0" name="cena"/></td></tr>
           <tr>
             <th>Vrsta:</th>
             <td>
@@ -45,8 +45,8 @@
               </select>
             </td>
           </tr>
-          <tr><th>Trajanje:</th><td><input type="number" value="0" name="trajanje"/></td></tr>
-          <tr><th>Ocena:</th><td><input type="number" value="0" name="ocena"/></td></tr>
+          <tr><th>Trajanje:</th><td><input type="number" th:value="${trajanje}" value="0" name="trajanje"/></td></tr>
+          <tr><th>Ocena:</th><td><input type="number" th:value="${ocena}" value="0" name="ocena"/></td></tr>
           <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
           <tr><th></th><td><input type="submit" value="Dodaj"/></td></tr>
         </table>
