@@ -173,7 +173,7 @@ public class TreningController implements ServletContextAware {
     }
 
     @PostMapping(value="/create")
-    public ModelAndView edit(@RequestParam String naziv, @RequestParam String treneri,
+    public ModelAndView create(@RequestParam String naziv, @RequestParam String treneri,
                              @RequestParam(name="tipId", required=false) Long[] tipIds,
                              @RequestParam String kratakOpis, @RequestParam(name="slikaFile") MultipartFile slikaFile,
                              @RequestParam Integer cena, @RequestParam String vrsta, @RequestParam String nivo,

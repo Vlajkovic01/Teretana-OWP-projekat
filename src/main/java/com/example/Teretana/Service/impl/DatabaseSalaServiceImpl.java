@@ -25,7 +25,27 @@ public class DatabaseSalaServiceImpl implements SalaService {
     }
 
     @Override
+    public Sala findOne(String oznaka) {
+        return salaDAO.findOne(oznaka);
+    }
+
+    @Override
     public List<Sala> find(String oznaka, String rastuce) {
         return salaDAO.find(oznaka, rastuce);
+    }
+
+    @Override
+    public int save(Sala sala) {
+        return salaDAO.save(sala);
+    }
+
+    @Override
+    public int update(Sala sala) {
+        return salaDAO.update(sala);
+    }
+
+    @Override
+    public int delete(Long id) {
+        return salaDAO.delete(id);
     }
 }

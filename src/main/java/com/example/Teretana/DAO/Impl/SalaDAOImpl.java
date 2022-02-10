@@ -6,12 +6,14 @@ import com.example.Teretana.Model.Sala;
 import com.example.Teretana.Model.Uloga;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -92,6 +94,21 @@ public class SalaDAOImpl implements SalaDAO {
     }
 
     @Override
+    public Sala findOne(String oznaka) {
+        String sql =
+                "select * from sale where oznaka = ?";
+
+        SalaRowCallBackHandler rowCallBackHandler = new SalaRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallBackHandler, oznaka);
+
+        try {
+            return rowCallBackHandler.getSale().get(0);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
     public List<Sala> find(String oznaka, String rastuce) {
 
         ArrayList<Object> listaArgumenata = new ArrayList<Object>();
@@ -125,5 +142,42 @@ public class SalaDAOImpl implements SalaDAO {
         System.out.println(sql);
 
         return jdbcTemplate.query(sql, listaArgumenata.toArray(), new SalaRowMapper());
+    }
+
+    @Transactional
+    @Override
+    public int save(Sala sala) {
+        PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreator() {
+
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                String sql = "INSERT INTO sale (oznaka, kapacitet) VALUES (?, ?)";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                int index = 1;
+                preparedStatement.setString(index++, sala.getOznaka());
+                preparedStatement.setInt(index++, sala.getKapacitet());
+
+                return preparedStatement;
+            }
+        };
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        boolean uspeh = jdbcTemplate.update(preparedStatementCreator, keyHolder) == 1;
+        return uspeh?1:0;
+    }
+
+    @Transactional
+    @Override
+    public int update(Sala sala) {
+        String sql = "UPDATE sale SET kapacitet = ? WHERE id = ?";
+        boolean uspeh = jdbcTemplate.update(sql, sala.getKapacitet(), sala.getId()) == 1;
+
+        return uspeh?1:0;
+    }
+
+    @Transactional
+    @Override
+    public int delete(Long id) {
+        return 0;
     }
 }
