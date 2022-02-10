@@ -14,7 +14,7 @@
     <ul th:if="${session.prijavljenKorisnik == null}">
         <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
     </ul>
-    <form method="get" >
+    <form method="get" action="sale">
         <table class="content-table">
             <caption id="registracija">Sale</caption>
             <tr>
@@ -41,10 +41,18 @@
         <tr>
             <th>Oznaka</th>
             <th>Kapacitet</th>
+            <th>Brisanje</th>
         </tr>
+        <tr th:if="${greska != null}"><td colspan="3"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
         <tr th:each="sala, status: ${sale}">
             <td><a class="nazivTreninga" th:href="|sale/details?oznaka=${sala.oznaka}|" th:text="${sala.oznaka}"></a></td>
             <td th:text="${sala.kapacitet}"></td>
+            <td>
+                <form method="post" action="sale/delete">
+                    <input type="hidden" name="id" th:value="${sala.id}"/>
+                    <input type="submit" value="Izbrisi" />
+                </form>
+            </td>
         </tr>
     </table>
     <ul>

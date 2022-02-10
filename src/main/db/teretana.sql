@@ -57,6 +57,18 @@ create table sale(
     primary key(id)
 );
 
+create table termini(
+	id bigint auto_increment,
+    salaId bigint,
+    treningId bigint, 
+    datumOdrzavanja datetime,
+    primary key(id),
+    foreign key(salaId) references sale(id)
+		on delete cascade,
+	foreign key(treningId) references treninzi(id)
+		on delete cascade
+);
+
 #UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
@@ -92,8 +104,13 @@ insert into sale(oznaka, kapacitet) values ('A1', 5);
 insert into sale(oznaka, kapacitet) values ('B1', 10);
 insert into sale(oznaka, kapacitet) values ('C1', 15);
 
+insert into termini(salaId, treningId, datumOdrzavanja) values (1, 2, '2022-02-20 12:00');
+insert into termini(salaId, treningId, datumOdrzavanja) values (2, 3, '2022-02-21 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja) values (3, 1, '2022-02-22 11:00');
+
 select * from korisnici;
 select * from tipoviTreninga;
 select * from treninzi;
 select * from treninziTipovi;
 select * from sale;
+select * from termini;

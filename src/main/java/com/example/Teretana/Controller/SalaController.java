@@ -144,4 +144,31 @@ public class SalaController implements ServletContextAware {
         response.sendRedirect(bURL + "sale");
         return null;
     }
+
+    @PostMapping(value="/delete")
+    public ModelAndView delete(@RequestParam Long id,
+                       HttpSession session, HttpServletResponse response) throws IOException {
+//      autentikacija, autorizacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {
+            response.sendRedirect(bURL + "treninzi");
+        }
+
+        // brisanje
+        int brisanje = salaService.delete(id);
+
+        if(brisanje == 1) {
+            response.sendRedirect(bURL + "sale");
+        } else {
+
+            List<Sala> sale = salaService.findAll();
+
+            ModelAndView rezultat = new ModelAndView("sale");
+            rezultat.addObject("sale", sale);
+            rezultat.addObject("greska", "Nije moguce izbrisati zauzetu salu.");
+
+            return rezultat;
+        }
+        return null;
+    }
 }

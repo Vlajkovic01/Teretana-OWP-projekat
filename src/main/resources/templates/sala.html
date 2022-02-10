@@ -20,6 +20,7 @@
         <caption id="registracija">Sala</caption>
         <tr><th>Oznaka:</th><td th:text="${sala.oznaka}"></td></tr>
         <tr><th>Kapacitet:</th><td><input type="number" th:value="${sala.kapacitet}" value="" name="kapacitet" min="1" required/></td></tr>
+          <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
         <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
       </table>
     </form>

@@ -178,6 +178,10 @@ public class SalaDAOImpl implements SalaDAO {
     @Transactional
     @Override
     public int delete(Long id) {
-        return 0;
+        String sql = "DELETE FROM sale WHERE id = ? AND id NOT IN " +
+                "(SELECT salaId FROM termini)";
+        boolean uspeh = jdbcTemplate.update(sql, id) == 1;
+
+        return uspeh?1:0;
     }
 }
