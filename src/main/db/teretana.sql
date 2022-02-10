@@ -2,6 +2,7 @@ drop schema if exists teretana;
 create schema teretana default character set utf8;
 use teretana;
 
+#MODEL PODATAKA
 create table korisnici (
 	id bigint auto_increment,
     korisnickoIme varchar(20) not null,
@@ -49,6 +50,14 @@ create table treninziTipovi(
 		on delete cascade
 );
 
+create table sale(
+	id bigint auto_increment,
+    oznaka varchar(15),
+    kapacitet int,
+    primary key(id)
+);
+
+#UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
@@ -79,7 +88,12 @@ insert into treninziTipovi(treningId, tipId) values (3, 3);
 insert into treninziTipovi(treningId, tipId) values (4, 2);
 insert into treninziTipovi(treningId, tipId) values (4, 1);
 
+insert into sale(oznaka, kapacitet) values ('A1', 5);
+insert into sale(oznaka, kapacitet) values ('B1', 10);
+insert into sale(oznaka, kapacitet) values ('C1', 15);
+
 select * from korisnici;
 select * from tipoviTreninga;
 select * from treninzi;
 select * from treninziTipovi;
+select * from sale;
