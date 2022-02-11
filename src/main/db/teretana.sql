@@ -116,8 +116,3 @@ select * from treninzi;
 select * from treninziTipovi;
 select * from sale;
 select * from termini;
-
-select count(*) from termini t where t.salaId = 1
-	and '2022-02-15 18:12' between datumOdrzavanja and datumOdrzavanjaKraj
-    or '2022-02-15 19:12' between datumOdrzavanja and datumOdrzavanjaKraj
-    or ('2022-02-15 18:12' < datumOdrzavanja and '2022-02-15 19:12' > datumOdrzavanjaKraj)
