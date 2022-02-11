@@ -1,6 +1,7 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.*;
+import com.example.Teretana.Service.TerminService;
 import com.example.Teretana.Service.TipTreningaService;
 import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class TreningController implements ServletContextAware {
 
     @Autowired
     private TipTreningaService tipTreningaService;
+
+    @Autowired
+    private TerminService terminService;
 
     @Autowired
     private ServletContext servletContext;
@@ -90,10 +94,12 @@ public class TreningController implements ServletContextAware {
 
         Trening trening = treningService.findOne(id);
         List<TipTreninga> tipovi = tipTreningaService.findAll();
+        List<Termin> termini = terminService.findByTreningId(id);
 
         ModelAndView rezultat = new ModelAndView("trening");
         rezultat.addObject("trening", trening);
         rezultat.addObject("tipovi", tipovi);
+        rezultat.addObject("termini", termini);
 
         return rezultat;
     }

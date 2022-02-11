@@ -17,7 +17,7 @@
     <form method="post" enctype="multipart/form-data" action="treninzi/edit" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
         <input type="hidden" name="id" th:value="${trening.id}"/>
         <table class="content-table">
-            <caption>Trening</caption>
+            <caption id="registracija">Trening</caption>
             <tr><th>Naziv:</th><td><input type="text" th:value="${trening.naziv}" name="naziv"/></td></tr>
             <tr><th>Treneri:</th><td><input type="text" th:value="${trening.treneri}" name="treneri"/></td></tr>
             <tr>
@@ -55,7 +55,7 @@
         </table>
     </form>
     <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
-        <caption>Trening</caption>
+        <caption id="registracija">Trening</caption>
         <tr><th>Naziv:</th><td th:text="${trening.naziv}"></td></tr>
         <tr><th>Treneri:</th><td th:text="${trening.treneri}"></td></tr>
         <tr>
@@ -76,6 +76,25 @@
         <tr><th>Trajanje:</th><td th:text="${trening.trajanje}"></td></tr>
         <tr><th>Ocena:</th><td th:text="${trening.ocena}"></td></tr>
     </table>
+    <table class="content-table">
+        <caption id="registracija">Termini</caption>
+        <tr>
+            <th>Datum i vreme odrzavanja</th>
+            <th>Sala</th>
+            <th>Izaberi</th>
+        </tr>
+        <tr th:each="termin, status: ${termini}">
+            <td th:text="${termin.datumOdrzavanja}"></td>
+            <td th:text="${termin.sala.oznaka}"></td>
+            <td th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+                <form method="post" action="termini/korpa">
+                    <input type="hidden" name="id" th:value="${termin.id}"/>
+                    <input type="submit" value="Dodaj u korpu" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
     <ul>
         <li><a class="a-link" href="treninzi">Povratak</a></li>
     </ul>
