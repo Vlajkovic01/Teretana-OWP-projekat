@@ -123,10 +123,10 @@ public class SalaController implements ServletContextAware {
         Sala validacijaOznake = salaService.findOne(oznaka);
 
         if (validacijaOznake != null) {
-            poruka += "Postoji sala sa tom oznakom";
+            poruka += "-Postoji sala sa tom oznakom\n";
         }
         if (kapacitet < 1) {
-            poruka += "Kapacitet ne moze biti manji od 1";
+            poruka += "-Kapacitet ne moze biti manji od 1\n";
         }
 
         if (!poruka.equals("")) {

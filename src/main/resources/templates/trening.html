@@ -79,12 +79,12 @@
     <table class="content-table">
         <caption id="registracija">Termini</caption>
         <tr>
-            <th>Datum i vreme odrzavanja</th>
+            <th>Datum i vreme</th>
             <th>Sala</th>
             <th>Izaberi</th>
         </tr>
         <tr th:each="termin, status: ${termini}">
-            <td th:text="${termin.datumOdrzavanja}"></td>
+            <td th:text="${termin.datumOdrzavanja.minusHours(1)}"></td>
             <td th:text="${termin.sala.oznaka}"></td>
             <td th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
                 <form method="post" action="termini/korpa">

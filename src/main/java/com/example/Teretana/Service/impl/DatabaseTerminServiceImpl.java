@@ -6,6 +6,7 @@ import com.example.Teretana.Service.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,11 @@ public class DatabaseTerminServiceImpl implements TerminService {
     @Override
     public List<Termin> findByTreningId(Long id) {
         return terminDAO.findByTreningId(id);
+    }
+
+    @Override
+    public boolean findByDateTime(Long idSale, LocalDateTime noviTerminPocetak, LocalDateTime noviTerminKraj) {
+        return terminDAO.findByDateTime(idSale, noviTerminPocetak, noviTerminKraj);
     }
 
     @Override

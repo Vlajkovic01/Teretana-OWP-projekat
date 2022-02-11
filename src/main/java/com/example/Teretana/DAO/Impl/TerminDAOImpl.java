@@ -28,6 +28,7 @@ public class TerminDAOImpl implements TerminDAO {
             Long salaId = rs.getLong(index++);
             Long treningId = rs.getLong(index++);
             LocalDateTime terminDatumOdrzavanja = rs.getTimestamp(index++).toLocalDateTime();
+            LocalDateTime terminDatumOdrzavanjaKraj = rs.getTimestamp(index++).toLocalDateTime();
 
             Long idSale = rs.getLong(index++);
             String salaOznaka = rs.getString(index++);
@@ -57,7 +58,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public List<Termin> findAll() {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
+                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
                         "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
                         "from termini t " +
                         "left join sale s on t.salaId = s.id " +
@@ -70,7 +71,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public Termin findOne(Long id) {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
+                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
                         "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
                         "from termini t " +
                         "left join sale s on t.salaId = s.id " +
@@ -84,7 +85,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public List<Termin> findByTreningId(Long id) {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
+                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
                         "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
                         "from termini t " +
                         "left join sale s on t.salaId = s.id " +
@@ -95,11 +96,28 @@ public class TerminDAOImpl implements TerminDAO {
         return jdbcTemplate.query(sql, new TerminRowMapper(), id);
     }
 
+    @Override
+    public boolean findByDateTime(Long idSale,LocalDateTime noviTerminPocetak, LocalDateTime noviTerminKraj) {
+        String sql = "select count(*) " +
+                "from termini t " +
+                "where t.salaId = ? and ? between datumOdrzavanja and datumOdrzavanjaKraj " +
+                "or ? between datumOdrzavanja and datumOdrzavanjaKraj " +
+                "or (? < datumOdrzavanja and ? > datumOdrzavanjaKraj)";
+
+        Integer uspeh = jdbcTemplate.queryForObject(sql, Integer.class, idSale,
+                noviTerminPocetak, noviTerminKraj, noviTerminPocetak, noviTerminKraj);
+
+        return uspeh != null && uspeh > 0;
+    }
+
+
     @Transactional
     @Override
     public int save(Termin termin) {
-        String sql = "INSERT INTO termini (salaId, treningId, datumOdrzavanja) VALUES (?, ?, ?)";
-        return jdbcTemplate.update(sql, termin.getSala().getId(), termin.getTrening().getId(), termin.getDatumOdrzavanja());
+        String sql = "INSERT INTO termini (salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) VALUES (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, termin.getSala().getId(),
+                termin.getTrening().getId(), termin.getDatumOdrzavanja(),
+                termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()));
     }
 
     @Transactional

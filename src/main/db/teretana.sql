@@ -62,6 +62,7 @@ create table termini(
     salaId bigint,
     treningId bigint, 
     datumOdrzavanja datetime,
+    datumOdrzavanjaKraj datetime,
     primary key(id),
     foreign key(salaId) references sale(id)
 		on delete cascade,
@@ -104,9 +105,10 @@ insert into sale(oznaka, kapacitet) values ('A1', 5);
 insert into sale(oznaka, kapacitet) values ('B1', 10);
 insert into sale(oznaka, kapacitet) values ('C1', 15);
 
-insert into termini(salaId, treningId, datumOdrzavanja) values (1, 2, '2022-02-20 12:00');
-insert into termini(salaId, treningId, datumOdrzavanja) values (2, 3, '2022-02-21 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja) values (3, 1, '2022-02-22 11:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-20 12:00', '2022-02-20 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-21 13:00', '2022-02-21 13:45');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-22 11:00', '2022-02-22 12:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-22 14:00', '2022-02-22 15:00');
 
 select * from korisnici;
 select * from tipoviTreninga;
@@ -114,3 +116,8 @@ select * from treninzi;
 select * from treninziTipovi;
 select * from sale;
 select * from termini;
+
+select count(*) from termini t where t.salaId = 1
+	and '2022-02-15 18:12' between datumOdrzavanja and datumOdrzavanjaKraj
+    or '2022-02-15 19:12' between datumOdrzavanja and datumOdrzavanjaKraj
+    or ('2022-02-15 18:12' < datumOdrzavanja and '2022-02-15 19:12' > datumOdrzavanjaKraj)
