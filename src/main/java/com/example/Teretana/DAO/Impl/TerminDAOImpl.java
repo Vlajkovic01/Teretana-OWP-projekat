@@ -2,6 +2,8 @@ package com.example.Teretana.DAO.Impl;
 
 import com.example.Teretana.DAO.TerminDAO;
 import com.example.Teretana.Model.*;
+import com.example.Teretana.Service.SalaService;
+import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +19,12 @@ import java.util.List;
 public class TerminDAOImpl implements TerminDAO {
 
     @Autowired
+    private SalaService salaService;
+
+    @Autowired
+    private TreningService treningService;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private class TerminRowMapper implements RowMapper<Termin> {
@@ -30,26 +38,9 @@ public class TerminDAOImpl implements TerminDAO {
             LocalDateTime terminDatumOdrzavanja = rs.getTimestamp(index++).toLocalDateTime();
             LocalDateTime terminDatumOdrzavanjaKraj = rs.getTimestamp(index++).toLocalDateTime();
 
-            Long idSale = rs.getLong(index++);
-            String salaOznaka = rs.getString(index++);
-            Integer salaKapacitet = rs.getInt(index++);
-            Sala sala = new Sala(idSale, salaOznaka, salaKapacitet);
 
-            Long idTreninga = rs.getLong(index++);
-            String nazivTreninga = rs.getString(index++);
-            String treneriTreninga = rs.getString(index++);
-            String kratakOpisTreninga = rs.getString(index++);
-            String urlSlikaTreninga = rs.getString(index++);
-            int cena = rs.getInt(index++);
-            VrstaTreninga vrstaTreninga = VrstaTreninga.valueOf(rs.getString(index++));
-            NivoTreninga nivoTreninga = NivoTreninga.valueOf(rs.getString(index++));
-            int trajanje = rs.getInt(index++);
-            double ocena = rs.getDouble(index++);
-            Trening trening = new Trening(idTreninga, nazivTreninga, treneriTreninga, kratakOpisTreninga,
-                    urlSlikaTreninga, cena, vrstaTreninga, nivoTreninga, trajanje, ocena);
-
-
-            Termin termin = new Termin(terminId, sala, trening, terminDatumOdrzavanja);
+            Termin termin = new Termin(terminId, salaService.findOne(salaId),
+                    treningService.findOne(treningId), terminDatumOdrzavanja);
             return termin;
         }
 
@@ -58,12 +49,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public List<Termin> findAll() {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
-                        "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
-                        "from termini t " +
-                        "left join sale s on t.salaId = s.id " +
-                        "left join treninzi tr on t.treningId = tr.id " +
-                        "order by t.id";
+                "select * from termini";
 
         return jdbcTemplate.query(sql, new TerminRowMapper());
     }
@@ -71,13 +57,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public Termin findOne(Long id) {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
-                        "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
-                        "from termini t " +
-                        "left join sale s on t.salaId = s.id " +
-                        "left join treninzi tr on t.treningId = tr.id " +
-                        "where t.id = ? " +
-                        "order by t.id";
+                "select * from termini where id = ?";
 
         return jdbcTemplate.queryForObject(sql, new TerminRowMapper(), id);
     }
@@ -85,13 +65,7 @@ public class TerminDAOImpl implements TerminDAO {
     @Override
     public List<Termin> findByTreningId(Long id) {
         String sql =
-                "select t.id, t.salaId, t.treningId, t.datumOdrzavanja, t.datumOdrzavanjaKraj, s.id, s.oznaka, s.kapacitet, tr.id, tr.naziv, tr.treneri, tr.kratakOpis, " +
-                        "tr.urlSlika, tr.cena, tr.vrstaTreninga, tr.nivoTreninga, tr.trajanje, tr.ocena " +
-                        "from termini t " +
-                        "left join sale s on t.salaId = s.id " +
-                        "left join treninzi tr on t.treningId = tr.id " +
-                        "where t.treningId = ? " +
-                        "order by t.id";
+                "select * from termini where treningId = ?";
 
         return jdbcTemplate.query(sql, new TerminRowMapper(), id);
     }

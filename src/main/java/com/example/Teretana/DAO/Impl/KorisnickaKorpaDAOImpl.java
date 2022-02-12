@@ -66,6 +66,15 @@ public class KorisnickaKorpaDAOImpl implements KorisnickaKorpaDAO {
         return jdbcTemplate.query(sql, new KorisnickaKorpaRowMapper(), id);
     }
 
+    @Override
+    public boolean proveraKapaciteta(Long id, int kapacitetSale) {
+        String sql = "select count(terminId) from korisnickaKorpa where terminId = ?";
+
+        Integer uspeh = jdbcTemplate.queryForObject(sql, Integer.class, id);
+
+        return uspeh == null || uspeh != kapacitetSale;
+    }
+
     @Transactional
     @Override
     public int save(KorisnickaKorpa korisnickaKorpa) {

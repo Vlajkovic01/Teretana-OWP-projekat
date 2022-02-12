@@ -30,6 +30,11 @@ public class DatabaseKorisnickaKorpaServiceImpl implements KorisnickaKorpaServic
     }
 
     @Override
+    public boolean proveraKapaciteta(Long id, int kapacitetSale) {
+        return korisnickaKorpaDAO.proveraKapaciteta(id, kapacitetSale);
+    }
+
+    @Override
     public int save(KorisnickaKorpa korisnickaKorpa) {
         return korisnickaKorpaDAO.save(korisnickaKorpa);
     }

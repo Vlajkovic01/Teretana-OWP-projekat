@@ -126,6 +126,7 @@ insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-12 10:56');
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-12 10:57');
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-12 10:58');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 2, '2022-02-12 10:58');
 
 select * from korisnici;
 select * from tipoviTreninga;

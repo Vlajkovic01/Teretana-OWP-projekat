@@ -1,6 +1,7 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.*;
+import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.SalaService;
 import com.example.Teretana.Service.TerminService;
 import com.example.Teretana.Service.TreningService;
@@ -19,10 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/termini")
 public class TerminiController implements ServletContextAware {
+
+    public static final String IZABRANI_TERMINI_ZA_KORPU = "izabraniTerminiZaKorpu";
 
     @Autowired
     private SalaService salaService;
@@ -32,6 +36,9 @@ public class TerminiController implements ServletContextAware {
 
     @Autowired
     private TerminService terminService;
+
+    @Autowired
+    private KorisnickaKorpaService korisnickaKorpaService;
 
     @Autowired
     private ServletContext servletContext;
@@ -112,5 +119,33 @@ public class TerminiController implements ServletContextAware {
 
         response.sendRedirect(bURL + "treninzi");
         return null;
+    }
+
+    @PostMapping(value="/korpa")
+    @SuppressWarnings("unchecked")
+    public ModelAndView korpa(@RequestParam Long idTermina, @RequestParam Long idTreninga,
+                               HttpSession session, HttpServletResponse response) throws IOException {
+
+//      autentikacija, autorizacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null) {
+            response.sendRedirect(bURL + "treninzi");
+        }
+
+        Termin termin = terminService.findOne(idTermina);
+        List<Termin> terminiZaKorpu = (List<Termin>) session.getAttribute(IZABRANI_TERMINI_ZA_KORPU);
+
+        ModelAndView rezultat = new ModelAndView("trening");
+        rezultat.addObject("trening", treningService.findOne(idTreninga));
+        rezultat.addObject("termini", terminService.findByTreningId(idTreninga));
+
+        if (korisnickaKorpaService.proveraKapaciteta(idTermina, termin.getSala().getKapacitet())) {
+            if (!terminiZaKorpu.contains(termin)) {
+                terminiZaKorpu.add(termin);
+            }
+        } else {
+            rezultat.addObject("kapacitetGreska", "Kapacitet za taj termin je popunjen.");
+        }
+        return rezultat;
     }
 }

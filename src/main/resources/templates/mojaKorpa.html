@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Moja korpa</title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+</head>
+<body>
+    <ul th:if="${session.prijavljenKorisnik != null}">
+        <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
+        <li><a id="mojProfil" href="korisnici/mojProfil">Moj profil</a></li>
+    </ul>
+    <ul th:if="${session.prijavljenKorisnik == null}">
+        <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
+    </ul>
+    <table class="content-table">
+        <caption id="registracija">Termini u korpi</caption>
+        <tr>
+            <th>Naziv treninga</th>
+            <th>Treneri</th>
+            <th>Tip treninga</th>
+            <th>Vreme</th>
+            <th>Cena</th>
+            <th colspan="2">Akcija</th>
+        </tr>
+        <tr th:each="termin, status: ${session.izabraniTerminiZaKorpu}">
+            <td th:text="${termin.trening.naziv}"></td>
+            <td th:text="${termin.trening.treneri}"></td>
+            <td th:text="${termin.trening.tipTreninga}"></td>
+            <td th:text="${termin.datumOdrzavanja.minusHours(1)}"></td>
+            <td th:text="${termin.trening.cena}"></td>
+            <td>
+                <form method="post" action="korisnickaKorpa/zakazi">
+                    <input type="hidden" name="id" th:value="${termin.id}"/>
+                    <input type="submit" value="Rezervisi" />
+                </form>
+            </td>
+            <td>
+                <form method="post" action="korisnickaKorpa/izbaci">
+                    <input type="hidden" name="id" th:value="${termin.id}"/>
+                    <input type="submit" value="Izbrisi" />
+                </form>
+            </td>
+        </tr>
+    </table>
+    <ul>
+        <li><a class="a-link" href="treninzi">Povratak</a></li>
+    </ul>
+</body>
+</html>

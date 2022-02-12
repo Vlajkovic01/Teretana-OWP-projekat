@@ -11,6 +11,9 @@
         <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
         <li><a id="mojProfil" href="korisnici/mojProfil">Moj profil</a></li>
     </ul>
+    <ul th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+        <li><a id="mojaKorpaLink"  href="korisnickaKorpa/pregled">Moja korpa</a></li>
+    </ul>
     <ul th:if="${session.prijavljenKorisnik == null}">
         <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
     </ul>
@@ -88,13 +91,13 @@
             <td th:text="${termin.sala.oznaka}"></td>
             <td th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
                 <form method="post" action="termini/korpa">
-                    <input type="hidden" name="id" th:value="${termin.id}"/>
+                    <input type="hidden" name="idTermina" th:value="${termin.id}"/>
+                    <input type="hidden" name="idTreninga" th:value="${trening.id}"/>
                     <input type="submit" value="Dodaj u korpu" />
                 </form>
             </td>
         </tr>
     </table>
-
     <ul>
         <li><a class="a-link" href="treninzi">Povratak</a></li>
     </ul>

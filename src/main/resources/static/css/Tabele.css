@@ -141,3 +141,14 @@ li {
     transition: 0.25s;
 }
 
+#mojaKorpaLink {
+    color: white;
+    text-decoration: none;
+    font-family: cursive;
+}
+
+#mojaKorpaLink:hover {
+    color: red;
+    transition: 0.25s;
+}
+
