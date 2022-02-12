@@ -24,6 +24,11 @@
             <th>Cena</th>
             <th colspan="2">Akcija</th>
         </tr>
+        <tr>
+            <td colspan="7">
+                <p style="white-space: pre; color: red" th:text="${greska}"></p>
+            </td>
+        </tr>
         <tr th:each="termin, status: ${session.izabraniTerminiZaKorpu}">
             <td th:text="${termin.trening.naziv}"></td>
             <td th:text="${termin.trening.treneri}"></td>

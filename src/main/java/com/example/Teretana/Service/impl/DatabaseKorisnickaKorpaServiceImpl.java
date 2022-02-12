@@ -6,6 +6,7 @@ import com.example.Teretana.Service.KorisnickaKorpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +33,11 @@ public class DatabaseKorisnickaKorpaServiceImpl implements KorisnickaKorpaServic
     @Override
     public boolean proveraKapaciteta(Long id, int kapacitetSale) {
         return korisnickaKorpaDAO.proveraKapaciteta(id, kapacitetSale);
+    }
+
+    @Override
+    public boolean proveraVremena(Long idKorisnika, LocalDateTime noviTerminPocetak, LocalDateTime noviTerminKraj) {
+        return korisnickaKorpaDAO.proveraVremena(idKorisnika, noviTerminPocetak, noviTerminKraj);
     }
 
     @Override
