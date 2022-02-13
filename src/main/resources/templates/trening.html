@@ -78,6 +78,15 @@
         </tr>
         <tr><th>Trajanje:</th><td th:text="${trening.trajanje}"></td></tr>
         <tr><th>Ocena:</th><td th:text="${trening.ocena}"></td></tr>
+        <tr>
+            <td colspan="2">
+                <form method="post" action="listaZelja/dodaj">
+                    <input type="hidden" name="idTreninga" th:value="${trening.id}"/>
+                    <input type="submit" value="Dodaj trening u listu zelja" />
+                </form>
+            </td>
+        </tr>
+        <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
     </table>
     <table class="content-table">
         <caption id="registracija">Termini</caption>

@@ -63,6 +63,15 @@ public class ZeljaDAOImpl implements ZeljaDAO {
         return jdbcTemplate.query(sql, new ZeljaRowMapper(), id);
     }
 
+    @Override
+    public boolean postojiZelja(Long idTreninga, Long idKorisnika) {
+        String sql = "select count(treningId) from listaZelja where treningId = ? and korisnikId = ?";
+
+        Integer uspeh = jdbcTemplate.queryForObject(sql, Integer.class, idTreninga, idKorisnika);
+
+        return uspeh != null && uspeh > 0;
+    }
+
     @Transactional
     @Override
     public int save(Zelja zelja) {

@@ -30,6 +30,11 @@ public class DatabaseZeljaServiceImpl implements ZeljaService {
     }
 
     @Override
+    public boolean postojiZelja(Long idTreninga, Long idKorisnika) {
+        return zeljaDAO.postojiZelja(idTreninga, idKorisnika);
+    }
+
+    @Override
     public int save(Zelja zelja) {
         return zeljaDAO.save(zelja);
     }
