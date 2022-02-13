@@ -82,6 +82,17 @@ create table korisnickaKorpa(
 		on delete cascade
 );
 
+create table listaZelja(
+	id bigint auto_increment,
+    korisnikId bigint,
+    treningId bigint,
+    primary key(id),
+	foreign key(korisnikId) references korisnici(id)
+		on delete cascade,
+	foreign key(treningId) references treninzi(id)
+		on delete cascade
+);
+
 #UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
@@ -128,6 +139,11 @@ insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-12 10:58');
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 2, '2022-02-12 10:58');
 
+insert into listaZelja(korisnikId, treningId) values (2, 1);
+insert into listaZelja(korisnikId, treningId) values (2, 3);
+insert into listaZelja(korisnikId, treningId) values (3, 4);
+insert into listaZelja(korisnikId, treningId) values (3, 2);
+
 select * from korisnici;
 select * from tipoviTreninga;
 select * from treninzi;
@@ -135,3 +151,4 @@ select * from treninziTipovi;
 select * from sale;
 select * from termini;
 select * from korisnickaKorpa;
+select * from listaZelja;
