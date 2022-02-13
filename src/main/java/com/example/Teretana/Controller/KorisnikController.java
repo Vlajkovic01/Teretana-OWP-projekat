@@ -4,6 +4,7 @@ import com.example.Teretana.Model.Korisnik;
 import com.example.Teretana.Model.TipTreninga;
 import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Model.Uloga;
+import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,9 @@ public class KorisnikController implements ServletContextAware {
 
     @Autowired
     private KorisnikService korisnikService;
+
+    @Autowired
+    private KorisnickaKorpaService korisnickaKorpaService;
 
     @Autowired
     private ServletContext servletContext;
@@ -100,6 +104,8 @@ public class KorisnikController implements ServletContextAware {
         // prosleđivanje
         ModelAndView rezultat = new ModelAndView("korisnik");
         rezultat.addObject("korisnik", korisnik);
+        rezultat.addObject("rezervacije", korisnickaKorpaService.findByKorisnikId(korisnik.getId()));
+        rezultat.addObject("ukupnaCenaRezervacija", korisnickaKorpaService.ukupnaCenaRezervacija(korisnik.getId()));
 
         return rezultat;
     }
@@ -196,6 +202,8 @@ public class KorisnikController implements ServletContextAware {
 
         ModelAndView mojProfil = new ModelAndView("mojProfil");
         mojProfil.addObject("prijavljenKorisnik", prijavljenKorisnik);
+        mojProfil.addObject("rezervacije", korisnickaKorpaService.findByKorisnikId(prijavljenKorisnik.getId()));
+        mojProfil.addObject("ukupnaCenaRezervacija", korisnickaKorpaService.ukupnaCenaRezervacija(prijavljenKorisnik.getId()));
 
         return mojProfil;
     }

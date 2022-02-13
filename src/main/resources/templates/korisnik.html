@@ -43,6 +43,19 @@
             <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
         </table>
     </form>
+    <table class="content-table">
+        <caption id="registracija">Zakazani termini</caption>
+        <tr>
+            <th colspan="2">Datum i vreme zakazivanja</th>
+        </tr>
+        <tr th:each="rezervacija, status: ${rezervacije}">
+            <td colspan="2"><a class="nazivTreninga" th:href="|korisnickaKorpa/details?id=${rezervacija.id}|" th:text="${rezervacija.datumRezervacije}"></a></td>
+        </tr>
+        <tr>
+            <th>Ukupna cena</th><td th:text="${ukupnaCenaRezervacija}"></td>
+        </tr>
+    </table>
+
     <ul>
         <li><a class="a-link" href="korisnici">Povratak</a></li>
     </ul>

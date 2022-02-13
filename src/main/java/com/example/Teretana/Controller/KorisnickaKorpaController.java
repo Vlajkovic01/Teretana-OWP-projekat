@@ -3,6 +3,7 @@ package com.example.Teretana.Controller;
 import com.example.Teretana.Model.KorisnickaKorpa;
 import com.example.Teretana.Model.Korisnik;
 import com.example.Teretana.Model.Termin;
+import com.example.Teretana.Model.Uloga;
 import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,23 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
             rezultat.addObject("greska", "Uspesno ste zakazali termin.");
         }
+
+        return rezultat;
+    }
+
+    @GetMapping(value="/details")
+    public ModelAndView details(@RequestParam Long id,
+                                HttpSession session, HttpServletResponse response) throws IOException {
+        // autentikacija, autorzacija
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljeniKorisnik == null) {
+            response.sendRedirect(bURL);
+            return null;
+        }
+
+        // prosleđivanje
+        ModelAndView rezultat = new ModelAndView("rezervacija");
+        rezultat.addObject("rezervacija", korisnickaKorpaService.findOne(id));
 
         return rezultat;
     }

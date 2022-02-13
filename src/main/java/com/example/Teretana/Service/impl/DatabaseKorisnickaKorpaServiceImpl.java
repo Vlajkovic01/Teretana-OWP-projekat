@@ -21,6 +21,11 @@ public class DatabaseKorisnickaKorpaServiceImpl implements KorisnickaKorpaServic
     }
 
     @Override
+    public KorisnickaKorpa findOne(Long id) {
+        return korisnickaKorpaDAO.findOne(id);
+    }
+
+    @Override
     public List<KorisnickaKorpa> findByKorisnikId(Long id) {
         return korisnickaKorpaDAO.findByKorisnikId(id);
     }
@@ -38,6 +43,11 @@ public class DatabaseKorisnickaKorpaServiceImpl implements KorisnickaKorpaServic
     @Override
     public boolean proveraVremena(Long idKorisnika, LocalDateTime noviTerminPocetak, LocalDateTime noviTerminKraj) {
         return korisnickaKorpaDAO.proveraVremena(idKorisnika, noviTerminPocetak, noviTerminKraj);
+    }
+
+    @Override
+    public int ukupnaCenaRezervacija(Long idKorisnika) {
+        return korisnickaKorpaDAO.ukupnaCenaRezervacija(idKorisnika);
     }
 
     @Override

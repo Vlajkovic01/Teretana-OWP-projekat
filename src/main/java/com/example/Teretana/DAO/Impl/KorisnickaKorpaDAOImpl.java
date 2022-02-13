@@ -53,8 +53,16 @@ public class KorisnickaKorpaDAOImpl implements KorisnickaKorpaDAO {
     }
 
     @Override
+    public KorisnickaKorpa findOne(Long id) {
+        String sql ="select * from korisnickaKorpa where id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new KorisnickaKorpaRowMapper(), id);
+    }
+
+    @Override
     public List<KorisnickaKorpa> findByKorisnikId(Long id) {
-        String sql ="select * from korisnickaKorpa where korisnikId = ?";
+        String sql ="select * from korisnickaKorpa where korisnikId = ? " +
+                "order by datumRezervacije desc";
 
         return jdbcTemplate.query(sql, new KorisnickaKorpaRowMapper(), id);
     }
@@ -87,6 +95,17 @@ public class KorisnickaKorpaDAOImpl implements KorisnickaKorpaDAO {
                 noviTerminPocetak, noviTerminKraj, noviTerminPocetak, noviTerminKraj);
 
         return uspeh != null && uspeh > 0;
+    }
+
+    @Override
+    public int ukupnaCenaRezervacija(Long idKorisnika) {
+        String sql = "select ifnull(sum(cena),0) " +
+                "from korisnickaKorpa k left join termini t on k.terminId = t.Id left join treninzi tr on tr.id = t.treningId " +
+                "where k.korisnikId = ?";
+
+        Integer cena = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika);
+
+        return cena;
     }
 
     @Transactional
