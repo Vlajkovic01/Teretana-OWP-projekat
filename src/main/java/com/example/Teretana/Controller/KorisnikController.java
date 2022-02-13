@@ -6,6 +6,7 @@ import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Model.Uloga;
 import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.KorisnikService;
+import com.example.Teretana.Service.ZeljaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,9 @@ public class KorisnikController implements ServletContextAware {
 
     @Autowired
     private KorisnickaKorpaService korisnickaKorpaService;
+
+    @Autowired
+    private ZeljaService zeljaService;
 
     @Autowired
     private ServletContext servletContext;
@@ -204,6 +208,7 @@ public class KorisnikController implements ServletContextAware {
         mojProfil.addObject("prijavljenKorisnik", prijavljenKorisnik);
         mojProfil.addObject("rezervacije", korisnickaKorpaService.findByKorisnikId(prijavljenKorisnik.getId()));
         mojProfil.addObject("ukupnaCenaRezervacija", korisnickaKorpaService.ukupnaCenaRezervacija(prijavljenKorisnik.getId()));
+        mojProfil.addObject("listaZelja", zeljaService.findByKorisnikId(prijavljenKorisnik.getId()));
 
         return mojProfil;
     }

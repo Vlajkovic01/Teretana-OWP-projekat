@@ -91,7 +91,7 @@ public class ZeljaDAOImpl implements ZeljaDAO {
     @Transactional
     @Override
     public int delete(Long id) {
-        String sql = "DELETE FROM korisnickaKorpa WHERE id = ?";
+        String sql = "DELETE FROM listaZelja WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
 }

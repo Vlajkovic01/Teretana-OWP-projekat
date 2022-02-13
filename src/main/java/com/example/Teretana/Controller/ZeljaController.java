@@ -2,6 +2,7 @@ package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.Korisnik;
 import com.example.Teretana.Model.Zelja;
+import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.TerminService;
 import com.example.Teretana.Service.TreningService;
 import com.example.Teretana.Service.ZeljaService;
@@ -31,6 +32,9 @@ public class ZeljaController implements ServletContextAware {
 
     @Autowired
     private ZeljaService zeljaService;
+
+    @Autowired
+    private KorisnickaKorpaService korisnickaKorpaService;
 
     @Autowired
     private ServletContext servletContext;
@@ -72,6 +76,29 @@ public class ZeljaController implements ServletContextAware {
 
         rezultat.addObject("trening", treningService.findOne(idTreninga));
         rezultat.addObject("termini", terminService.findByTreningId(idTreninga));
+
+        return rezultat;
+    }
+
+    @PostMapping(value="/izbaci")
+    public ModelAndView izbaciIzZeljenih(@RequestParam Long idZelje,
+                                      HttpSession session, HttpServletResponse response) throws IOException {
+
+        ModelAndView rezultat = new ModelAndView("mojProfil");
+
+//      autentikacija, autorizacija
+        Korisnik prijavljenKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (prijavljenKorisnik == null) {
+            response.sendRedirect(bURL + "treninzi");
+        } else {
+
+            zeljaService.delete(idZelje);
+
+            rezultat.addObject("prijavljenKorisnik", prijavljenKorisnik);
+            rezultat.addObject("rezervacije", korisnickaKorpaService.findByKorisnikId(prijavljenKorisnik.getId()));
+            rezultat.addObject("ukupnaCenaRezervacija", korisnickaKorpaService.ukupnaCenaRezervacija(prijavljenKorisnik.getId()));
+            rezultat.addObject("listaZelja", zeljaService.findByKorisnikId(prijavljenKorisnik.getId()));
+        }
 
         return rezultat;
     }

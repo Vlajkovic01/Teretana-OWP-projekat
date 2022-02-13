@@ -25,7 +25,6 @@
             <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
         </table>
     </form>
-
     <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
         <caption id="registracija">Zakazani termini</caption>
         <tr>
@@ -36,6 +35,22 @@
         </tr>
         <tr>
             <th>Ukupna cena</th><td th:text="${ukupnaCenaRezervacija}"></td>
+        </tr>
+    </table>
+    <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+        <caption id="registracija">Lista zelja treninga</caption>
+        <tr>
+            <th>Naziv treninga</th>
+            <th>Akcija</th>
+        </tr>
+        <tr th:each="zelja, status: ${listaZelja}">
+            <td><a class="nazivTreninga" th:href="|treninzi/details?id=${zelja.trening.id}|" th:text="${zelja.trening.naziv}"></a></td>
+            <td>
+                <form method="post" action="listaZelja/izbaci">
+                    <input type="hidden" name="idZelje" th:value="${zelja.id}"/>
+                    <input type="submit" value="Izbrisi" />
+                </form>
+            </td>
         </tr>
     </table>
     <ul>

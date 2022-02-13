@@ -20,7 +20,17 @@
         <tr><th>Sala:</th><td th:text="${rezervacija.termin.sala.oznaka}"></td></tr>
         <tr><th>Naziv treninga:</th><td th:text="${rezervacija.termin.trening.naziv}"></td></tr>
         <tr><th>Treneri:</th><td th:text="${rezervacija.termin.trening.treneri}"></td></tr>
+        <tr><th>Pocetak termina:</th><td th:text="${rezervacija.termin.datumOdrzavanja}"></td></tr>
+        <tr><th>Kraj termina:</th><td th:text="${rezervacija.termin.datumOdrzavanja.plusMinutes(rezervacija.termin.trening.trajanje)}"></td></tr>
         <tr><th>Cena:</th><td th:text="${rezervacija.termin.trening.cena}"></td></tr>
+        <tr>
+            <td colspan="2">
+                <form method="post" action="korisnickaKorpa/otkazi">
+                    <input type="hidden" name="idTermina" th:value="${rezervacija.id}"/>
+                    <input type="submit" value="Otkazi termin" />
+                </form>
+            </td>
+        </tr>
     </table>
     <ul>
         <li><a class="a-link" href="treninzi">Povratak</a></li>
