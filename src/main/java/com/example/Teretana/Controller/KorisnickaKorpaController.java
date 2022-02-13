@@ -108,4 +108,28 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         return rezultat;
     }
+
+    @PostMapping("/otkazi")
+    @SuppressWarnings("unchecked")
+    public ModelAndView otkaziTermin(@RequestParam Long idRezervacije,
+                               HttpSession session, HttpServletResponse response) throws IOException {
+
+        KorisnickaKorpa rezervacija = korisnickaKorpaService.findOne(idRezervacije);
+
+        ModelAndView rezultat = new ModelAndView("rezervacija");
+
+        if (LocalDateTime.now().isAfter(rezervacija.getTermin().getDatumOdrzavanja().minusHours(24))) {
+
+            rezultat.addObject("greska", "Ne mozete otkazati termin jer je preostalo manje od 24h do istog.");
+            rezultat.addObject("rezervacija", rezervacija);
+
+            return rezultat;
+        } else {
+
+            korisnickaKorpaService.delete(idRezervacije);
+
+            response.sendRedirect(bURL + "korisnici/mojProfil");
+        }
+        return null;
+    }
 }
