@@ -24,7 +24,7 @@
         <tr><th>Kraj termina:</th><td th:text="${rezervacija.termin.datumOdrzavanja.plusMinutes(rezervacija.termin.trening.trajanje)}"></td></tr>
         <tr><th>Cena:</th><td th:text="${rezervacija.termin.trening.cena}"></td></tr>
         <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
-        <tr>
+        <tr th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
             <td colspan="2">
                 <form method="post" action="korisnickaKorpa/otkazi">
                     <input type="hidden" name="idRezervacije" th:value="${rezervacija.id}"/>
