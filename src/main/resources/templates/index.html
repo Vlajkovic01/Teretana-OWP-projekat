@@ -2,18 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <base th:href="@{/}" href="/Teretana/">
+    <base th:href="@{/}">
     <link rel="stylesheet" type="text/css" href="css/LoginStyle.css">
     <title>Max Teretana</title>
 </head>
 <body>
-<h1 id="naslov">Max Teretana</h1>
+<header id="zaglavje">
+    <a href="/Teretana/?lang=en" th:text="#{lang.eng}"></a>
+    <a href="/Teretana/?lang=sr" th:text="#{lang.sr}"></a>
+</header>
+<h1 id="naslov" th:text="#{index.naslov}"></h1>
 <form class="box" method="post" action="korisnici/login">
-    <h1>Login</h1>
-    <input type="text" value="" name="korisnickoIme" required placeholder="Korisnicko ime"/>
-    <input type="password" value="" name="lozinka" required placeholder="Lozinka"/>
-    <input type="submit" value="Prijavi se" />
-    <button id="dugme" type="button" onclick="registracija()">Registracija</button>
+    <h1 th:text="#{index.dobrodosli}"></h1>
+    <input type="text" value="" name="korisnickoIme" required th:placeholder="#{index.korIme}"/>
+    <input type="password" value="" name="lozinka" required th:placeholder="#{index.lozinka}"/>
+    <input type="submit" th:value="#{index.logovanje}" />
+    <button id="dugme" type="button" onclick="registracija()" th:text="#{index.registracija}"></button>
     <div class="greska">
         <h5 th:text="${greska}"></h5>
     </div>

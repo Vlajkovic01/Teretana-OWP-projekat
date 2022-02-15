@@ -94,4 +94,12 @@ body{
     font-style: italic;
 }
 
+#zaglavje a {
+    text-decoration: none;
+    font-family: cursive;
+    font-style: italic;
+    font-size: large;
+    color: white;
+}
+
 

@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <base th:href="@{/}">
-    <title>Pregled treninga</title>
+    <title th:text="#{treninzi.naslov}"></title>
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
     <ul th:if="${session.prijavljenKorisnik != null}">
-        <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
-        <li><a id="mojProfil" href="korisnici/mojProfil">Moj profil</a></li>
+        <li><a id="odjava" href="korisnici/logout" th:text="#{treninzi.odjava}"></a></li>
+        <li><a id="mojProfil" href="korisnici/mojProfil" th:text="#{treninzi.mojProfil}"></a></li>
     </ul>
     <ul th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
-        <li><a id="mojaKorpaLink"  href="korisnickaKorpa/pregled">Moja korpa</a></li>
+        <li><a id="mojaKorpaLink"  href="korisnickaKorpa/pregled" th:text="#{treninzi.mojaKorpa}"></a></li>
     </ul>
     <ul th:if="${session.prijavljenKorisnik == null}">
-        <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
+        <li><a id="odjava" href="korisnici/registracija" th:text="#{index.registracija}"></a></li>
     </ul>
     <form method="get" >
         <table class="content-table">
-            <caption id="registracija">Treninzi</caption>
+            <caption id="registracija" th:text="#{treninzi.treninzi}"></caption>
             <tr>
-                <th colspan="10">Pretraga i sortiranje</th>
+                <th colspan="10" th:text="#{treninzi.pretraga}"></th>
             </tr>
             <tr>
-                <th>Naziv</th>
-                <th>Treneri</th>
-                <th>Tip</th>
-                <th>Cena</th>
-                <th>Vrsta</th>
-                <th>Nivo</th>
-                <th>Sortiranje</th>
+                <th th:text="#{treninzi.naziv}"></th>
+                <th th:text="#{treninzi.treneri}"></th>
+                <th th:text="#{treninzi.tip}"></th>
+                <th th:text="#{treninzi.cena}"></th>
+                <th th:text="#{treninzi.vrsta}"></th>
+                <th th:text="#{treninzi.nivo}"></th>
+                <th th:text="#{treninzi.sortiranje}"></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -40,7 +40,7 @@
                 <th><input type="search" th:value="${param.treneri}?: null" name="treneri"></th>
                 <th>
                     <select style="width:100%;max-width:100%;" name="tipId">
-                        <option value="">Odaberi</option>
+                        <option value="" th:text="#{treninzi.odaberi}"></option>
                         <option th:each="tip : ${tipovi}" th:value="${tip.id}" th:text="${tip.ime} + ' - ' + ${tip.opis}" th:selected="${#strings.equals(tip.id, param.tipId)}"></option>
                     </select>
                 </th>
@@ -50,67 +50,55 @@
                 </th>
                 <th>
                     <select name="vrsta">
-                        <option value="0">Odaberi</option>
+                        <option value="0" th:text="#{treninzi.odaberi}"></option>
                         <option th:each="vrsta : ${T(com.example.Teretana.Model.VrstaTreninga).values()}" th:value="${vrsta}" th:text="${vrsta}" th:selected="${#strings.equals(vrsta, param.vrsta)}"></option>
                     </select>
                 </th>
                 <th>
                     <select name="nivo">
-                        <option value="0">Odaberi</option>
+                        <option value="0" th:text="#{treninzi.odaberi}"></option>
                         <option th:each="nivo : ${T(com.example.Teretana.Model.NivoTreninga).values()}" th:value="${nivo}" th:text="${nivo}" th:selected="${#strings.equals(nivo, param.nivo)}"></option>
                     </select>
                 </th>
                 <th id="sortiranje">
                     <select name="tipSortiranja">
-                        <option value="0">Odaberi</option>
-                        <option value="1">Naziv</option>
-                        <option value="2">Cena</option>
-                        <option value="3">Treneri</option>
-                        <option value="4">Vrsta</option>
-                        <option value="5">Nivo</option>
-                        <option value="6">Ocena</option>
+                        <option value="0" th:text="#{treninzi.odaberi}"></option>
+                        <option value="1" th:text="#{treninzi.naziv}"></option>
+                        <option value="2" th:text="#{treninzi.cena}"></option>
+                        <option value="3" th:text="#{treninzi.treneri}"></option>
+                        <option value="4" th:text="#{treninzi.vrsta}"></option>
+                        <option value="5" th:text="#{treninzi.nivo}"></option>
+                        <option value="6" th:text="#{treninzi.ocena}"></option>
                     </select><br>
-                    Rastuce:<input type="radio" value="1" name="rastuce"/><br/>
-                    Opadajuce:<input type="radio" value="0" name="rastuce"/>
+                    <p th:text="#{treninzi.rastuce}"></p><input type="radio" value="1" name="rastuce"/><br/>
+                    <p th:text="#{treninzi.opadajuce}"></p><input type="radio" value="0" name="rastuce"/>
                 </th>
                 <th></th>
                 <th></th>
-                <th><input id="pretrazi" type="submit" value="Pretraži"/></th>
+                <th><input id="pretrazi" type="submit" th:value="#{treninzi.pretrazi}"/></th>
             </tr>
         </table>
     </form>
     <table class="content-table">
         <tr>
-            <th>Naziv</th>
-<!--            <th>Treneri</th>-->
-<!--            <th>Opis</th>-->
-            <th>Slika</th>
-<!--            <th>Tip</th>-->
-            <th>Cena</th>
-<!--            <th>Vrsta</th>-->
-<!--            <th>Nivo</th>-->
-<!--            <th>Trajanje</th>-->
-            <th>Ocena</th>
+            <th th:text="#{treninzi.naziv}"></th>
+            <th th:text="#{treninzi.slika}"></th>
+            <th th:text="#{treninzi.cena}"></th>
+            <th th:text="#{treninzi.ocena}"></th>
         </tr>
         <tr th:each="trening, status: ${treninzi}">
             <td><a class="nazivTreninga" th:href="|treninzi/details?id=${trening.id}|" th:text="${trening.naziv}"></a></td>
-<!--            <td th:text="${trening.treneri}"></td>-->
-<!--            <td th:text="${trening.kratakOpis}"></td>-->
             <td><img id="slikaTreninga" th:src="${trening.urlSlika}"></td>
-<!--            <td th:text="${trening.tipTreninga}"></td>-->
             <td th:text="${trening.cena}"></td>
-<!--            <td th:text="${trening.vrstaTreninga}"></td>-->
-<!--            <td th:text="${trening.nivoTreninga}"></td>-->
-<!--            <td th:text="${trening.trajanje}"></td>-->
             <td th:text="${trening.ocena}"></td>
         </tr>
     </table>
     <ul th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
-        <li><a class="a-link" href="treninzi/create">Dodavanje treninga</a></li>
-        <li><a class="a-link" href="termini/create">Dodavanje termina</a></li>
-        <li><a class="a-link" href="korisnici">Upravljanje korisnicima</a></li>
-        <li><a class="a-link" href="sale">Upravljanje salama</a></li>
-        <li><a class="a-link" href="treninzi/izvestaj">Izvestaj</a></li>
+        <li><a class="a-link" href="treninzi/create" th:text="#{treninzi.dodavanjeTreninga}">Dodavanje treninga</a></li>
+        <li><a class="a-link" href="termini/create" th:text="#{treninzi.dodavanjeTermina}">Dodavanje termina</a></li>
+        <li><a class="a-link" href="korisnici" th:text="#{treninzi.upravljanjeKorisnicima}">Upravljanje korisnicima</a></li>
+        <li><a class="a-link" href="sale" th:text="#{treninzi.upravljanjeSalama}">Upravljanje salama</a></li>
+        <li><a class="a-link" href="treninzi/izvestaj" th:text="#{treninzi.izvestaj}">Izvestaj</a></li>
     </ul>
 </body>
 </html>

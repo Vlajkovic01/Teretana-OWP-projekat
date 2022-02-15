@@ -8,40 +8,40 @@
 </head>
 <body>
     <ul th:if="${session.prijavljenKorisnik != null}">
-        <li><a id="odjava" href="korisnici/logout">Odjavi se</a></li>
-        <li><a id="mojProfil" href="korisnici/mojProfil">Moj profil</a></li>
+        <li><a id="odjava" href="korisnici/logout" th:text="#{treninzi.odjava}"></a></li>
+        <li><a id="mojProfil" href="korisnici/mojProfil" th:text="#{treninzi.mojProfil}"></a></li>
     </ul>
     <ul th:if="${session.prijavljenKorisnik == null}">
-        <li><a id="odjava" href="korisnici/registracija">Registruj se</a></li>
+        <li><a id="odjava" href="korisnici/registracija" th:text="#{index.registracija}"></a></li>
     </ul>
     <form method="get" action="sale">
         <table class="content-table">
-            <caption id="registracija">Sale</caption>
+            <caption id="registracija" th:text="#{sale.naslov}"></caption>
             <tr>
-                <th colspan="10">Pretraga i sortiranje</th>
+                <th colspan="10" th:text="#{treninzi.pretraga}"></th>
             </tr>
             <tr>
-                <th>Oznaka</th>
-                <th>Sortiranje</th>
+                <th th:text="#{sala.oznaka}"></th>
+                <th th:text="#{treninzi.sortiranje}"></th>
                 <th></th>
                 <th></th>
             </tr>
             <tr>
                 <th><input type="search" th:value="${param.oznaka}?: null" name="oznaka"></th>
                 <th id="sortiranje">
-                    Rastuce:<input type="radio" value="1" name="rastuce"/><br/>
-                    Opadajuce:<input type="radio" value="0" name="rastuce"/>
+                    <p th:text="#{treninzi.rastuce}"></p><input type="radio" value="1" name="rastuce"/><br/>
+                    <p th:text="#{treninzi.opadajuce}"></p><input type="radio" value="0" name="rastuce"/>
                 </th>
                 <th></th>
-                <th><input id="pretrazi" type="submit" value="Pretraži"/></th>
+                <th><input id="pretrazi" type="submit" th:value="#{treninzi.pretrazi}"/></th>
             </tr>
         </table>
     </form>
     <table class="content-table">
         <tr>
-            <th>Oznaka</th>
-            <th>Kapacitet</th>
-            <th>Brisanje</th>
+            <th th:text="#{sala.oznaka}"></th>
+            <th th:text="#{sale.kapacitet}"></th>
+            <th th:text="#{sale.brisanje}"></th>
         </tr>
         <tr th:if="${greska != null}"><td colspan="3"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
         <tr th:each="sala, status: ${sale}">
@@ -50,14 +50,14 @@
             <td>
                 <form method="post" action="sale/delete">
                     <input type="hidden" name="id" th:value="${sala.id}"/>
-                    <input type="submit" value="Izbrisi" />
+                    <input type="submit" th:value="#{termin.izbrisi}" />
                 </form>
             </td>
         </tr>
     </table>
     <ul>
-        <li><a class="a-link" href="sale/create">Dodaj salu</a></li>
-        <li><a class="a-link" href="treninzi">Povratak</a></li>
+        <li><a class="a-link" href="sale/create" th:text="#{sale.dodajSalu}"></a></li>
+        <li><a class="a-link" href="treninzi" th:text="#{treninzi.povratak}">Povratak</a></li>
     </ul>
 </body>
 </html>

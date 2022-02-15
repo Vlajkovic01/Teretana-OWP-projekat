@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <base th:href="@{/}" href="/Teretana/">
-    <title>Max Teretana - Registracija</title>
+    <title th:text="#{registracija.naslov}"></title>
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
     <form method="post" action="korisnici/registracija">
         <table class="content-table">
-            <caption id="registracija">Registracija</caption>
-            <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Lozinka:</th><td><input type="password" th:value="${lozinka}" value="" name="lozinka" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Potvrdi lozinku:</th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Email:</th><td><input type="email" th:value="${email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
-            <tr><th>Ime:</th><td><input type="text" th:value="${ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Prezime:</th><td><input type="text" th:value="${prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Datum rodjenja:</th><td><input type="date" th:value="${datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
-            <tr><th>Adresa:</th><td><input type="text" th:value="${adresa}" value="" name="adresa" minlength="3" maxlength="35" required/></td></tr>
-            <tr><th>Telefon:</th><td><input type="text" th:value="${telefon}" value="" name="telefon" minlength="3" maxlength="20" required/></td></tr>
+            <caption id="registracija" th:text="#{registracija.naslov}"></caption>
+            <tr><th th:text="#{korisnik.korisnickoIme}"></th><td><input type="text" th:value="${korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.lozinka}"></th><td><input type="password" th:value="${lozinka}" value="" name="lozinka" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.potvrdiLozinku}"></th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.email}"></th><td><input type="email" th:value="${email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
+            <tr><th th:text="#{korisnik.ime}"></th><td><input type="text" th:value="${ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.prezime}"></th><td><input type="text" th:value="${prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.datumRodjenja}"></th><td><input type="date" th:value="${datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
+            <tr><th th:text="#{korisnik.adresa}"></th><td><input type="text" th:value="${adresa}" value="" name="adresa" minlength="3" maxlength="35" required/></td></tr>
+            <tr><th th:text="#{korisnik.telefon}"></th><td><input type="text" th:value="${telefon}" value="" name="telefon" minlength="3" maxlength="20" required/></td></tr>
             <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
-            <tr><td colspan="2"><input id="dugme" type="submit" value="Registruj se" /></tr>
+            <tr><td colspan="2"><input id="dugme" type="submit" th:value="#{index.registracija}" /></tr>
         </table>
     </form>
 </body>

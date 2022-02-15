@@ -3,58 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <base th:href="@{/}">
-    <title>Moj profil</title>
+    <title th:text="#{mojProfil.naslov}"></title>
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
 </head>
 <body>
     <form method="post" action="korisnici/mojProfilEdit">
         <table class="content-table">
-            <caption id="registracija">Moji podaci</caption>
-            <tr><th>Korisnicko ime:</th><td><input type="text" th:value="${prijavljenKorisnik.korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Nova lozinka:</th><td><input type="password" value="" name="novaLozinka" minlength="3" maxlength="20"/></td></tr>
-            <tr><th>Potvrdi lozinku:</th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20"/></td></tr>
-            <tr><th>Email:</th><td><input type="email" th:value="${prijavljenKorisnik.email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
-            <tr><th>Ime:</th><td><input type="text" th:value="${prijavljenKorisnik.ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Prezime:</th><td><input type="text" th:value="${prijavljenKorisnik.prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Datum rodjenja:</th><td><input type="date" th:value="${prijavljenKorisnik.datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
-            <tr><th>Adresa:</th><td><input type="text" th:value="${prijavljenKorisnik.adresa}" value="" name="adresa" minlength="3" maxlength="35" required/></td></tr>
-            <tr><th>Telefon:</th><td><input type="text" th:value="${prijavljenKorisnik.telefon}" value="" name="telefon" minlength="3" maxlength="20" required/></td></tr>
-            <tr><th>Uloga:</th><td th:text="${prijavljenKorisnik.uloga}"></td></tr>
-            <tr><th>Datum registracije:</th><td th:text="${prijavljenKorisnik.datumIVremeRegistracije}"></td></tr>
+            <caption id="registracija" th:text="#{mojProfil.mojiPodaci}"></caption>
+            <tr><th th:text="#{korisnik.korisnickoIme}"></th><td><input type="text" th:value="${prijavljenKorisnik.korisnickoIme}" value="" name="korisnickoIme" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.novaLozinka}"></th><td><input type="password" value="" name="novaLozinka" minlength="3" maxlength="20"/></td></tr>
+            <tr><th th:text="#{korisnik.potvrdiLozinku}"></th><td><input type="password" value="" name="lozinkaPotvrda" minlength="3" maxlength="20"/></td></tr>
+            <tr><th th:text="#{korisnik.email}"></th><td><input type="email" th:value="${prijavljenKorisnik.email}" value="" name="email" minlength="13" maxlength="35" required/></td></tr>
+            <tr><th th:text="#{korisnik.ime}"></th><td><input type="text" th:value="${prijavljenKorisnik.ime}" value="" name="ime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.prezime}"></th><td><input type="text" th:value="${prijavljenKorisnik.prezime}" value="" name="prezime" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.datumRodjenja}"></th><td><input type="date" th:value="${prijavljenKorisnik.datumRodjenja}" value="" name="datumRodjenja" required/></td></tr>
+            <tr><th th:text="#{korisnik.adresa}"></th><td><input type="text" th:value="${prijavljenKorisnik.adresa}" value="" name="adresa" minlength="3" maxlength="35" required/></td></tr>
+            <tr><th th:text="#{korisnik.telefon}"></th><td><input type="text" th:value="${prijavljenKorisnik.telefon}" value="" name="telefon" minlength="3" maxlength="20" required/></td></tr>
+            <tr><th th:text="#{korisnik.uloga}"></th><td th:text="${prijavljenKorisnik.uloga}"></td></tr>
+            <tr><th th:text="#{korisnik.datumRegistracije}"></th><td th:text="${prijavljenKorisnik.datumIVremeRegistracije}"></td></tr>
             <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
-            <tr><td colspan="2"><input id="dugme" type="submit" value="Izmeni" /></tr>
+            <tr><td colspan="2"><input id="dugme" type="submit" th:value="#{trening.izmeni}" /></tr>
         </table>
     </form>
     <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
-        <caption id="registracija">Zakazani termini</caption>
+        <caption id="registracija" th:text="#{termini.zakazani}"></caption>
         <tr>
-            <th colspan="2">Datum i vreme zakazivanja</th>
+            <th colspan="2" th:text="#{termini.datumZakazivanja}"></th>
         </tr>
         <tr th:each="rezervacija, status: ${rezervacije}">
             <td colspan="2"><a class="nazivTreninga" th:href="|korisnickaKorpa/details?id=${rezervacija.id}|" th:text="${rezervacija.datumRezervacije}"></a></td>
         </tr>
         <tr>
-            <th>Ukupna cena</th><td th:text="${ukupnaCenaRezervacija}"></td>
+            <th th:text="#{termini.ukupnaCena}"></th><td th:text="${ukupnaCenaRezervacija}"></td>
         </tr>
     </table>
     <table class="content-table" th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
-        <caption id="registracija">Lista zelja treninga</caption>
+        <caption id="registracija" th:text="#{treninzi.listaZelja}"></caption>
         <tr>
-            <th>Naziv treninga</th>
-            <th>Akcija</th>
+            <th th:text="#{rezervacija.nazivTreninga}"></th>
+            <th th:text="#{rezervacija.akcija}"></th>
         </tr>
         <tr th:each="zelja, status: ${listaZelja}">
             <td><a class="nazivTreninga" th:href="|treninzi/details?id=${zelja.trening.id}|" th:text="${zelja.trening.naziv}"></a></td>
             <td>
                 <form method="post" action="listaZelja/izbaci">
                     <input type="hidden" name="idZelje" th:value="${zelja.id}"/>
-                    <input type="submit" value="Izbrisi" />
+                    <input type="submit" th:value="#{termin.izbrisi}" />
                 </form>
             </td>
         </tr>
     </table>
     <ul>
-        <li><a class="a-link" href="treninzi">Povratak</a></li>
+        <li><a class="a-link" href="treninzi" th:text="#{treninzi.povratak}"></a></li>
     </ul>
 </body>
 </html>
