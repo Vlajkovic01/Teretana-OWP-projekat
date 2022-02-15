@@ -2,10 +2,7 @@ package com.example.Teretana.DAO.Impl;
 
 import com.example.Teretana.DAO.TipTreningaDAO;
 import com.example.Teretana.DAO.TreningDAO;
-import com.example.Teretana.Model.NivoTreninga;
-import com.example.Teretana.Model.TipTreninga;
-import com.example.Teretana.Model.Trening;
-import com.example.Teretana.Model.VrstaTreninga;
+import com.example.Teretana.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;

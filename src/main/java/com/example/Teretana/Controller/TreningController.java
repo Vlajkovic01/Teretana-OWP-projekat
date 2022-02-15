@@ -1,9 +1,7 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.*;
-import com.example.Teretana.Service.TerminService;
-import com.example.Teretana.Service.TipTreningaService;
-import com.example.Teretana.Service.TreningService;
+import com.example.Teretana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -34,6 +33,12 @@ public class TreningController implements ServletContextAware {
 
     @Autowired
     private TerminService terminService;
+
+    @Autowired
+    private KorisnickaKorpaService korisnickaKorpaService;
+
+    @Autowired
+    private IzvestajService izvestajService;
 
     @Autowired
     private ServletContext servletContext;
@@ -230,5 +235,33 @@ public class TreningController implements ServletContextAware {
 
         response.sendRedirect(bURL + "treninzi");
         return null;
+    }
+
+    @GetMapping("/izvestaj")
+    public ModelAndView izvestaj(@RequestParam(required=false) String tipSortiranja, @RequestParam(required=false) String vremeOd,
+                                 @RequestParam(required=false) String vremeDo, @RequestParam(required = false) String rastuce) {
+
+
+        if (tipSortiranja != null && tipSortiranja.trim().equals("0")) {
+            tipSortiranja = null;
+        }
+
+        if (vremeOd == null) {
+            vremeOd = LocalDateTime.MIN.toString();
+        }
+
+        if (vremeDo == null) {
+            vremeDo = LocalDateTime.MAX.toString();
+        }
+
+
+        List<Izvestaj> treninzi = izvestajService.nadji(tipSortiranja, vremeOd, vremeDo, rastuce);
+
+        ModelAndView rezultat = new ModelAndView("izvestaj");
+        rezultat.addObject("treninzi", treninzi);
+        rezultat.addObject("ukupnaCenaSvihTreninga", izvestajService.ukupnaCenaSvihTreninga());
+        rezultat.addObject("ukupanBrojZakazanihTreninga", izvestajService.ukupanBrojZakazanihTreninga());
+
+        return rezultat;
     }
 }
