@@ -93,6 +93,22 @@ create table listaZelja(
 		on delete cascade
 );
 
+create table komentari(
+	id bigint auto_increment,
+    tekst varchar(50),
+    ocena int,
+    datum date,
+    korisnikId bigint,
+    treningId bigint,
+    statusKomentara varchar(15),
+    anoniman boolean,
+	primary key(id),
+	foreign key(korisnikId) references korisnici(id)
+		on delete cascade,
+	foreign key(treningId) references treninzi(id)
+		on delete cascade
+);
+
 #UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
@@ -128,10 +144,10 @@ insert into sale(oznaka, kapacitet) values ('A1', 5);
 insert into sale(oznaka, kapacitet) values ('B1', 10);
 insert into sale(oznaka, kapacitet) values ('C1', 15);
 
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-20 12:00', '2022-02-20 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-21 13:00', '2022-02-21 13:45');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-22 11:00', '2022-02-22 12:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-22 14:00', '2022-02-22 15:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-12 12:00', '2022-02-12 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-13 13:00', '2022-02-13 13:45');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-14 11:00', '2022-02-14 12:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-15 14:00', '2022-02-15 15:00');
 
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-12 10:55');
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-12 10:56');
@@ -144,6 +160,15 @@ insert into listaZelja(korisnikId, treningId) values (2, 3);
 insert into listaZelja(korisnikId, treningId) values (3, 4);
 insert into listaZelja(korisnikId, treningId) values (3, 2);
 
+insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
+	values('Jako dobar trening', 5, '2022-02-12', 2, 2, 'NA_CEKANJU', false);
+insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
+	values('Prosecan trening', 3, '2022-02-13', 2, 3, 'ODOBREN', false);
+insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
+	values('Los trening', 1, '2022-02-14', 3, 1, 'NIJE_ODOBREN', false);
+insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
+	values('Zadovoljan sam', 4, '2022-02-15', 3, 1, 'ODOBREN', true);
+
 select * from korisnici;
 select * from tipoviTreninga;
 select * from treninzi;
@@ -152,3 +177,4 @@ select * from sale;
 select * from termini;
 select * from korisnickaKorpa;
 select * from listaZelja;
+select * from komentari;
