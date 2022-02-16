@@ -87,6 +87,17 @@ public class KomentarDAOImpl implements KomentarDAO {
         return jdbcTemplate.query(sql, new KomentarRowMapper(), idKorisnika);
     }
 
+    @Override
+    public boolean vecKomentarisao(Long idKorisnika, Long idTreninga) {
+        String sql = "select count(*) " +
+                "from komentari " +
+                "where korisnikId = ? and treningId = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika, idTreninga);
+
+        return broj != null && broj > 0;
+    }
+
     @Transactional
     @Override
     public int save(Komentar komentar) {

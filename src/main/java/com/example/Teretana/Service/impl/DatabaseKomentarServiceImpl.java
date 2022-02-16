@@ -40,6 +40,11 @@ public class DatabaseKomentarServiceImpl implements KomentarService {
     }
 
     @Override
+    public boolean vecKomentarisao(Long idKorisnika, Long idTreninga) {
+        return komentarDAO.vecKomentarisao(idKorisnika, idTreninga);
+    }
+
+    @Override
     public int save(Komentar komentar) {
         return komentarDAO.save(komentar);
     }

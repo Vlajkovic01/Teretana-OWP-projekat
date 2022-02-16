@@ -1,28 +1,29 @@
+function popuniPrijavljenogKorisnika() {
+    $.get("korisnici/prijavljeniKorisnik", function(odgovor) {
+
+        if (odgovor.status == "ok") {
+
+            var prijavljeniKorisnik = odgovor.prijavljeniKorisnik
+
+            if (prijavljeniKorisnik == null) {
+                window.location.href = 'korisnici/registracija';
+            }
+
+            if (prijavljeniKorisnik.uloga === "CLAN") {
+                window.location.href = 'treninzi';
+            }
+        }
+    })
+}
+
 $(document).ready(function() {
 
-    function popuniPrijavljenogKorisnika() {
-        $.get("korisnici/prijavljeniKorisnik", function(odgovor) {
-
-            if (odgovor.status == "ok") {
-
-                var prijavljeniKorisnik = odgovor.prijavljeniKorisnik
-
-                if (prijavljeniKorisnik == null) {
-                    window.location.href = 'korisnici/registracija';
-                }
-
-                if (prijavljeniKorisnik.uloga == "CLAN") {
-                    window.location.href = 'treninzi';
-                }
-            }
-        })
-    }
+    popuniPrijavljenogKorisnika()
 
     var tabela = $("table.content-table")
 
     function popuniKomentare() {
 
-        popuniPrijavljenogKorisnika()
 
         $.get("komentari/zaOdobravanje", function(odgovor) {
             console.log(odgovor)
@@ -36,6 +37,7 @@ $(document).ready(function() {
                         '<td>' + komentari[k].ocena + '</td>' +
                         '<td>' + komentari[k].datum + '</td>' +
                         '<td>' + komentari[k].autor.korisnickoIme + '</td>' +
+                        '<td>' + komentari[k].anoniman + '</td>' +
                         '<td>' + komentari[k].trening.naziv + '</td>' +
                         '<td>' +
                             '<form method="post" action="komentari/odobri"> ' +

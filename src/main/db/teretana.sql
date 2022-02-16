@@ -165,7 +165,7 @@ insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentar
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Prosecan trening', 3, '2022-02-13', 2, 3, 'NA_CEKANJU', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
-	values('Los trening', 1, '2022-02-14', 3, 1, 'NIJE_ODOBREN', false);
+	values('Los trening', 1, '2022-02-14', 3, 3, 'NIJE_ODOBREN', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Zadovoljan sam', 4, '2022-02-15', 3, 1, 'ODOBREN', true);
 

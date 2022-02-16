@@ -88,6 +88,9 @@
                 </form>
             </td>
         </tr>
+        <tr>
+            <td colspan="2"><a th:href="|komentari/dodavanjeKomentara?id=${trening.id}|"><button th:text="#{komentari.komentarisi}"></button></a></td>
+        </tr>
         <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
     </table>
     <table class="content-table">

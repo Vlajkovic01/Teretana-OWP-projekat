@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title th:text="#{komentari.dodavanje}"></title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+    <script src="webjars/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+    <script src="js/dodavanjeKomentara.js" type="text/javascript"></script>
+</head>
+<body>
+    <form method="post" action="komentari/dodaj">
+      <table class="content-table">
+        <caption id="registracija" th:text="#{komentari.dodavanje}"></caption>
+        <tr><th th:text="#{treninzi.ocena}"></th><td><input type="number" min="1" max="5" name="ocena"/></td></tr>
+        <tr><th th:text="#{komentari.tekst}"></th><td><input type="text" maxlength="50" name="tekst"/></td></tr>
+          <tr><th th:text="#{komentari.anoniman}"></th><td><input type="checkbox" name="anoniman"/></td></tr>
+          <tr><td colspan="2"><p class="greska" style="white-space: pre; color: red"></p></td></tr>
+        <tr><td colspan="2"><input type="submit" value="Dodaj"/></td></tr>
+      </table>
+    </form>
+    <ul>
+      <li><a class="a-link" href="treninzi" th:text="#{treninzi.povratak}"></a></li>
+    </ul>
+</body>
+</html>

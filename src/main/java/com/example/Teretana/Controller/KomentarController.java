@@ -1,8 +1,6 @@
 package com.example.Teretana.Controller;
 
-import com.example.Teretana.Model.Komentar;
-import com.example.Teretana.Model.StatusKomentara;
-import com.example.Teretana.Model.Trening;
+import com.example.Teretana.Model.*;
 import com.example.Teretana.Service.KomentarService;
 import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class KomentarController implements ServletContextAware {
     }
 
     @PostMapping("/odobri")
-    public ModelAndView dodaj(@RequestParam Long idKomentara) {
+    public ModelAndView odobri(@RequestParam Long idKomentara) {
 
         Komentar komentar = komentarService.findOne(idKomentara);
         Trening trening = treningService.findOne(komentar.getTrening().getId());
@@ -88,13 +88,70 @@ public class KomentarController implements ServletContextAware {
 
     @GetMapping("/prikaz")
     @ResponseBody
-    public Map<String, Object> zaOdobravanje(@RequestParam Long id) {
+    public Map<String, Object> prikaz(@RequestParam Long id) {
         // čitanje
         List<Komentar> komentari = komentarService.findByTreningId(id);
 
         Map<String, Object> odgovor = new LinkedHashMap<>();
         odgovor.put("status", "ok");
         odgovor.put("komentari", komentari);
+        return odgovor;
+    }
+
+    @GetMapping("/dodavanjeKomentara")
+    @ResponseBody
+    public ModelAndView dodavanje() {
+        return new ModelAndView("dodavanjeKomentara");
+    }
+
+    @PostMapping("/dodaj")
+    @ResponseBody
+    public Map<String, Object> dodaj(@RequestParam Integer ocena, @RequestParam String tekst,
+                                    @RequestParam Long idTreninga,@RequestParam(required = false) boolean anoniman,
+                                     HttpSession session) {
+
+        Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        if (korisnik == null || !korisnik.getUloga().equals(Uloga.CLAN)) {
+            Map<String, Object> odgovor = new LinkedHashMap<>();
+            odgovor.put("status", "odbijen");
+            return odgovor;
+        }
+        //Validacija
+        String poruka = "";
+
+        boolean vecKomentarisao = komentarService.vecKomentarisao(korisnik.getId(), idTreninga);
+
+        if (vecKomentarisao) {
+            poruka += "-Vec ste komentarisali jednom, ne mozete vise\n";
+        }
+
+        if (ocena != null) {
+            if (ocena < 1 || ocena > 5) {
+                poruka +="-Ocena mora biti u izmedju 1 i 5\n";
+            }
+        } else {
+            poruka +="-Unesite ocenu\n";
+        }
+
+        if (tekst.length() < 3 || tekst.length() > 50) {
+            poruka += "-Unesite tekst od 3 do 50 karaktera\n";
+        }
+
+        if (!poruka.equals("")) {
+
+            Map<String, Object> odgovor = new LinkedHashMap<>();
+            odgovor.put("status", "greska");
+            odgovor.put("poruka", poruka);
+
+            return odgovor;
+        }
+
+        Komentar komentar = new Komentar(tekst, ocena, LocalDate.now(), korisnik, treningService.findOne(idTreninga),
+                                        StatusKomentara.NA_CEKANJU, anoniman);
+        komentarService.save(komentar);
+
+        Map<String, Object> odgovor = new LinkedHashMap<>();
+        odgovor.put("status", "ok");
         return odgovor;
     }
 }
