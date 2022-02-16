@@ -74,9 +74,10 @@ public class KomentarDAOImpl implements KomentarDAO {
 
     @Override
     public List<Komentar> findByTreningId(Long idTreninga) {
-        String sql ="select * from komentari where treningId = ?";
+        String sql ="select * from komentari where treningId = ? and statusKomentara = ? " +
+                "order by datum desc";
 
-        return jdbcTemplate.query(sql, new KomentarRowMapper(), idTreninga);
+        return jdbcTemplate.query(sql, new KomentarRowMapper(), idTreninga, "ODOBREN");
     }
 
     @Override

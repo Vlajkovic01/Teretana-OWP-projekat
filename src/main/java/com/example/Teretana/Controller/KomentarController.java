@@ -85,4 +85,16 @@ public class KomentarController implements ServletContextAware {
 
         return new ModelAndView("odobravanjeKomentara");
     }
+
+    @GetMapping("/prikaz")
+    @ResponseBody
+    public Map<String, Object> zaOdobravanje(@RequestParam Long id) {
+        // čitanje
+        List<Komentar> komentari = komentarService.findByTreningId(id);
+
+        Map<String, Object> odgovor = new LinkedHashMap<>();
+        odgovor.put("status", "ok");
+        odgovor.put("komentari", komentari);
+        return odgovor;
+    }
 }

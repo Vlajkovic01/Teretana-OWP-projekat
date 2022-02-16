@@ -248,9 +248,9 @@ public class TreningDAOImpl implements TreningDAO {
     public double izracunajProsecnuOcenu(Long idTreninga) {
         String sql = "select ifnull(avg(k.ocena),0) " +
                 "from treninzi t left join komentari k on t.id = k.treningId " +
-                "where t.id = ? and k.statusKomentara = 'ODOBREN'";
+                "where t.id = ? and k.statusKomentara = ?";
 
-        double uspeh = jdbcTemplate.queryForObject(sql, Double.class, idTreninga);
+        double uspeh = jdbcTemplate.queryForObject(sql, Double.class, idTreninga, "ODOBREN");
 
         return uspeh;
     }
