@@ -1,8 +1,28 @@
 $(document).ready(function() {
 
+    function popuniPrijavljenogKorisnika() {
+        $.get("korisnici/prijavljeniKorisnik", function(odgovor) {
+
+            if (odgovor.status == "ok") {
+
+                var prijavljeniKorisnik = odgovor.prijavljeniKorisnik
+
+                if (prijavljeniKorisnik == null) {
+                    window.location.href = 'korisnici/registracija';
+                }
+
+                if (prijavljeniKorisnik.uloga == "CLAN") {
+                    window.location.href = 'treninzi';
+                }
+            }
+        })
+    }
+
     var tabela = $("table.content-table")
 
     function popuniKomentare() {
+
+        popuniPrijavljenogKorisnika()
 
         $.get("komentari/zaOdobravanje", function(odgovor) {
             console.log(odgovor)
@@ -17,8 +37,18 @@ $(document).ready(function() {
                         '<td>' + komentari[k].datum + '</td>' +
                         '<td>' + komentari[k].autor.korisnickoIme + '</td>' +
                         '<td>' + komentari[k].trening.naziv + '</td>' +
-                        '<td><button>Odobri</button></td>' +
-                        '<td><button>Izbrisi</button></td>' +
+                        '<td>' +
+                            '<form method="post" action="komentari/odobri"> ' +
+                                '<input type="hidden" name="idKomentara" value="'+ komentari[k].id +'"/>' +
+                                '<input type="submit" value="Odobri" />' +
+                            '</form>' +
+                        '</td>' +
+                        '<td>' +
+                            '<form method="post" action="komentari/izbrisi"> ' +
+                                '<input type="hidden" name="idKomentara" value="'+ komentari[k].id +'"/>' +
+                                '<input type="submit" value="Izbrisi" />' +
+                            '</form>' +
+                        '</td>' +
                         '</tr>'
                     )
                 }
@@ -27,5 +57,5 @@ $(document).ready(function() {
         })
     }
     popuniKomentare()
-    $("body").show() // prikazi stanicu nakon sto se preuzmu podaci
+    $("body").show()
 })

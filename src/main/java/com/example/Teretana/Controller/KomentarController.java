@@ -1,13 +1,11 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.Komentar;
+import com.example.Teretana.Model.StatusKomentara;
 import com.example.Teretana.Service.KomentarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,5 +52,27 @@ public class KomentarController implements ServletContextAware {
         odgovor.put("status", "ok");
         odgovor.put("komentari", komentari);
         return odgovor;
+    }
+
+    @PostMapping("/odobri")
+    public ModelAndView dodaj(@RequestParam Long idKomentara) {
+
+        Komentar komentar = komentarService.findOne(idKomentara);
+        komentar.setStatus(StatusKomentara.ODOBREN);
+
+        komentarService.update(komentar);
+
+        return new ModelAndView("odobravanjeKomentara");
+    }
+
+    @PostMapping("/izbrisi")
+    public ModelAndView izbrisi(@RequestParam Long idKomentara) {
+
+        Komentar komentar = komentarService.findOne(idKomentara);
+        komentar.setStatus(StatusKomentara.NIJE_ODOBREN);
+
+        komentarService.update(komentar);
+
+        return new ModelAndView("odobravanjeKomentara");
     }
 }

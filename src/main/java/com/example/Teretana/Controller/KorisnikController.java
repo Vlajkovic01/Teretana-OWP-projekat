@@ -9,10 +9,7 @@ import com.example.Teretana.Service.KorisnikService;
 import com.example.Teretana.Service.ZeljaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +20,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/korisnici")
@@ -290,5 +289,16 @@ public class KorisnikController implements ServletContextAware {
         korisnikService.update(korisnik);
 
         response.sendRedirect(bURL + "korisnici");
+    }
+
+    @GetMapping(value="/prijavljeniKorisnik")
+    @ResponseBody
+    public Map<String, Object> prijavljeniKorisnik(HttpSession session) {
+        Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
+        Map<String, Object> odgovor = new LinkedHashMap<>();
+        odgovor.put("status", "ok");
+        odgovor.put("prijavljeniKorisnik", prijavljeniKorisnik);
+        return odgovor;
     }
 }
