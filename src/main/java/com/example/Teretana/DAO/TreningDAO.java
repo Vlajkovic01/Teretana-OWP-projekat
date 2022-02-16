@@ -12,6 +12,7 @@ public interface TreningDAO {
     List<Trening> find(String naziv, String treneri, Long tipTreningaId,
                        Integer cenaOd, Integer cenaDo, String vrstaTreninga, String nivoTreninga,
                        String tipSortiranja, String rastuce);
+    double izracunajProsecnuOcenu(Long idTreninga);
     int save(Trening trening);
     int update(Trening trening);
     int delete(Long id);

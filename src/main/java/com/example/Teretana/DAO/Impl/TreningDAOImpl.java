@@ -244,6 +244,17 @@ public class TreningDAOImpl implements TreningDAO {
         return treninzi;
     }
 
+    @Override
+    public double izracunajProsecnuOcenu(Long idTreninga) {
+        String sql = "select ifnull(avg(k.ocena),0) " +
+                "from treninzi t left join komentari k on t.id = k.treningId " +
+                "where t.id = ? and k.statusKomentara = 'ODOBREN'";
+
+        double uspeh = jdbcTemplate.queryForObject(sql, Double.class, idTreninga);
+
+        return uspeh;
+    }
+
     @Transactional
     @Override
     public int save(Trening trening) {

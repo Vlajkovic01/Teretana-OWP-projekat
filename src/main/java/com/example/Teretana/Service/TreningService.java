@@ -15,6 +15,7 @@ public interface TreningService {
                        String tipSortiranja, String rastuce);
     String validacija(String naziv, String treneri, String kratakOpis, Integer cena, String vrsta, String nivo,
                       Integer trajanje, Double ocena);
+    double izracunajProsecnuOcenu(Long idTreninga);
     Trening save(Trening trening);
     Trening update(Trening trening);
     Trening delete(Long id);

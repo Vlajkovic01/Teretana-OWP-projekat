@@ -2,7 +2,9 @@ package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.Komentar;
 import com.example.Teretana.Model.StatusKomentara;
+import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Service.KomentarService;
+import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,9 @@ public class KomentarController implements ServletContextAware {
 
     @Autowired
     private KomentarService komentarService;
+
+    @Autowired
+    private TreningService treningService;
 
     @Autowired
     private ServletContext servletContext;
@@ -58,9 +63,14 @@ public class KomentarController implements ServletContextAware {
     public ModelAndView dodaj(@RequestParam Long idKomentara) {
 
         Komentar komentar = komentarService.findOne(idKomentara);
+        Trening trening = treningService.findOne(komentar.getTrening().getId());
         komentar.setStatus(StatusKomentara.ODOBREN);
 
         komentarService.update(komentar);
+
+        double prosecnaOcena = treningService.izracunajProsecnuOcenu(trening.getId());
+        trening.setOcena(prosecnaOcena);
+        treningService.update(trening);
 
         return new ModelAndView("odobravanjeKomentara");
     }

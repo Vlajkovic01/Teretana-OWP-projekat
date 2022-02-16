@@ -106,6 +106,11 @@ public class DatabaseTreningServiceImpl implements TreningService {
     }
 
     @Override
+    public double izracunajProsecnuOcenu(Long idTreninga) {
+        return treningDAO.izracunajProsecnuOcenu(idTreninga);
+    }
+
+    @Override
     public Trening save(Trening trening) {
         treningDAO.save(trening);
         return trening;

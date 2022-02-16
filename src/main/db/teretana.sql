@@ -163,7 +163,7 @@ insert into listaZelja(korisnikId, treningId) values (3, 2);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Jako dobar trening', 5, '2022-02-12', 2, 2, 'NA_CEKANJU', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
-	values('Prosecan trening', 3, '2022-02-13', 2, 3, 'ODOBREN', false);
+	values('Prosecan trening', 3, '2022-02-13', 2, 3, 'NA_CEKANJU', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Los trening', 1, '2022-02-14', 3, 1, 'NIJE_ODOBREN', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
