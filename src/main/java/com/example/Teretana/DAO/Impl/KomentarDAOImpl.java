@@ -59,6 +59,13 @@ public class KomentarDAOImpl implements KomentarDAO {
     }
 
     @Override
+    public List<Komentar> findByStatus(String status) {
+        String sql ="select * from komentari where statusKomentara = ?";
+
+        return jdbcTemplate.query(sql, new KomentarRowMapper(), status);
+    }
+
+    @Override
     public Komentar findOne(Long id) {
         String sql ="select * from komentari where id = ?";
 

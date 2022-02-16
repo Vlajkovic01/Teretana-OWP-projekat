@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface KomentarService {
     List<Komentar> findAll();
+    List<Komentar> findByStatus(String status);
     Komentar findOne(Long id);
     List<Komentar> findByTreningId(Long idTreninga);
     List<Komentar> findByKorisnikId(Long idKorisnika);

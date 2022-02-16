@@ -20,6 +20,11 @@ public class DatabaseKomentarServiceImpl implements KomentarService {
     }
 
     @Override
+    public List<Komentar> findByStatus(String status) {
+        return komentarDAO.findByStatus(status);
+    }
+
+    @Override
     public Komentar findOne(Long id) {
         return komentarDAO.findOne(id);
     }

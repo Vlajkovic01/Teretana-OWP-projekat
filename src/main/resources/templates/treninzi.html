@@ -94,11 +94,12 @@
         </tr>
     </table>
     <ul th:if="${session.prijavljenKorisnik != null and session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
-        <li><a class="a-link" href="treninzi/create" th:text="#{treninzi.dodavanjeTreninga}">Dodavanje treninga</a></li>
-        <li><a class="a-link" href="termini/create" th:text="#{treninzi.dodavanjeTermina}">Dodavanje termina</a></li>
-        <li><a class="a-link" href="korisnici" th:text="#{treninzi.upravljanjeKorisnicima}">Upravljanje korisnicima</a></li>
-        <li><a class="a-link" href="sale" th:text="#{treninzi.upravljanjeSalama}">Upravljanje salama</a></li>
-        <li><a class="a-link" href="treninzi/izvestaj" th:text="#{treninzi.izvestaj}">Izvestaj</a></li>
+        <li><a class="a-link" href="treninzi/create" th:text="#{treninzi.dodavanjeTreninga}"></a></li>
+        <li><a class="a-link" href="termini/create" th:text="#{treninzi.dodavanjeTermina}"></a></li>
+        <li><a class="a-link" href="korisnici" th:text="#{treninzi.upravljanjeKorisnicima}"></a></li>
+        <li><a class="a-link" href="sale" th:text="#{treninzi.upravljanjeSalama}"></a></li>
+        <li><a class="a-link" href="komentari" th:text="#{treninzi.upravljanjeKomentarima}"></a></li>
+        <li><a class="a-link" href="treninzi/izvestaj" th:text="#{treninzi.izvestaj}"></a></li>
     </ul>
 </body>
 </html>

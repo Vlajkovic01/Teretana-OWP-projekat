@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title th:text="#{treninzi.odobravanjeKomentara}"></title>
+    <link rel="stylesheet" type="text/css" href="css/Tabele.css">
+    <script src="webjars/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+    <script src="js/komentariOdobravanje.js" type="text/javascript"></script>
+</head>
+<body>
+    <ul th:if="${session.prijavljenKorisnik != null}">
+        <li><a id="odjava" href="korisnici/logout" th:text="#{treninzi.odjava}"></a></li>
+        <li><a id="mojProfil" href="korisnici/mojProfil" th:text="#{treninzi.mojProfil}"></a></li>
+    </ul>
+    <ul th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
+        <li><a id="mojaKorpaLink"  href="korisnickaKorpa/pregled" th:text="#{treninzi.mojaKorpa}"></a></li>
+    </ul>
+    <ul th:if="${session.prijavljenKorisnik == null}">
+        <li><a id="odjava" href="korisnici/registracija" th:text="#{index.registracija}"></a></li>
+    </ul>
+    <table class="content-table">
+        <caption id="registracija" th:text="#{komentari.naslov}"></caption>
+        <tr>
+            <th th:text="#{komentari.tekst}"></th>
+            <th th:text="#{treninzi.ocena}"></th>
+            <th th:text="#{komentari.datum}"></th>
+            <th th:text="#{rezervacija.korisnik}"></th>
+            <th th:text="#{trening.naslov}"></th>
+            <th colspan="2" th:text="#{rezervacija.akcija}"></th>
+        </tr>
+    </table>
+    <ul>
+        <li><a class="a-link" href="treninzi" th:text="#{treninzi.povratak}"></a></li>
+    </ul>
+</body>
+</html>
