@@ -36,15 +36,16 @@
             <td th:text="${termin.datumOdrzavanja.minusHours(1)}"></td>
             <td th:text="${termin.trening.cena}"></td>
             <td>
-                <form method="post" action="korisnickaKorpa/zakazi">
-                    <input type="hidden" name="id" th:value="${termin.id}"/>
-                    <input type="submit" th:value="#{rezervacija.rezervisi}" />
-                </form>
-            </td>
-            <td>
                 <form method="post" action="korisnickaKorpa/izbaci">
                     <input type="hidden" name="id" th:value="${termin.id}"/>
                     <input type="submit" th:value="#{termin.izbrisi}" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <form method="post" action="korisnickaKorpa/zakazi">
+                    <input type="submit" th:value="#{rezervacija.rezervisi}" />
                 </form>
             </td>
         </tr>

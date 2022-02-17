@@ -66,27 +66,38 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
     @PostMapping("/zakazi")
     @SuppressWarnings("unchecked")
-    public ModelAndView zakazi(@RequestParam Long id,
-                               HttpSession session, HttpServletResponse response) throws IOException {
+    public ModelAndView zakazi(HttpSession session, HttpServletResponse response) throws IOException {
 
-        Termin termin = terminService.findOne(id);
+        List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
         Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
 
-        boolean proveraVremena = korisnickaKorpaService.proveraVremena(korisnik.getId(), termin.getDatumOdrzavanja(),
-                                        termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()));
+        StringBuilder poruka = new StringBuilder("");
 
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
 
-        if (proveraVremena) {
-            rezultat.addObject("greska", "Imate vec zakazan termin u tom periodu");
+        for(Termin termin : terminiUKorpi) {
+            boolean proveraVremena = korisnickaKorpaService.proveraVremena(korisnik.getId(), termin.getDatumOdrzavanja(),
+                    termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()));
+            if (proveraVremena) {
+                poruka.append("-Imate vec zakazan termin u tom periodu za ").append(termin.getDatumOdrzavanja()).append('\n');
+            }
+        }
+
+        if (poruka.length() > 0) {
+            rezultat.addObject("greska", poruka);
+
+            return rezultat;
         } else {
-            KorisnickaKorpa novaRezervacija = new KorisnickaKorpa(korisnik,termin, LocalDateTime.now());
-            korisnickaKorpaService.save(novaRezervacija);
 
-            List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
-            terminiUKorpi.remove(termin);
+            for (Termin termin : terminiUKorpi) {
+                KorisnickaKorpa novaRezervacija = new KorisnickaKorpa(korisnik,termin, LocalDateTime.now());
+                korisnickaKorpaService.save(novaRezervacija);
 
-            rezultat.addObject("greska", "Uspesno ste zakazali termin.");
+            }
+
+            terminiUKorpi.clear();
+
+            rezultat.addObject("greska", "Uspesno ste zakazali termine.");
         }
 
         return rezultat;
