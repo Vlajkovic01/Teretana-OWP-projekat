@@ -2,8 +2,7 @@ package com.example.Teretana.DAO.Impl;
 
 import com.example.Teretana.DAO.KomentarDAO;
 import com.example.Teretana.Model.Komentar;
-import com.example.Teretana.Model.StatusKomentara;
-import com.example.Teretana.Model.Zelja;
+import com.example.Teretana.Model.StatusKomentaraIZahtevaKartice;
 import com.example.Teretana.Service.KorisnikService;
 import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class KomentarDAOImpl implements KomentarDAO {
             LocalDate datum = rs.getTimestamp(index++).toLocalDateTime().toLocalDate();
             Long korisnikId = rs.getLong(index++);
             Long treningId = rs.getLong(index++);
-            StatusKomentara status = StatusKomentara.valueOf(rs.getString(index++));
+            StatusKomentaraIZahtevaKartice status = StatusKomentaraIZahtevaKartice.valueOf(rs.getString(index++));
             boolean anoniman = rs.getBoolean(index++);
 
             Komentar komentar = new Komentar(komentarId, tekst, ocena, datum, korisnikService.findOne(korisnikId),

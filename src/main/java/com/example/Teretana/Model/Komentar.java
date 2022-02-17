@@ -10,14 +10,14 @@ public class Komentar {
     private LocalDate datum;
     private Korisnik autor;
     private Trening trening;
-    private StatusKomentara status;
+    private StatusKomentaraIZahtevaKartice status;
     private boolean anoniman;
 
     public Komentar() {
 
     }
 
-    public Komentar(String tekst, int ocena, LocalDate datum, Korisnik autor, Trening trening, StatusKomentara status, boolean anoniman) {
+    public Komentar(String tekst, int ocena, LocalDate datum, Korisnik autor, Trening trening, StatusKomentaraIZahtevaKartice status, boolean anoniman) {
         this.tekst = tekst;
         this.ocena = ocena;
         this.datum = datum;
@@ -27,7 +27,7 @@ public class Komentar {
         this.anoniman = anoniman;
     }
 
-    public Komentar(Long id, String tekst, int ocena, LocalDate datum, Korisnik autor, Trening trening, StatusKomentara status, boolean anoniman) {
+    public Komentar(Long id, String tekst, int ocena, LocalDate datum, Korisnik autor, Trening trening, StatusKomentaraIZahtevaKartice status, boolean anoniman) {
         this.id = id;
         this.tekst = tekst;
         this.ocena = ocena;
@@ -86,11 +86,11 @@ public class Komentar {
         this.trening = trening;
     }
 
-    public StatusKomentara getStatus() {
+    public StatusKomentaraIZahtevaKartice getStatus() {
         return status;
     }
 
-    public void setStatus(StatusKomentara status) {
+    public void setStatus(StatusKomentaraIZahtevaKartice status) {
         this.status = status;
     }
 

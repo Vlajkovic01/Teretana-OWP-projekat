@@ -109,6 +109,25 @@ create table komentari(
 		on delete cascade
 );
 
+create table zahteviZaKarticu(
+	id bigint auto_increment,
+	korisnikId bigint,
+    podnosenjeZahteva datetime,
+    statusZahteva varchar(15),
+    primary key(id),
+	foreign key(korisnikId) references korisnici(id)
+		on delete cascade
+);
+
+create table clanskeKartice(
+	id bigint auto_increment,
+    korisnikId bigint,
+    brojBodova int,
+	primary key(id),
+	foreign key(korisnikId) references korisnici(id)
+		on delete cascade
+);
+
 #UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
@@ -168,6 +187,12 @@ insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentar
 	values('Los trening', 1, '2022-02-14', 3, 3, 'NIJE_ODOBREN', false);
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Zadovoljan sam', 4, '2022-02-15', 3, 1, 'ODOBREN', true);
+    
+insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (2, '2022-02-17 12:14', 'NA_CEKANJU');
+insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (3, '2022-02-14 11:26', 'NIJE_ODOBREN');
+insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (3, '2022-02-16 08:35', 'ODOBREN');
+
+insert into clanskeKartice(korisnikId, brojBodova) values(3, 10);
 
 select * from korisnici;
 select * from tipoviTreninga;
@@ -178,3 +203,5 @@ select * from termini;
 select * from korisnickaKorpa;
 select * from listaZelja;
 select * from komentari;
+select * from zahteviZaKarticu;
+select * from clanskeKartice;

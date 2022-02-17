@@ -1,6 +1,6 @@
 package com.example.Teretana.Model;
 
-public enum StatusKomentara {
+public enum StatusKomentaraIZahtevaKartice {
 
     NA_CEKANJU, ODOBREN, NIJE_ODOBREN
 }

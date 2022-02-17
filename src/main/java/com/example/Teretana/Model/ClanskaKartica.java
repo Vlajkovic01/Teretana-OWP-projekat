@@ -4,24 +4,21 @@ public class ClanskaKartica {
 
     private Long id;
     private Korisnik korisnik;
-    private double popust;
-    private int brojPoena;
+    private int brojBodova;
 
     public ClanskaKartica() {
 
     }
 
-    public ClanskaKartica(Korisnik korisnik, double popust, int brojPoena) {
+    public ClanskaKartica(Korisnik korisnik, int brojBodova) {
         this.korisnik = korisnik;
-        this.popust = popust;
-        this.brojPoena = brojPoena;
+        this.brojBodova = brojBodova;
     }
 
-    public ClanskaKartica(Long id, Korisnik korisnik, double popust, int brojPoena) {
+    public ClanskaKartica(Long id, Korisnik korisnik, int brojBodova) {
         this.id = id;
         this.korisnik = korisnik;
-        this.popust = popust;
-        this.brojPoena = brojPoena;
+        this.brojBodova = brojBodova;
     }
 
     public Long getId() {
@@ -40,20 +37,12 @@ public class ClanskaKartica {
         this.korisnik = korisnik;
     }
 
-    public double getPopust() {
-        return popust;
+    public int getBrojBodova() {
+        return brojBodova;
     }
 
-    public void setPopust(double popust) {
-        this.popust = popust;
-    }
-
-    public int getBrojPoena() {
-        return brojPoena;
-    }
-
-    public void setBrojPoena(int brojPoena) {
-        this.brojPoena = brojPoena;
+    public void setBrojBodova(int brojBodova) {
+        this.brojBodova = brojBodova;
     }
 
     @Override
@@ -61,8 +50,7 @@ public class ClanskaKartica {
         return "ClanskaKartica{" +
                 "id=" + id +
                 ", korisnik=" + korisnik +
-                ", popust=" + popust +
-                ", brojPoena=" + brojPoena +
+                ", brojBodova=" + brojBodova +
                 '}';
     }
 }

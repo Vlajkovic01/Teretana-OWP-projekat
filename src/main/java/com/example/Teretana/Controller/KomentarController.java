@@ -64,7 +64,7 @@ public class KomentarController implements ServletContextAware {
 
         Komentar komentar = komentarService.findOne(idKomentara);
         Trening trening = treningService.findOne(komentar.getTrening().getId());
-        komentar.setStatus(StatusKomentara.ODOBREN);
+        komentar.setStatus(StatusKomentaraIZahtevaKartice.ODOBREN);
 
         komentarService.update(komentar);
 
@@ -79,7 +79,7 @@ public class KomentarController implements ServletContextAware {
     public ModelAndView izbrisi(@RequestParam Long idKomentara) {
 
         Komentar komentar = komentarService.findOne(idKomentara);
-        komentar.setStatus(StatusKomentara.NIJE_ODOBREN);
+        komentar.setStatus(StatusKomentaraIZahtevaKartice.NIJE_ODOBREN);
 
         komentarService.update(komentar);
 
@@ -147,7 +147,7 @@ public class KomentarController implements ServletContextAware {
         }
 
         Komentar komentar = new Komentar(tekst, ocena, LocalDate.now(), korisnik, treningService.findOne(idTreninga),
-                                        StatusKomentara.NA_CEKANJU, anoniman);
+                                        StatusKomentaraIZahtevaKartice.NA_CEKANJU, anoniman);
         komentarService.save(komentar);
 
         Map<String, Object> odgovor = new LinkedHashMap<>();
