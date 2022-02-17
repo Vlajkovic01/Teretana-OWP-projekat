@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -106,7 +107,7 @@ public class KomentarController implements ServletContextAware {
 
     @PostMapping("/dodaj")
     @ResponseBody
-    public Map<String, Object> dodaj(@RequestParam Integer ocena, @RequestParam String tekst,
+    public Map<String, Object> dodaj(@RequestParam(required = false) Integer ocena, @RequestParam String tekst,
                                     @RequestParam Long idTreninga,@RequestParam(required = false) boolean anoniman,
                                      HttpSession session) {
 
@@ -120,6 +121,11 @@ public class KomentarController implements ServletContextAware {
         String poruka = "";
 
         boolean vecKomentarisao = komentarService.vecKomentarisao(korisnik.getId(), idTreninga);
+        boolean zakazanTrening = komentarService.zakazanTrening(korisnik.getId(), idTreninga);
+
+        if (!zakazanTrening) {
+            poruka += "-Niste zakazali trening, ne mozete komentarisati\n";
+        }
 
         if (vecKomentarisao) {
             poruka += "-Vec ste komentarisali jednom, ne mozete vise\n";

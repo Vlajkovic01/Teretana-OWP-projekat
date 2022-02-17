@@ -45,6 +45,11 @@ public class DatabaseKomentarServiceImpl implements KomentarService {
     }
 
     @Override
+    public boolean zakazanTrening(Long idKorisnika, Long idTreninga) {
+        return  komentarDAO.zakazanTrening(idKorisnika, idTreninga);
+    }
+
+    @Override
     public int save(Komentar komentar) {
         return komentarDAO.save(komentar);
     }

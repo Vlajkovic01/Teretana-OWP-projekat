@@ -31,13 +31,17 @@ $(document).ready(function() {
             if (odgovor.status == "ok") {
                 var komentari = odgovor.komentari
                 for (var k in komentari) {
+
+                    var korisnik = komentari[k].autor.korisnickoIme
+                    if (komentari[k].anoniman) {
+                        korisnik = "Anoniman"
+                    }
                     tabela.append(
                         '<tr>' +
                         '<td>' + komentari[k].tekst + '</td>' +
                         '<td>' + komentari[k].ocena + '</td>' +
                         '<td>' + komentari[k].datum + '</td>' +
-                        '<td>' + komentari[k].autor.korisnickoIme + '</td>' +
-                        '<td>' + komentari[k].anoniman + '</td>' +
+                        '<td>' + korisnik + '</td>' +
                         '<td>' + komentari[k].trening.naziv + '</td>' +
                         '<td>' +
                             '<form method="post" action="komentari/odobri"> ' +

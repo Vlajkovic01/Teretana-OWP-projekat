@@ -97,6 +97,17 @@ public class KomentarDAOImpl implements KomentarDAO {
         return broj != null && broj > 0;
     }
 
+    @Override
+    public boolean zakazanTrening(Long idKorisnika, Long idTreninga) {
+        String sql = "select count(*) " +
+                "from korisnickaKorpa k left join termini t on k.terminId = t.id " +
+                "where korisnikId = ? and treningId = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika, idTreninga);
+
+        return broj != null && broj > 0;
+    }
+
     @Transactional
     @Override
     public int save(Komentar komentar) {
