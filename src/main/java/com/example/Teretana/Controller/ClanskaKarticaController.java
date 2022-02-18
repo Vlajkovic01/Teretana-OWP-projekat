@@ -1,9 +1,7 @@
 package com.example.Teretana.Controller;
 
-import com.example.Teretana.Model.Korisnik;
-import com.example.Teretana.Model.StatusKomentaraIZahtevaKartice;
-import com.example.Teretana.Model.Uloga;
-import com.example.Teretana.Model.ZahtevZaKarticu;
+import com.example.Teretana.Model.*;
+import com.example.Teretana.Service.ClanskaKarticaService;
 import com.example.Teretana.Service.ZahtevZaKarticuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,9 @@ public class ClanskaKarticaController implements ServletContextAware {
 
     @Autowired
     private ZahtevZaKarticuService zahtevZaKarticuService;
+
+    @Autowired
+    private ClanskaKarticaService clanskaKarticaService;
 
     @Autowired
     private ServletContext servletContext;
@@ -58,6 +59,39 @@ public class ClanskaKarticaController implements ServletContextAware {
 
         ModelAndView rezultat = new ModelAndView("pregledZahteva");
         rezultat.addObject("zahtevi", zahtevZaKarticuService.nadjiNaCekanju());
+
+        return rezultat;
+    }
+
+    @PostMapping(value="/odobri")
+    public ModelAndView odobriZahtev(@RequestParam Long idZahteva,
+                                     HttpSession session, HttpServletResponse response) throws IOException {
+        ZahtevZaKarticu zahtevZaKarticu = zahtevZaKarticuService.findOne(idZahteva);
+
+        zahtevZaKarticu.setStatus(StatusKomentaraIZahtevaKartice.ODOBREN);
+        zahtevZaKarticuService.update(zahtevZaKarticu);
+
+        ClanskaKartica clanskaKartica = new ClanskaKartica(zahtevZaKarticu.getKorisnik(),10);
+        clanskaKarticaService.save(clanskaKartica);
+
+        ModelAndView rezultat = new ModelAndView("pregledZahteva");
+        rezultat.addObject("zahtevi", zahtevZaKarticuService.nadjiNaCekanju());
+        rezultat.addObject("poruka", "Uspesno kreirana kartica");
+
+        return rezultat;
+    }
+
+    @PostMapping(value="/odbijZahtev")
+    public ModelAndView odbijZahtev(@RequestParam Long idZahteva,
+                                    HttpSession session, HttpServletResponse response) throws IOException {
+        ZahtevZaKarticu zahtevZaKarticu = zahtevZaKarticuService.findOne(idZahteva);
+
+        zahtevZaKarticu.setStatus(StatusKomentaraIZahtevaKartice.NIJE_ODOBREN);
+        zahtevZaKarticuService.update(zahtevZaKarticu);
+
+        ModelAndView rezultat = new ModelAndView("pregledZahteva");
+        rezultat.addObject("zahtevi", zahtevZaKarticuService.nadjiNaCekanju());
+        rezultat.addObject("poruka", "Uspesno odbijena kartica");
 
         return rezultat;
     }

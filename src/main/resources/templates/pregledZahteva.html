@@ -35,10 +35,12 @@
             </td>
             <td>
                 <form method="post" action="clanskaKartica/odobri">
+                    <input type="hidden" name="idZahteva" th:value="${zahtev.id}"/>
                     <input type="submit" th:value="#{kartica.odobri}" />
                 </form>
             </td>
         </tr>
+        <tr><td colspan="3"><p style="white-space: pre; color: red" th:text="${poruka}"></p></td></tr>
     </table>
     <ul>
         <li><a class="a-link" href="treninzi" th:if="${session.prijavljenKorisnik != null}" th:text="#{treninzi.povratak}"></a></li>
