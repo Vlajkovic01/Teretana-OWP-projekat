@@ -86,13 +86,15 @@ public class KorisnickaKorpaDAOImpl implements KorisnickaKorpaDAO {
     @Override
     public boolean proveraVremena(Long idKorisnika, LocalDateTime noviTerminPocetak, LocalDateTime noviTerminKraj) {
         String sql = "select count(*) " +
+                "from (select k.korisnikId, k.terminId, t.id, t.datumOdrzavanja, t.datumOdrzavanjaKraj " +
                 "from korisnickaKorpa k left join termini t on k.terminId = t.id " +
-                "where k.korisnikId = ? and ? between datumOdrzavanja and datumOdrzavanjaKraj " +
+                "where k.korisnikId = ?) as novaTabela " +
+                "where ? between datumOdrzavanja and datumOdrzavanjaKraj " +
                 "or ? between datumOdrzavanja and datumOdrzavanjaKraj " +
-                "or (? < datumOdrzavanja and ? > datumOdrzavanjaKraj)";
+                "or (? < datumOdrzavanja and ? > datumOdrzavanjaKraj);";
 
-        Integer uspeh = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika,
-                noviTerminPocetak, noviTerminKraj, noviTerminPocetak, noviTerminKraj);
+        Integer uspeh = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika, noviTerminPocetak,
+                noviTerminKraj, noviTerminPocetak, noviTerminKraj);
 
         return uspeh != null && uspeh > 0;
     }

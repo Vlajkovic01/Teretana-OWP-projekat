@@ -43,8 +43,34 @@
             </td>
         </tr>
         <tr>
+            <th th:text="#{termini.ukupnaCena}">
+                <td th:text="${ukupnaCena}"></td>
+            </th>
+        </tr>
+        <tr>
+            <th th:text="#{kartica.noviBodovi}">
+                <td th:text="${brojNovihBodova}"></td>
+            </th>
+        </tr>
+        <tr>
+            <th th:text="#{kartica.iskoristiBodove}">
+                <td>
+                    <form method="post" action="korisnickaKorpa/primeniBodove">
+                        <input type="number" min="0" max="5" name="brojBodova"/>
+                        <input type="submit" th:value="#{kartica.primeniBodove}"/>
+                    </form>
+                </td>
+            </th>
+        </tr>
+        <tr>
+            <th th:text="#{kartica.novaCena}">
+            <td th:text="${cenaSaPopustom}"></td>
+            </th>
+        </tr>
+        <tr>
             <td colspan="6">
                 <form method="post" action="korisnickaKorpa/zakazi">
+                    <input type="hidden" th:value="${brojIskoriscenihBodova}" name="brojBodova">
                     <input type="submit" th:value="#{rezervacija.rezervisi}" />
                 </form>
             </td>

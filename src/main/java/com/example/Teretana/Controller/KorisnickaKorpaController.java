@@ -1,9 +1,7 @@
 package com.example.Teretana.Controller;
 
-import com.example.Teretana.Model.KorisnickaKorpa;
-import com.example.Teretana.Model.Korisnik;
-import com.example.Teretana.Model.Termin;
-import com.example.Teretana.Model.Uloga;
+import com.example.Teretana.Model.*;
+import com.example.Teretana.Service.ClanskaKarticaService;
 import com.example.Teretana.Service.KorisnickaKorpaService;
 import com.example.Teretana.Service.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,9 @@ public class KorisnickaKorpaController implements ServletContextAware {
     private KorisnickaKorpaService korisnickaKorpaService;
 
     @Autowired
+    private ClanskaKarticaService clanskaKarticaService;
+
+    @Autowired
     private ServletContext servletContext;
     private String bURL;
 
@@ -48,26 +49,41 @@ public class KorisnickaKorpaController implements ServletContextAware {
     }
 
     @GetMapping("/pregled")
+    @SuppressWarnings("unchecked")
     public ModelAndView pregled(HttpSession session, HttpServletResponse response) throws IOException {
-        return new ModelAndView("mojaKorpa");
+
+        ModelAndView rezultat = new ModelAndView("mojaKorpa");
+        List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
+        int ukupnaCena = 0;
+
+        for (Termin termin : terminiUKorpi) {
+            ukupnaCena += termin.getTrening().getCena();
+        }
+
+        int brojNovihBodova = ukupnaCena / 500;
+
+        rezultat.addObject("ukupnaCena", ukupnaCena);
+        rezultat.addObject("brojNovihBodova", brojNovihBodova);
+        return rezultat;
     }
 
     @PostMapping("/izbaci")
     @SuppressWarnings("unchecked")
-    public ModelAndView izbaci(@RequestParam Long id,
+    public void izbaci(@RequestParam Long id,
             HttpSession session, HttpServletResponse response) throws IOException {
 
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
 
         terminiUKorpi.remove(terminService.findOne(id));
 
-        return new ModelAndView("mojaKorpa");
+        response.sendRedirect(bURL + "korisnickaKorpa/pregled");
     }
 
     @PostMapping("/zakazi")
     @SuppressWarnings("unchecked")
-    public ModelAndView zakazi(HttpSession session, HttpServletResponse response) throws IOException {
-
+    public ModelAndView zakazi(@RequestParam(required = false) Integer brojBodova,
+                               HttpSession session, HttpServletResponse response) throws IOException {
+        System.out.println(brojBodova);
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
         Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
 
@@ -75,15 +91,30 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
 
+        //validacija
         for(Termin termin : terminiUKorpi) {
-            boolean proveraVremena = korisnickaKorpaService.proveraVremena(korisnik.getId(), termin.getDatumOdrzavanja(),
-                    termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()));
+            boolean proveraVremena = korisnickaKorpaService.proveraVremena(korisnik.getId(), termin.getDatumOdrzavanja().minusHours(1),
+                    termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()).minusHours(1));
             if (proveraVremena) {
                 poruka.append("-Imate vec zakazan termin u tom periodu za ").append(termin.getDatumOdrzavanja()).append('\n');
             }
         }
 
+        //da bi se ponovo prikazala ukupna ocena i novih bodova i nakon izbacene greske
+        int ukupnaCena = 0;
+        for (Termin termin : terminiUKorpi) {
+            ukupnaCena += termin.getTrening().getCena();
+        }
+        int brojNovihBodova = ukupnaCena / 500;
+
+        if (terminiUKorpi.isEmpty()) {
+            poruka.append("-Korpa je prazna\n");
+        }
+
         if (poruka.length() > 0) {
+
+            rezultat.addObject("ukupnaCena", ukupnaCena);
+            rezultat.addObject("brojNovihBodova", brojNovihBodova);
             rezultat.addObject("greska", poruka);
 
             return rezultat;
@@ -94,6 +125,16 @@ public class KorisnickaKorpaController implements ServletContextAware {
                 korisnickaKorpaService.save(novaRezervacija);
 
             }
+
+            ClanskaKartica clanskaKartica = clanskaKarticaService.findbyKorisnik(korisnik.getId());
+            // ako je uneo neki broj bodova koje hoce da iskoristi
+            if (brojBodova != null) {
+                clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova() - brojBodova);
+                clanskaKarticaService.update(clanskaKartica);
+            }
+
+            clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova()+brojNovihBodova);
+            clanskaKarticaService.update(clanskaKartica);
 
             terminiUKorpi.clear();
 
@@ -142,5 +183,29 @@ public class KorisnickaKorpaController implements ServletContextAware {
             response.sendRedirect(bURL + "korisnici/mojProfil");
         }
         return null;
+    }
+
+    @PostMapping(value="/primeniBodove")
+    @SuppressWarnings("unchecked")
+    public ModelAndView primeniBodove(@RequestParam Long brojBodova,
+                                HttpSession session, HttpServletResponse response) throws IOException {
+        System.out.println(brojBodova);
+        ModelAndView rezultat = new ModelAndView("mojaKorpa");
+        List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
+        int ukupnaCena = 0;
+
+        for (Termin termin : terminiUKorpi) {
+            ukupnaCena += termin.getTrening().getCena();
+        }
+
+        int brojNovihBodova = ukupnaCena / 500;
+
+        double cenaSaPopustom = ukupnaCena - (ukupnaCena * (brojBodova * 0.05));
+
+        rezultat.addObject("ukupnaCena", ukupnaCena);
+        rezultat.addObject("brojNovihBodova", brojNovihBodova);
+        rezultat.addObject("cenaSaPopustom", cenaSaPopustom);
+        rezultat.addObject("brojIskoriscenihBodova", brojBodova);
+        return rezultat;
     }
 }

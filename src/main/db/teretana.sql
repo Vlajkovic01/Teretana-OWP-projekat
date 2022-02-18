@@ -165,7 +165,7 @@ insert into sale(oznaka, kapacitet) values ('C1', 15);
 
 insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-12 12:00', '2022-02-12 13:00');
 insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-13 13:00', '2022-02-13 13:45');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-14 11:00', '2022-02-14 12:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-14 12:00', '2022-02-14 13:00');
 insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-15 14:00', '2022-02-15 15:00');
 
 insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-12 10:55');
