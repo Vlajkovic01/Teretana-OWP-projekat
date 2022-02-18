@@ -128,6 +128,14 @@ create table clanskeKartice(
 		on delete cascade
 );
 
+create table specijalniDatumi(
+	id bigint auto_increment,
+    pocetakDatuma date,
+    krajDatuma date,
+    popust int,
+    primary key(id)
+);
+
 #UBACIVANJE PODATAKA
 insert into korisnici(korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, telefon, datumIVremeRegistracije, uloga, blokiran) 
 	values ('Stefo', '12345', 'vlajkovic@gmail.com', 'Stefan', 'Vlajkovic', '2001-05-17', 'Novi Sad', '061062', '2022-01-08 14:20', 'ADMINISTRATOR', false);
@@ -194,6 +202,9 @@ insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) value
 
 insert into clanskeKartice(korisnikId, brojBodova) values(3, 10);
 
+insert into specijalniDatumi(pocetakDatuma, krajDatuma, popust) values('2022-02-21', '2022-02-22', 10);
+insert into specijalniDatumi(pocetakDatuma, krajDatuma, popust) values('2022-02-15', '2022-02-16', 8);
+
 select * from korisnici;
 select * from tipoviTreninga;
 select * from treninzi;
@@ -205,3 +216,4 @@ select * from listaZelja;
 select * from komentari;
 select * from zahteviZaKarticu;
 select * from clanskeKartice;
+select * from specijalniDatumi;
