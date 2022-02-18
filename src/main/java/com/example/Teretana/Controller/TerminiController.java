@@ -136,22 +136,42 @@ public class TerminiController implements ServletContextAware {
         List<Termin> terminiZaKorpu = (List<Termin>) session.getAttribute(IZABRANI_TERMINI_ZA_KORPU);
 
         // provera da li je danas specijalan datum, ako jeste primenice popust
-        SpecijalanDatum specijalanDatum = specijalanDatumService.nadjiPoDatumu(LocalDateTime.now());
+        SpecijalanDatum specijalanDatum = specijalanDatumService.nadjiPoDatumu(LocalDateTime.now(), termin.getTrening().getId());
         if (specijalanDatum != null) {
             termin.getTrening().setCena(termin.getTrening().getCena() - (termin.getTrening().getCena() / 100* specijalanDatum.getPopust()));
         }
 
+        Trening trening = treningService.findOne(idTreninga);
+
         ModelAndView rezultat = new ModelAndView("trening");
-        rezultat.addObject("trening", treningService.findOne(idTreninga));
+        rezultat.addObject("trening", trening);
         rezultat.addObject("termini", terminService.findByTreningId(idTreninga));
 
-        if (korisnickaKorpaService.proveraKapaciteta(idTermina, termin.getSala().getKapacitet())) {
-            if (!terminiZaKorpu.contains(termin)) {
-                terminiZaKorpu.add(termin);
+        if (trening.getVrstaTreninga().equals(VrstaTreninga.POJEDINACNI)) {
+
+            if (korisnickaKorpaService.proveraKapaciteta(idTermina, 1)) {
+                if (!terminiZaKorpu.contains(termin)) {
+                    terminiZaKorpu.add(termin);
+                    rezultat.addObject("kapacitetGreska", "Dodat termin u korpu");
+                }
+            } else {
+                rezultat.addObject("kapacitetGreska", "Pojedinacan trening. Kapacitet popunjen.");
             }
+
         } else {
-            rezultat.addObject("kapacitetGreska", "Kapacitet za taj termin je popunjen.");
+
+            if (korisnickaKorpaService.proveraKapaciteta(idTermina, termin.getSala().getKapacitet())) {
+                if (!terminiZaKorpu.contains(termin)) {
+                    terminiZaKorpu.add(termin);
+                    rezultat.addObject("kapacitetGreska", "Dodat termin u korpu");
+                } else {
+                    rezultat.addObject("kapacitetGreska", "Vec ste dodali termin u korpu");
+                }
+            } else {
+                rezultat.addObject("kapacitetGreska", "Kapacitet za taj termin je popunjen.");
+            }
         }
+
         return rezultat;
     }
 }

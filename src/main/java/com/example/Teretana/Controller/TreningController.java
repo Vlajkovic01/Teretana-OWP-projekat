@@ -47,6 +47,9 @@ public class TreningController implements ServletContextAware {
     private IzvestajService izvestajService;
 
     @Autowired
+    private SpecijalanDatumService specijalanDatumService;
+
+    @Autowired
     private ServletContext servletContext;
     private String bURL;
 
@@ -102,12 +105,25 @@ public class TreningController implements ServletContextAware {
         if (zahtevZaKarticuService.poslaoZahtev(korisnik.getId())) {
             zahtev = false;
         }
+        StringBuilder poruka = new StringBuilder("Danas su na popustu sledeci treninzi: \n");
+        boolean popustPoruka = false;
+        for (Trening trening : treninzi) {
+            SpecijalanDatum specijalanDatum = specijalanDatumService.nadjiPoDatumu(LocalDateTime.now(), trening.getId());
 
+            if (specijalanDatum != null) {
+                poruka.append("-").append(trening.getNaziv()).append(" - Ocena: ").append(trening.getOcena()).append(
+                        " -> Popust od ").append(specijalanDatum.getPopust()).append("% bice obracunat u korpi nakon dodavanja").append('\n');
+                popustPoruka = true;
+            }
+        }
 
         ModelAndView rezultat = new ModelAndView("treninzi");
         rezultat.addObject("treninzi", treninzi);
         rezultat.addObject("tipovi", tipovi);
         rezultat.addObject("zahtev", zahtev);
+        if (popustPoruka) {
+            rezultat.addObject("poruka", poruka);
+        }
 
         return rezultat;
     }

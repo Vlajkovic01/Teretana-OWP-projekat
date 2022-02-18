@@ -9,8 +9,8 @@ import java.util.List;
 public interface SpecijalanDatumService {
     List<SpecijalanDatum> findAll();
     SpecijalanDatum findOne(Long id);
-    boolean definisanZaTajDatum(LocalDate datum);
-    SpecijalanDatum nadjiPoDatumu(LocalDateTime datum);
+    boolean definisanZaTajDatum(LocalDate datum, Long idTreninga);
+    SpecijalanDatum nadjiPoDatumu(LocalDateTime datum, Long idTreninga);
     boolean imaPopusta(LocalDateTime datum);
     int save(SpecijalanDatum specijalanDatum);
     int update(SpecijalanDatum specijalanDatum);

@@ -19,6 +19,14 @@
             <caption id="registracija" th:text="#{datum.naslov}"></caption>
             <tr><th th:text="#{komentari.datum}"></th><td><input type="date" th:value="${datum}" value="" name="datum" required/></td></tr>
             <tr><th th:text="#{datum.popust}"><td><input type="number" th:value="${popust}" value="" min="1" name="popust" required/></td></th></tr>
+            <tr>
+                <th th:text="#{treninzi.treninzi}"></th>
+                <td>
+                    <th:block th:each="itTrening: ${treninzi}">
+                        <input type="checkbox" name="treningId" th:value="${itTrening.id}"/><span th:text="${itTrening.naziv + '-' + itTrening.cena}"></span><br>
+                    </th:block>
+                </td>
+            </tr>
             <tr><td colspan="2"><p style="white-space: pre; color: red" th:text="${greska}"></p></td></tr>
             <tr><td colspan="2"><input id="dugme" type="submit" th:value="#{treninzi.dodaj}" /></tr>
         </table>

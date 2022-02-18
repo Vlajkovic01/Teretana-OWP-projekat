@@ -1,6 +1,7 @@
 package com.example.Teretana.Service.impl;
 
 import com.example.Teretana.DAO.TreningDAO;
+import com.example.Teretana.Model.TipTreninga;
 import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -108,6 +110,16 @@ public class DatabaseTreningServiceImpl implements TreningService {
     @Override
     public double izracunajProsecnuOcenu(Long idTreninga) {
         return treningDAO.izracunajProsecnuOcenu(idTreninga);
+    }
+
+    @Override
+    public List<Trening> findByIds(Long[] ids) {
+        List<Trening> rezultat = new ArrayList<>();
+        for (Long id: ids) {
+            Trening trening = treningDAO.findOne(id);
+            rezultat.add(trening);
+        }
+        return rezultat;
     }
 
     @Override

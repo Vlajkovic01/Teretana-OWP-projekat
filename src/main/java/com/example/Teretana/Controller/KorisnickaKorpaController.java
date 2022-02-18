@@ -115,7 +115,7 @@ public class KorisnickaKorpaController implements ServletContextAware {
             boolean proveraVremena = korisnickaKorpaService.proveraVremena(korisnik.getId(), termin.getDatumOdrzavanja().minusHours(1),
                     termin.getDatumOdrzavanja().plusMinutes(termin.getTrening().getTrajanje()).minusHours(1));
             if (proveraVremena) {
-                poruka.append("-Imate vec zakazan termin u tom periodu za ").append(termin.getDatumOdrzavanja()).append('\n');
+                poruka.append("-Imate vec zakazan termin u tom periodu za ").append(termin.getDatumOdrzavanja().minusHours(1)).append('\n');
             }
         }
 

@@ -1,6 +1,8 @@
 package com.example.Teretana.Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpecijalanDatum {
 
@@ -8,6 +10,7 @@ public class SpecijalanDatum {
     private LocalDate pocetakDatuma;
     private LocalDate krajDatuma;
     private int popust;
+    private List<Trening> treninzi = new ArrayList<>();
 
     public SpecijalanDatum() {
 
@@ -24,6 +27,21 @@ public class SpecijalanDatum {
         this.pocetakDatuma = pocetakDatuma;
         this.krajDatuma = krajDatuma;
         this.popust = popust;
+    }
+
+    public SpecijalanDatum(Long id, LocalDate pocetakDatuma, LocalDate krajDatuma, int popust, List<Trening> treninzi) {
+        this.id = id;
+        this.pocetakDatuma = pocetakDatuma;
+        this.krajDatuma = krajDatuma;
+        this.popust = popust;
+        this.treninzi = treninzi;
+    }
+
+    public SpecijalanDatum(LocalDate pocetakDatuma, LocalDate krajDatuma, int popust, List<Trening> treninzi) {
+        this.pocetakDatuma = pocetakDatuma;
+        this.krajDatuma = krajDatuma;
+        this.popust = popust;
+        this.treninzi = treninzi;
     }
 
     public Long getId() {
@@ -58,6 +76,15 @@ public class SpecijalanDatum {
         this.popust = popust;
     }
 
+    public List<Trening> getTreninzi() {
+        return treninzi;
+    }
+
+    public void setTreninzi(List<Trening> treninzi) {
+        this.treninzi.clear();
+        this.treninzi.addAll(treninzi);
+    }
+
     @Override
     public String toString() {
         return "SpecijalanDatum{" +
@@ -65,6 +92,7 @@ public class SpecijalanDatum {
                 ", pocetakDatuma=" + pocetakDatuma +
                 ", krajDatuma=" + krajDatuma +
                 ", popust=" + popust +
+                ", treninzi=" + treninzi +
                 '}';
     }
 }

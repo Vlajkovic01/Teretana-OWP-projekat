@@ -27,13 +27,13 @@ public class DatabaseSpecijalanDatumServiceImpl implements SpecijalanDatumServic
     }
 
     @Override
-    public boolean definisanZaTajDatum(LocalDate datum) {
-        return specijalanDatumDAO.definisanZaTajDatum(datum);
+    public boolean definisanZaTajDatum(LocalDate datum, Long idTreninga) {
+        return specijalanDatumDAO.definisanZaTajDatum(datum, idTreninga);
     }
 
     @Override
-    public SpecijalanDatum nadjiPoDatumu(LocalDateTime datum) {
-        return specijalanDatumDAO.nadjiPoDatumu(datum);
+    public SpecijalanDatum nadjiPoDatumu(LocalDateTime datum, Long idTreninga) {
+        return specijalanDatumDAO.nadjiPoDatumu(datum, idTreninga);
     }
 
     @Override

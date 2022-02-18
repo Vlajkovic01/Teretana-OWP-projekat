@@ -15,7 +15,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.util.Locale;
 
 @Configuration
-//@EnableWebMvc
 public class SecondConfiguration implements WebMvcConfigurer {
 
     @Bean(name= {"messageSource"})
@@ -29,7 +28,6 @@ public class SecondConfiguration implements WebMvcConfigurer {
         return source;
     }
 
-//    @Primary
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();

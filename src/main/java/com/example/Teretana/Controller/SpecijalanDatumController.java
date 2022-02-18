@@ -1,10 +1,9 @@
 package com.example.Teretana.Controller;
 
-import com.example.Teretana.Model.Komentar;
 import com.example.Teretana.Model.SpecijalanDatum;
-import com.example.Teretana.Model.StatusKomentaraIZahtevaKartice;
 import com.example.Teretana.Model.Trening;
 import com.example.Teretana.Service.SpecijalanDatumService;
+import com.example.Teretana.Service.TreningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,9 @@ public class SpecijalanDatumController implements ServletContextAware {
     private SpecijalanDatumService specijalanDatumService;
 
     @Autowired
+    private TreningService treningService;
+
+    @Autowired
     private ServletContext servletContext;
     private String bURL;
 
@@ -39,20 +41,30 @@ public class SpecijalanDatumController implements ServletContextAware {
     @GetMapping
     @ResponseBody
     public ModelAndView index() {
-        return new ModelAndView("specijalanDatum");
+        ModelAndView rezultat = new ModelAndView("specijalanDatum");
+        rezultat.addObject("treninzi", treningService.findAll());
+        return rezultat;
     }
 
     @PostMapping("/dodaj")
-    public ModelAndView odobri(@RequestParam String datum, @RequestParam Integer popust) {
+    public ModelAndView odobri(@RequestParam String datum, @RequestParam Integer popust,
+                               @RequestParam(name="treningId", required=false) Long[] treningIds) {
+
         ModelAndView rezultat = new ModelAndView("specijalanDatum");
 
         String poruka = "";
         LocalDate pocetakDatuma = LocalDate.parse(datum);
 
         if (pocetakDatuma != null) {
-
-            if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma)) {
-                poruka += "-Vec ste definisali popust za taj datum.\n";
+            if (treningIds != null) {
+                for (Long id : treningIds) {
+                    if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, id)) {
+                        Trening trening = treningService.findOne(id);
+                        poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
+                    }
+                }
+            } else {
+                poruka += "-Izaberite treninge\n";
             }
         } else {
             poruka += "-Unesite datum.\n";
@@ -63,7 +75,8 @@ public class SpecijalanDatumController implements ServletContextAware {
         }
 
         if (poruka.equals("")) {
-            SpecijalanDatum noviSpecijalanDatum = new SpecijalanDatum(pocetakDatuma, pocetakDatuma.plusDays(1), popust);
+            SpecijalanDatum noviSpecijalanDatum = new SpecijalanDatum(pocetakDatuma.plusDays(1), pocetakDatuma.plusDays(2), popust);
+            noviSpecijalanDatum.setTreninzi(treningService.findByIds(treningIds));
             specijalanDatumService.save(noviSpecijalanDatum);
 
             poruka += "-Uspesno dodat datum.";
@@ -74,6 +87,7 @@ public class SpecijalanDatumController implements ServletContextAware {
         }
 
         rezultat.addObject("greska", poruka);
+        rezultat.addObject("treninzi", treningService.findAll());
 
         return rezultat;
     }
