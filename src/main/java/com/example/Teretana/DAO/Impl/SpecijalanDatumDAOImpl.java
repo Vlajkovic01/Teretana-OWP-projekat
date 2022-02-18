@@ -52,6 +52,17 @@ public class SpecijalanDatumDAOImpl implements SpecijalanDatumDAO {
     }
 
     @Override
+    public boolean nadjiPoDatumu(LocalDate datum) {
+        String sql = "select count(*) " +
+                "from specijalniDatumi " +
+                "where pocetakDatuma = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, datum);
+
+        return broj != null && broj > 0;
+    }
+
+    @Override
     public int save(SpecijalanDatum specijalanDatum) {
         String sql = "INSERT INTO specijalniDatumi (pocetakDatuma, krajDatuma, popust) VALUES (?, ?, ?)";
 

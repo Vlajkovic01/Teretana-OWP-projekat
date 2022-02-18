@@ -6,6 +6,7 @@ import com.example.Teretana.Service.SpecijalanDatumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +23,11 @@ public class DatabaseSpecijalanDatumServiceImpl implements SpecijalanDatumServic
     @Override
     public SpecijalanDatum findOne(Long id) {
         return specijalanDatumDAO.findOne(id);
+    }
+
+    @Override
+    public boolean nadjiPoDatumu(LocalDate datum) {
+        return specijalanDatumDAO.nadjiPoDatumu(datum);
     }
 
     @Override
