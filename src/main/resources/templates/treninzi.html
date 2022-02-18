@@ -14,6 +14,9 @@
     <ul th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN)}">
         <li><a id="mojaKorpaLink"  href="korisnickaKorpa/pregled" th:text="#{treninzi.mojaKorpa}"></a></li>
     </ul>
+    <ul th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).CLAN) && zahtev}">
+        <li><a id="mojaKorpaLink"  href="clanskaKartica/zahtev" th:text="#{kartica.zahtev}"></a></li>
+    </ul>
     <ul th:if="${session.prijavljenKorisnik == null}">
         <li><a id="odjava" href="korisnici/registracija" th:text="#{index.registracija}"></a></li>
     </ul>

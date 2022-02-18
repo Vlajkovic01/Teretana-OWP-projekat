@@ -188,7 +188,7 @@ insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentar
 insert into komentari(tekst, ocena, datum, korisnikId, treningId, statusKomentara, anoniman) 
 	values('Zadovoljan sam', 4, '2022-02-15', 3, 1, 'ODOBREN', true);
     
-insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (2, '2022-02-17 12:14', 'NA_CEKANJU');
+insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (2, '2022-02-17 12:14', 'NA_CEKANJU'); 
 insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (3, '2022-02-14 11:26', 'NIJE_ODOBREN');
 insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) values (3, '2022-02-16 08:35', 'ODOBREN');
 

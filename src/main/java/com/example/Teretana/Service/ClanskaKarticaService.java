@@ -8,6 +8,7 @@ public interface ClanskaKarticaService {
     List<ClanskaKartica> findAll();
     ClanskaKartica findOne(Long id);
     ClanskaKartica findbyKorisnik(Long idKorisnika);
+    boolean imaKarticu(Long idKorisnika);
     int save(ClanskaKartica clanskaKartica);
     int update(ClanskaKartica clanskaKartica);
     int delete(Long id);

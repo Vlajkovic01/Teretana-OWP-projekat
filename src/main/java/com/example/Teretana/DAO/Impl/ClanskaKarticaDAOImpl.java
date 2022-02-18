@@ -58,6 +58,17 @@ public class ClanskaKarticaDAOImpl implements ClanskaKarticaDAO {
         return jdbcTemplate.queryForObject(sql, new ClanskaKarticaRowMapper(), idKorisnika);
     }
 
+    @Override
+    public boolean imaKarticu(Long idKorisnika) {
+        String sql = "select count(*) " +
+                "from clanskeKartice " +
+                "where korisnikId = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika);
+
+        return broj != null && broj > 0;
+    }
+
     @Transactional
     @Override
     public int save(ClanskaKartica clanskaKartica) {

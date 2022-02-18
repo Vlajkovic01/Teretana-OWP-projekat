@@ -32,6 +32,11 @@ public class DatabaseClanskaKarticaServiceImpl implements ClanskaKarticaService 
     }
 
     @Override
+    public boolean imaKarticu(Long idKorisnika) {
+        return clanskaKarticaDAO.imaKarticu(idKorisnika);
+    }
+
+    @Override
     public int save(ClanskaKartica clanskaKartica) {
         return clanskaKarticaDAO.save(clanskaKartica);
     }

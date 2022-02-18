@@ -30,6 +30,11 @@ public class DatabaseZahtevZaKarticuServiceImpl implements ZahtevZaKarticuServic
     }
 
     @Override
+    public boolean poslaoZahtev(Long idKorisnika) {
+        return zahtevZaKarticuDAO.poslaoZahtev(idKorisnika);
+    }
+
+    @Override
     public int save(ZahtevZaKarticu zahtevZaKarticu) {
         return zahtevZaKarticuDAO.save(zahtevZaKarticu);
     }

@@ -63,12 +63,23 @@ public class ZahtevZaKarticuDAOImpl implements ZahtevZaKarticuDAO {
         return jdbcTemplate.queryForObject(sql, new ZahtevZaKarticuRowMapper(), idKorisnika, "ODOBREN");
     }
 
+    @Override
+    public boolean poslaoZahtev(Long idKorisnika) {
+        String sql = "select count(*) " +
+                "from zahteviZaKarticu " +
+                "where korisnikId = ? and statusZahteva = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, idKorisnika, "NA_CEKANJU");
+
+        return broj != null && broj > 0;
+    }
+
     @Transactional
     @Override
     public int save(ZahtevZaKarticu zahtevZaKarticu) {
         String sql = "INSERT INTO zahteviZaKarticu (korisnikId, podnosenjeZahteva, statusZahteva) VALUES (?, ?, ?)";
         return jdbcTemplate.update(sql, zahtevZaKarticu.getKorisnik().getId(),
-                zahtevZaKarticu.getPodnosenjeZahteva(), zahtevZaKarticu.getStatus());
+                zahtevZaKarticu.getPodnosenjeZahteva(), zahtevZaKarticu.getStatus().toString());
     }
 
     @Transactional
@@ -76,7 +87,7 @@ public class ZahtevZaKarticuDAOImpl implements ZahtevZaKarticuDAO {
     public int update(ZahtevZaKarticu zahtevZaKarticu) {
         String sql = "UPDATE zahteviZaKarticu SET korisnikId = ?, podnosenjeZahteva = ?, statusZahteva = ? WHERE id = ?";
         return jdbcTemplate.update(sql, zahtevZaKarticu.getKorisnik().getId(),
-                zahtevZaKarticu.getPodnosenjeZahteva(), zahtevZaKarticu.getStatus(), zahtevZaKarticu.getId());
+                zahtevZaKarticu.getPodnosenjeZahteva(), zahtevZaKarticu.getStatus().toString(), zahtevZaKarticu.getId());
     }
 
     @Transactional

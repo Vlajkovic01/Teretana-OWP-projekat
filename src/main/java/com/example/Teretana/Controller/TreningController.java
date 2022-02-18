@@ -38,6 +38,12 @@ public class TreningController implements ServletContextAware {
     private KorisnickaKorpaService korisnickaKorpaService;
 
     @Autowired
+    private ClanskaKarticaService clanskaKarticaService;
+
+    @Autowired
+    private ZahtevZaKarticuService zahtevZaKarticuService;
+
+    @Autowired
     private IzvestajService izvestajService;
 
     @Autowired
@@ -59,7 +65,7 @@ public class TreningController implements ServletContextAware {
                               @RequestParam(required=false) Long tipId, @RequestParam(required=false) Integer cenaOd,
                               @RequestParam(required=false) Integer cenaDo, @RequestParam(required=false) String vrsta,
                               @RequestParam(required=false) String nivo, @RequestParam(required=false) String tipSortiranja,
-                              @RequestParam(required = false) String rastuce) {
+                              @RequestParam(required = false) String rastuce, HttpSession session) {
 
         if (naziv != null && naziv.trim().equals("")) {
             naziv = null;
@@ -85,9 +91,23 @@ public class TreningController implements ServletContextAware {
                 vrsta, nivo, tipSortiranja, rastuce);
         List<TipTreninga> tipovi = tipTreningaService.findAll();
 
+        Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
+        boolean zahtev = true;
+
+        if (clanskaKarticaService.imaKarticu(korisnik.getId())) {
+            zahtev = false;
+        }
+
+        if (zahtevZaKarticuService.poslaoZahtev(korisnik.getId())) {
+            zahtev = false;
+        }
+
+
         ModelAndView rezultat = new ModelAndView("treninzi");
         rezultat.addObject("treninzi", treninzi);
         rezultat.addObject("tipovi", tipovi);
+        rezultat.addObject("zahtev", zahtev);
 
         return rezultat;
     }
