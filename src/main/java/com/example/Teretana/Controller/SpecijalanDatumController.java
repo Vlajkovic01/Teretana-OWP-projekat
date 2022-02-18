@@ -51,7 +51,7 @@ public class SpecijalanDatumController implements ServletContextAware {
 
         if (pocetakDatuma != null) {
 
-            if (specijalanDatumService.nadjiPoDatumu(pocetakDatuma)) {
+            if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma)) {
                 poruka += "-Vec ste definisali popust za taj datum.\n";
             }
         } else {

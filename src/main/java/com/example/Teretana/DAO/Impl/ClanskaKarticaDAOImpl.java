@@ -55,7 +55,11 @@ public class ClanskaKarticaDAOImpl implements ClanskaKarticaDAO {
     public ClanskaKartica findbyKorisnik(Long idKorisnika) {
         String sql ="select * from clanskeKartice where korisnikId = ?";
 
-        return jdbcTemplate.queryForObject(sql, new ClanskaKarticaRowMapper(), idKorisnika);
+        try {
+            return jdbcTemplate.queryForObject(sql, new ClanskaKarticaRowMapper(), idKorisnika);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override

@@ -52,10 +52,32 @@ public class SpecijalanDatumDAOImpl implements SpecijalanDatumDAO {
     }
 
     @Override
-    public boolean nadjiPoDatumu(LocalDate datum) {
+    public boolean definisanZaTajDatum(LocalDate datum) {
         String sql = "select count(*) " +
                 "from specijalniDatumi " +
                 "where pocetakDatuma = ?";
+
+        Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, datum);
+
+        return broj != null && broj > 0;
+    }
+
+    @Override
+    public SpecijalanDatum nadjiPoDatumu(LocalDateTime datum) {
+        String sql ="select * from specijalniDatumi where ? between pocetakDatuma and krajDatuma";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, new SpecijalanDatumRowMapper(), datum);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean imaPopusta(LocalDateTime datum) {
+        String sql = "select count(*) " +
+                "from specijalniDatumi " +
+                "where ? between pocetakDatuma and krajDatuma";
 
         Integer broj = jdbcTemplate.queryForObject(sql, Integer.class, datum);
 

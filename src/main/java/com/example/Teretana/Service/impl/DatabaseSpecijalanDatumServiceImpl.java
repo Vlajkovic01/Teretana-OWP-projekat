@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,8 +27,18 @@ public class DatabaseSpecijalanDatumServiceImpl implements SpecijalanDatumServic
     }
 
     @Override
-    public boolean nadjiPoDatumu(LocalDate datum) {
+    public boolean definisanZaTajDatum(LocalDate datum) {
+        return specijalanDatumDAO.definisanZaTajDatum(datum);
+    }
+
+    @Override
+    public SpecijalanDatum nadjiPoDatumu(LocalDateTime datum) {
         return specijalanDatumDAO.nadjiPoDatumu(datum);
+    }
+
+    @Override
+    public boolean imaPopusta(LocalDateTime datum) {
+        return specijalanDatumDAO.imaPopusta(datum);
     }
 
     @Override

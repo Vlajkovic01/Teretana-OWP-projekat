@@ -47,12 +47,12 @@
                 <td th:text="${ukupnaCena}"></td>
             </th>
         </tr>
-        <tr>
+        <tr th:if="${!specijalanDatum && imaKarticu}">
             <th th:text="#{kartica.noviBodovi}">
                 <td th:text="${brojNovihBodova}"></td>
             </th>
         </tr>
-        <tr>
+        <tr th:if="${!specijalanDatum && imaKarticu}">
             <th th:text="#{kartica.iskoristiBodove}">
                 <td>
                     <form method="post" action="korisnickaKorpa/primeniBodove">
@@ -62,7 +62,7 @@
                 </td>
             </th>
         </tr>
-        <tr>
+        <tr th:if="${!specijalanDatum && imaKarticu}">
             <th th:text="#{kartica.novaCena}">
             <td th:text="${cenaSaPopustom}"></td>
             </th>

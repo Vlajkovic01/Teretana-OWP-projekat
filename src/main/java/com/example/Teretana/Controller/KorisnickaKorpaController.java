@@ -3,6 +3,7 @@ package com.example.Teretana.Controller;
 import com.example.Teretana.Model.*;
 import com.example.Teretana.Service.ClanskaKarticaService;
 import com.example.Teretana.Service.KorisnickaKorpaService;
+import com.example.Teretana.Service.SpecijalanDatumService;
 import com.example.Teretana.Service.TerminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class KorisnickaKorpaController implements ServletContextAware {
     private ClanskaKarticaService clanskaKarticaService;
 
     @Autowired
+    private SpecijalanDatumService specijalanDatumService;
+
+    @Autowired
     private ServletContext servletContext;
     private String bURL;
 
@@ -54,6 +58,8 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
+        Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
         int ukupnaCena = 0;
 
         for (Termin termin : terminiUKorpi) {
@@ -62,8 +68,17 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         int brojNovihBodova = ukupnaCena / 500;
 
+        boolean specijalanDatum = specijalanDatumService.imaPopusta(LocalDateTime.now());
+        boolean imaKarticu = clanskaKarticaService.imaKarticu(korisnik.getId());
+
         rezultat.addObject("ukupnaCena", ukupnaCena);
         rezultat.addObject("brojNovihBodova", brojNovihBodova);
+        rezultat.addObject("specijalanDatum", specijalanDatum);
+        rezultat.addObject("imaKarticu", imaKarticu);
+        if (specijalanDatum) {
+            rezultat.addObject("greska", "Danas je specijalan datum pa se bodovi nece racunati.\n");
+        }
+
         return rezultat;
     }
 
@@ -83,13 +98,17 @@ public class KorisnickaKorpaController implements ServletContextAware {
     @SuppressWarnings("unchecked")
     public ModelAndView zakazi(@RequestParam(required = false) Integer brojBodova,
                                HttpSession session, HttpServletResponse response) throws IOException {
-        System.out.println(brojBodova);
+
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
         Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
 
         StringBuilder poruka = new StringBuilder("");
-
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
+
+        boolean specijalanDatum = specijalanDatumService.imaPopusta(LocalDateTime.now());
+        boolean imaKarticu = clanskaKarticaService.imaKarticu(korisnik.getId());
+        rezultat.addObject("specijalanDatum", specijalanDatum);
+        rezultat.addObject("imaKarticu", imaKarticu);
 
         //validacija
         for(Termin termin : terminiUKorpi) {
@@ -129,12 +148,17 @@ public class KorisnickaKorpaController implements ServletContextAware {
             ClanskaKartica clanskaKartica = clanskaKarticaService.findbyKorisnik(korisnik.getId());
             // ako je uneo neki broj bodova koje hoce da iskoristi
             if (brojBodova != null) {
-                clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova() - brojBodova);
-                clanskaKarticaService.update(clanskaKartica);
+                if (clanskaKartica != null) {
+                    clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova() - brojBodova);
+                    clanskaKarticaService.update(clanskaKartica);
+                }
             }
-
-            clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova()+brojNovihBodova);
-            clanskaKarticaService.update(clanskaKartica);
+            if (clanskaKartica != null) {
+                if (!specijalanDatum) {
+                    clanskaKartica.setBrojBodova(clanskaKartica.getBrojBodova()+brojNovihBodova);
+                    clanskaKarticaService.update(clanskaKartica);
+                }
+            }
 
             terminiUKorpi.clear();
 

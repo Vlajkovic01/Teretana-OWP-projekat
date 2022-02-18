@@ -1,10 +1,7 @@
 package com.example.Teretana.Controller;
 
 import com.example.Teretana.Model.*;
-import com.example.Teretana.Service.KorisnickaKorpaService;
-import com.example.Teretana.Service.SalaService;
-import com.example.Teretana.Service.TerminService;
-import com.example.Teretana.Service.TreningService;
+import com.example.Teretana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +36,9 @@ public class TerminiController implements ServletContextAware {
 
     @Autowired
     private KorisnickaKorpaService korisnickaKorpaService;
+
+    @Autowired
+    private SpecijalanDatumService specijalanDatumService;
 
     @Autowired
     private ServletContext servletContext;
@@ -134,6 +134,12 @@ public class TerminiController implements ServletContextAware {
 
         Termin termin = terminService.findOne(idTermina);
         List<Termin> terminiZaKorpu = (List<Termin>) session.getAttribute(IZABRANI_TERMINI_ZA_KORPU);
+
+        // provera da li je danas specijalan datum, ako jeste primenice popust
+        SpecijalanDatum specijalanDatum = specijalanDatumService.nadjiPoDatumu(LocalDateTime.now());
+        if (specijalanDatum != null) {
+            termin.getTrening().setCena(termin.getTrening().getCena() - (termin.getTrening().getCena() / 100* specijalanDatum.getPopust()));
+        }
 
         ModelAndView rezultat = new ModelAndView("trening");
         rezultat.addObject("trening", treningService.findOne(idTreninga));
