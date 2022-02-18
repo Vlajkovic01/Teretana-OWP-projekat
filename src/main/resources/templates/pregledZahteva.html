@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <base th:href="@{/}">
-    <title th:text="#{treninzi.odobravanjeKomentara}"></title>
     <link rel="stylesheet" type="text/css" href="css/Tabele.css">
-    <script src="webjars/jquery/3.5.1/jquery.js" type="text/javascript"></script>
-    <script src="js/komentariOdobravanje.js" type="text/javascript"></script>
+    <title th:text="#{kartica.naslov}"></title>
 </head>
 <body>
     <ul th:if="${session.prijavljenKorisnik != null}">
@@ -19,15 +17,27 @@
     <ul th:if="${session.prijavljenKorisnik == null}">
         <li><a id="odjava" href="korisnici/registracija" th:text="#{index.registracija}"></a></li>
     </ul>
-    <table class="content-table" th:if="${session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
-        <caption id="registracija" th:text="#{komentari.naslov}"></caption>
+    <table class="content-table" th:if="${session.prijavljenKorisnik != null && session.prijavljenKorisnik.uloga.equals(T(com.example.Teretana.Model.Uloga).ADMINISTRATOR)}">
+        <caption id="registracija" th:text="#{kartica.naslov}"></caption>
         <tr>
-            <th th:text="#{komentari.tekst}"></th>
-            <th th:text="#{treninzi.ocena}"></th>
-            <th th:text="#{komentari.datum}"></th>
             <th th:text="#{rezervacija.korisnik}"></th>
-            <th th:text="#{trening.naslov}"></th>
+            <th th:text="#{komentari.datum}"></th>
             <th colspan="2" th:text="#{rezervacija.akcija}"></th>
+        </tr>
+        <tr th:each="zahtev, status: ${zahtevi}">
+            <td th:text="${zahtev.korisnik.korisnickoIme}"></td>
+            <td th:text="${zahtev.podnosenjeZahteva}"></td>
+            <td>
+                <form method="post" action="clanskaKartica/odbijZahtev">
+                    <input type="hidden" name="idZahteva" th:value="${zahtev.id}"/>
+                    <input type="submit" th:value="#{termin.izbrisi}" />
+                </form>
+            </td>
+            <td>
+                <form method="post" action="clanskaKartica/odobri">
+                    <input type="submit" th:value="#{kartica.odobri}" />
+                </form>
+            </td>
         </tr>
     </table>
     <ul>

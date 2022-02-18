@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -50,5 +51,14 @@ public class ClanskaKarticaController implements ServletContextAware {
         zahtevZaKarticuService.save(noviZahtev);
 
         response.sendRedirect(bURL + "treninzi");
+    }
+
+    @GetMapping(value="/pregledZahteva")
+    public ModelAndView pregledZahteva(HttpSession session, HttpServletResponse response) throws IOException {
+
+        ModelAndView rezultat = new ModelAndView("pregledZahteva");
+        rezultat.addObject("zahtevi", zahtevZaKarticuService.nadjiNaCekanju());
+
+        return rezultat;
     }
 }

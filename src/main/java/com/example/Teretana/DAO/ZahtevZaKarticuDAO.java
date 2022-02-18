@@ -7,6 +7,7 @@ import java.util.List;
 public interface ZahtevZaKarticuDAO {
     List<ZahtevZaKarticu> findAll();
     ZahtevZaKarticu findOne(Long id);
+    List<ZahtevZaKarticu> nadjiNaCekanju();
     ZahtevZaKarticu findbyKorisnikOdobren(Long idKorisnika);
     boolean poslaoZahtev(Long idKorisnika);
     int save(ZahtevZaKarticu zahtevZaKarticu);

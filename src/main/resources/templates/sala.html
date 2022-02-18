@@ -25,7 +25,7 @@
       </table>
     </form>
     <ul>
-      <li><a class="a-link" href="sale">Povratak</a></li>
+      <li><a class="a-link" href="sale" th:if="${session.prijavljenKorisnik != null}" th:text="#{treninzi.povratak}"></a></li>
     </ul>
 </body>
 </html>

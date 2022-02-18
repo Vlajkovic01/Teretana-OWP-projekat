@@ -57,6 +57,13 @@ public class ZahtevZaKarticuDAOImpl implements ZahtevZaKarticuDAO {
     }
 
     @Override
+    public List<ZahtevZaKarticu> nadjiNaCekanju() {
+        String sql ="select * from zahteviZaKarticu where statusZahteva = ?";
+
+        return jdbcTemplate.query(sql, new ZahtevZaKarticuRowMapper(), "NA_CEKANJU");
+    }
+
+    @Override
     public ZahtevZaKarticu findbyKorisnikOdobren(Long idKorisnika) {
         String sql ="select * from zahteviZaKarticu where korisnikId = ? and statusZahteva = ?";
 

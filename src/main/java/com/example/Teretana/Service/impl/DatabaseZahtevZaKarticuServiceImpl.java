@@ -25,6 +25,11 @@ public class DatabaseZahtevZaKarticuServiceImpl implements ZahtevZaKarticuServic
     }
 
     @Override
+    public List<ZahtevZaKarticu> nadjiNaCekanju() {
+        return zahtevZaKarticuDAO.nadjiNaCekanju();
+    }
+
+    @Override
     public ZahtevZaKarticu findbyKorisnikOdobren(Long idKorisnika) {
         return zahtevZaKarticuDAO.findbyKorisnikOdobren(idKorisnika);
     }
