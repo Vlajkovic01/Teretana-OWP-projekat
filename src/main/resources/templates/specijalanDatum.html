@@ -22,6 +22,7 @@
             <tr>
                 <th th:text="#{treninzi.treninzi}"></th>
                 <td>
+                    <input type="checkbox" name="sviTreninzi" th:text="#{treninzi.sviTreninzi}"/><hr>
                     <th:block th:each="itTrening: ${treninzi}">
                         <input type="checkbox" name="treningId" th:value="${itTrening.id}"/><span th:text="${itTrening.naziv + '-' + itTrening.cena}"></span><br>
                     </th:block>

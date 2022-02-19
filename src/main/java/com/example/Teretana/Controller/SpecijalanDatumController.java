@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/specijalanDatum")
@@ -47,24 +48,37 @@ public class SpecijalanDatumController implements ServletContextAware {
     }
 
     @PostMapping("/dodaj")
-    public ModelAndView odobri(@RequestParam String datum, @RequestParam Integer popust,
+    public ModelAndView odobri(@RequestParam String datum, @RequestParam Integer popust, @RequestParam(required = false) boolean sviTreninzi,
                                @RequestParam(name="treningId", required=false) Long[] treningIds) {
 
         ModelAndView rezultat = new ModelAndView("specijalanDatum");
 
         String poruka = "";
         LocalDate pocetakDatuma = LocalDate.parse(datum);
+        ArrayList<Long> ids = new ArrayList<>(); // za slucaj da je selektovao sve treninge
 
         if (pocetakDatuma != null) {
-            if (treningIds != null) {
+            if (treningIds != null && !sviTreninzi) {
+
                 for (Long id : treningIds) {
                     if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, id)) {
                         Trening trening = treningService.findOne(id);
                         poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
                     }
                 }
+
+            } else if (treningIds == null && sviTreninzi){
+                for (Trening trening : treningService.findAll()) {
+                    if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, trening.getId())) {
+                        poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
+                    } else {
+                        ids.add(trening.getId()); /* ako ne udje u if dodace, tj moci ce da se
+                                                    izvrsi funkcija samo ako nijedan ne udje u if jer ce onda poruka biti
+                                                    prazan string i fakticki ce dodati sve treninge*/
+                    }
+                }
             } else {
-                poruka += "-Izaberite treninge\n";
+                poruka += "-Izaberite odredjene treninge ili primeni na sve\n";
             }
         } else {
             poruka += "-Unesite datum.\n";
@@ -76,7 +90,12 @@ public class SpecijalanDatumController implements ServletContextAware {
 
         if (poruka.equals("")) {
             SpecijalanDatum noviSpecijalanDatum = new SpecijalanDatum(pocetakDatuma.plusDays(1), pocetakDatuma.plusDays(2), popust);
-            noviSpecijalanDatum.setTreninzi(treningService.findByIds(treningIds));
+            if (sviTreninzi) {
+                Long[] sviId = ids.toArray(new Long[0]);
+                noviSpecijalanDatum.setTreninzi(treningService.findByIds(sviId));
+            } else {
+                noviSpecijalanDatum.setTreninzi(treningService.findByIds(treningIds));
+            }
             specijalanDatumService.save(noviSpecijalanDatum);
 
             poruka += "-Uspesno dodat datum.";
