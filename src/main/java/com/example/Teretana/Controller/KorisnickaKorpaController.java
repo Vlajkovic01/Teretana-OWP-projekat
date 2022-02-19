@@ -101,6 +101,7 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
         Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+        ClanskaKartica clanskaKartica = clanskaKarticaService.findbyKorisnik(korisnik.getId());
 
         StringBuilder poruka = new StringBuilder("");
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
@@ -130,6 +131,12 @@ public class KorisnickaKorpaController implements ServletContextAware {
             poruka.append("-Korpa je prazna\n");
         }
 
+        if (clanskaKartica != null && brojBodova != null) {
+            if ((clanskaKartica.getBrojBodova() - brojBodova) < 0) {
+                poruka.append("-Nemate toliko bodova, preostalo vam je ").append(clanskaKartica.getBrojBodova());
+            }
+        }
+
         if (poruka.length() > 0) {
 
             rezultat.addObject("ukupnaCena", ukupnaCena);
@@ -145,7 +152,7 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
             }
 
-            ClanskaKartica clanskaKartica = clanskaKarticaService.findbyKorisnik(korisnik.getId());
+
             // ako je uneo neki broj bodova koje hoce da iskoristi
             if (brojBodova != null) {
                 if (clanskaKartica != null) {
@@ -216,6 +223,8 @@ public class KorisnickaKorpaController implements ServletContextAware {
         System.out.println(brojBodova);
         ModelAndView rezultat = new ModelAndView("mojaKorpa");
         List<Termin> terminiUKorpi = (List<Termin>) session.getAttribute(TerminiController.IZABRANI_TERMINI_ZA_KORPU);
+        Korisnik korisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+
         int ukupnaCena = 0;
 
         for (Termin termin : terminiUKorpi) {
@@ -226,10 +235,19 @@ public class KorisnickaKorpaController implements ServletContextAware {
 
         double cenaSaPopustom = ukupnaCena - (ukupnaCena * (brojBodova * 0.05));
 
+        boolean specijalanDatum = specijalanDatumService.imaPopusta(LocalDateTime.now());
+        boolean imaKarticu = clanskaKarticaService.imaKarticu(korisnik.getId());
+
         rezultat.addObject("ukupnaCena", ukupnaCena);
         rezultat.addObject("brojNovihBodova", brojNovihBodova);
         rezultat.addObject("cenaSaPopustom", cenaSaPopustom);
         rezultat.addObject("brojIskoriscenihBodova", brojBodova);
+        rezultat.addObject("specijalanDatum", specijalanDatum);
+        rezultat.addObject("imaKarticu", imaKarticu);
+        if (specijalanDatum) {
+            rezultat.addObject("greska", "Danas je specijalan datum pa se bodovi nece racunati.\n");
+        }
+
         return rezultat;
     }
 }

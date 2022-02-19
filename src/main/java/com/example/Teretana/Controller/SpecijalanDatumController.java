@@ -58,27 +58,32 @@ public class SpecijalanDatumController implements ServletContextAware {
         ArrayList<Long> ids = new ArrayList<>(); // za slucaj da je selektovao sve treninge
 
         if (pocetakDatuma != null) {
-            if (treningIds != null && !sviTreninzi) {
 
-                for (Long id : treningIds) {
-                    if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, id)) {
-                        Trening trening = treningService.findOne(id);
-                        poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
+            if(pocetakDatuma.isBefore(LocalDate.now())) {
+                poruka += "-Definiste datum u buducnosti\n";
+            } else {
+                if (treningIds != null && !sviTreninzi) {
+
+                    for (Long id : treningIds) {
+                        if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, id)) {
+                            Trening trening = treningService.findOne(id);
+                            poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
+                        }
                     }
-                }
 
-            } else if (treningIds == null && sviTreninzi){
-                for (Trening trening : treningService.findAll()) {
-                    if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, trening.getId())) {
-                        poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
-                    } else {
-                        ids.add(trening.getId()); /* ako ne udje u if dodace, tj moci ce da se
+                } else if (treningIds == null && sviTreninzi){
+                    for (Trening trening : treningService.findAll()) {
+                        if (specijalanDatumService.definisanZaTajDatum(pocetakDatuma, trening.getId())) {
+                            poruka += "-Vec ste definisali popust za taj datum za trening " + trening.getNaziv() + "-" + trening.getCena() + "\n";
+                        } else {
+                            ids.add(trening.getId()); /* ako ne udje u if dodace, tj moci ce da se
                                                     izvrsi funkcija samo ako nijedan ne udje u if jer ce onda poruka biti
                                                     prazan string i fakticki ce dodati sve treninge*/
+                        }
                     }
+                } else {
+                    poruka += "-Izaberite odredjene treninge ili primeni na sve\n";
                 }
-            } else {
-                poruka += "-Izaberite odredjene treninge ili primeni na sve\n";
             }
         } else {
             poruka += "-Unesite datum.\n";
