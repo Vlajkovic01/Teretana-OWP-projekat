@@ -181,16 +181,16 @@ insert into sale(oznaka, kapacitet) values ('A1', 5);
 insert into sale(oznaka, kapacitet) values ('B1', 10);
 insert into sale(oznaka, kapacitet) values ('C1', 15);
 
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-12 12:00', '2022-02-12 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-13 13:00', '2022-02-13 13:45');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-14 12:00', '2022-02-14 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-15 14:00', '2022-02-15 15:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-20 12:00', '2022-02-12 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-21 13:00', '2022-02-13 13:45');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-22 12:00', '2022-02-14 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-23 14:00', '2022-02-15 15:00');
 
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-12 10:55');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-12 10:56');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-12 10:57');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-12 10:58');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-12 10:58');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-13 10:55');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-13 10:56');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-14 10:57');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-15 10:58');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-15 10:58');
 
 insert into listaZelja(korisnikId, treningId) values (2, 1);
 insert into listaZelja(korisnikId, treningId) values (2, 3);
@@ -213,7 +213,7 @@ insert into zahteviZaKarticu(korisnikId, podnosenjeZahteva, statusZahteva) value
 insert into clanskeKartice(korisnikId, brojBodova) values(3, 10);
 
 insert into specijalniDatumi(pocetakDatuma, krajDatuma, popust) values('2022-02-21', '2022-02-22', 10);
-insert into specijalniDatumi(pocetakDatuma, krajDatuma, popust) values('2022-02-15', '2022-02-16', 8);
+insert into specijalniDatumi(pocetakDatuma, krajDatuma, popust) values('2022-02-23', '2022-02-24', 8);
 
 insert into datumiTreninzi(datumId, treningId) values(1, 1);
 insert into datumiTreninzi(datumId, treningId) values(1, 2);

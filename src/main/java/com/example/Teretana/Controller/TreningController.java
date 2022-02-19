@@ -135,7 +135,7 @@ public class TreningController implements ServletContextAware {
 
         Trening trening = treningService.findOne(id);
         List<TipTreninga> tipovi = tipTreningaService.findAll();
-        List<Termin> termini = terminService.findByTreningId(id);
+        List<Termin> termini = terminService.findByTreningId(id, LocalDateTime.now());
 
         ModelAndView rezultat = new ModelAndView("trening");
         rezultat.addObject("trening", trening);

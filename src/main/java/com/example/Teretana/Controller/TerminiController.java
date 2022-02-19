@@ -90,6 +90,10 @@ public class TerminiController implements ServletContextAware {
         LocalDateTime noviTerminPocetak = LocalDateTime.parse(datumOdrzavanja);
         Trening trening = treningService.findOne(treningId);
 
+        if (noviTerminPocetak.isBefore(LocalDateTime.now())) {
+            poruka += "Izaberite buduce vreme";
+        }
+
         if (trening == null) {
             poruka += "-Morate izabrati trening\n";
         }
@@ -145,7 +149,7 @@ public class TerminiController implements ServletContextAware {
 
         ModelAndView rezultat = new ModelAndView("trening");
         rezultat.addObject("trening", trening);
-        rezultat.addObject("termini", terminService.findByTreningId(idTreninga));
+        rezultat.addObject("termini", terminService.findByTreningId(idTreninga, LocalDateTime.now()));
 
         if (trening.getVrstaTreninga().equals(VrstaTreninga.POJEDINACNI)) {
 

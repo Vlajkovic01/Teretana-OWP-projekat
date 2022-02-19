@@ -19,6 +19,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping(value = "/listaZelja")
@@ -75,7 +76,7 @@ public class ZeljaController implements ServletContextAware {
 
 
         rezultat.addObject("trening", treningService.findOne(idTreninga));
-        rezultat.addObject("termini", terminService.findByTreningId(idTreninga));
+        rezultat.addObject("termini", terminService.findByTreningId(idTreninga, LocalDateTime.now()));
 
         return rezultat;
     }

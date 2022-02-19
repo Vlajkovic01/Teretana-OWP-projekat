@@ -26,8 +26,8 @@ public class DatabaseTerminServiceImpl implements TerminService {
     }
 
     @Override
-    public List<Termin> findByTreningId(Long id) {
-        return terminDAO.findByTreningId(id);
+    public List<Termin> findByTreningId(Long id, LocalDateTime trenutnoVreme) {
+        return terminDAO.findByTreningId(id, trenutnoVreme);
     }
 
     @Override

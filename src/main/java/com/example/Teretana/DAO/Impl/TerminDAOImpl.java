@@ -63,11 +63,11 @@ public class TerminDAOImpl implements TerminDAO {
     }
 
     @Override
-    public List<Termin> findByTreningId(Long id) {
+    public List<Termin> findByTreningId(Long id, LocalDateTime trenutnoVreme) {
         String sql =
-                "select * from termini where treningId = ?";
+                "select * from termini where treningId = ? and ? < datumOdrzavanja";
 
-        return jdbcTemplate.query(sql, new TerminRowMapper(), id);
+        return jdbcTemplate.query(sql, new TerminRowMapper(), id, trenutnoVreme);
     }
 
     @Override
