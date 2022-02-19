@@ -5,6 +5,7 @@
 		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
 		<excludeFolder url="file://$MODULE_DIR$/target"/>
 	</contentEntry>
+	<lib name="Maven: org.springframework.boot:spring-boot-devtools:2.6.2" scope="RUNTIME"/>
 	<lib name="Maven: mysql:mysql-connector-java:8.0.27" scope="RUNTIME"/>
 	<lib name="Maven: org.springframework.boot:spring-boot-starter-test:2.6.2" scope="TEST"/>
 	<lib name="Maven: org.springframework.boot:spring-boot-test:2.6.2" scope="TEST"/>
@@ -48,8 +49,6 @@
 		<level name="Maven: org.slf4j:slf4j-api:1.7.32" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-thymeleaf:2.6.2" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter:2.6.2" value="project"/>
-		<level name="Maven: org.springframework.boot:spring-boot:2.6.2" value="project"/>
-		<level name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.6.2" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-logging:2.6.2" value="project"/>
 		<level name="Maven: ch.qos.logback:logback-classic:1.2.9" value="project"/>
 		<level name="Maven: ch.qos.logback:logback-core:1.2.9" value="project"/>
@@ -63,6 +62,9 @@
 		<level name="Maven: org.attoparser:attoparser:2.0.5.RELEASE" value="project"/>
 		<level name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" value="project"/>
 		<level name="Maven: org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE" value="project"/>
+		<level name="Maven: org.springframework.boot:spring-boot-devtools:2.6.2" value="project"/>
+		<level name="Maven: org.springframework.boot:spring-boot:2.6.2" value="project"/>
+		<level name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.6.2" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-web:2.6.2" value="project"/>
 		<level name="Maven: org.springframework.boot:spring-boot-starter-json:2.6.2" value="project"/>
 		<level name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.1" value="project"/>
@@ -110,5 +112,8 @@
 		<level name="Maven: org.springframework:spring-jcl:5.3.14" value="project"/>
 		<level name="Maven: org.springframework:spring-test:5.3.14" value="project"/>
 		<level name="Maven: org.xmlunit:xmlunit-core:2.8.4" value="project"/>
+		<level name="Maven: org.webjars:bootstrap:3.3.7" value="project"/>
+		<level name="Maven: org.webjars:jquery:3.5.1" value="project"/>
+		<level name="Maven: org.webjars:jquery-ui:1.12.1" value="project"/>
 	</levels>
 </component>

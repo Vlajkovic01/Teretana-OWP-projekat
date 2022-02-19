@@ -181,16 +181,16 @@ insert into sale(oznaka, kapacitet) values ('A1', 5);
 insert into sale(oznaka, kapacitet) values ('B1', 10);
 insert into sale(oznaka, kapacitet) values ('C1', 15);
 
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-20 12:00', '2022-02-20 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-21 13:00', '2022-02-21 13:45');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-22 12:00', '2022-02-22 13:00');
-insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-23 14:00', '2022-02-23 15:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (1, 2, '2022-02-21 12:00', '2022-02-21 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 3, '2022-02-22 13:00', '2022-02-22 13:45');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (3, 1, '2022-02-23 12:00', '2022-02-23 13:00');
+insert into termini(salaId, treningId, datumOdrzavanja, datumOdrzavanjaKraj) values (2, 1, '2022-02-24 14:00', '2022-02-24 15:00');
 
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-13 10:55');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-13 10:56');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-14 10:57');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-15 10:58');
-insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 2, '2022-02-15 10:58');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 1, '2022-02-14 10:55');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (2, 2, '2022-02-15 10:56');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 3, '2022-02-16 10:57');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 4, '2022-02-17 10:58');
+insert into korisnickaKorpa(korisnikId, terminId, datumRezervacije) values (3, 2, '2022-02-17 10:58');
 
 insert into listaZelja(korisnikId, treningId) values (2, 1);
 insert into listaZelja(korisnikId, treningId) values (2, 3);
@@ -234,11 +234,3 @@ select * from zahteviZaKarticu;
 select * from clanskeKartice;
 select * from specijalniDatumi;
 select * from datumiTreninzi;
-
-select count(*)
-from (select k.korisnikId, k.terminId, t.id, t.datumOdrzavanja, t.datumOdrzavanjaKraj
-from korisnickaKorpa k left join termini t on k.terminId = t.id
-where k.korisnikId = 2) as novaTabela
-where '2022-02-22 12:00' between datumOdrzavanja and datumOdrzavanjaKraj
-or '2022-02-22 13:00' between datumOdrzavanja and datumOdrzavanjaKraj
-or ('2022-02-22 12:00' < datumOdrzavanja and '2022-02-22 13:00' > datumOdrzavanjaKraj);
