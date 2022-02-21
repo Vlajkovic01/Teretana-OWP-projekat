@@ -4,4 +4,4 @@
 
 - Stefan Vlajkovic
 - Index: SR53/2020
-- Broj bodova: 
+- Broj bodova: 70/70 
